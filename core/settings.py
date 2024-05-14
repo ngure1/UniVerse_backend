@@ -176,7 +176,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 # cookie
 AUTH_COOKIE = 'access'
 AUTH_COOKIE_MAX_AGE = 60 * 60 * 24
-AUTH_COOKIE_SECURE = os.getenv('AUTH_COOKIE_SECURE', 'True') == 'True'
-AUTH_COOKIE_HTTP_ONLY = True
+AUTH_COOKIE_SECURE = os.getenv('AUTH_COOKIE_SECURE', 'True') == 'True'  # Whether the authentication cookie should be secure (HTTPS only)
+AUTH_COOKIE_HTTP_ONLY = True  # Whether the authentication cookie should be accessible only via HTTP
 AUTH_COOKIE_PATH = '/'
 AUTH_COOKIE_SAMESITE = 'None'

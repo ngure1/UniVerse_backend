@@ -1,9 +1,8 @@
-from django.shortcuts import render
-
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -18,6 +17,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             access_token = response.data.get('access')
             refresh_token = response.data.get('refresh')
 
+            # Set access and refresh tokens as cookies
             response.set_cookie(
                 'access',
                 access_token,
@@ -52,6 +52,7 @@ class CustomTokenRefreshView(TokenRefreshView):
         if response.status_code == 200:
             access_token = response.data.get('access')
 
+            # Set access token as a cookie
             response.set_cookie(
                 'access',
                 access_token,
@@ -78,6 +79,8 @@ class CustomTokenVerifyView(TokenVerifyView):
 class LogoutView(APIView):
     def post(self, request, *args, **kwargs):
         response = Response(status=status.HTTP_204_NO_CONTENT)
+        
+        # Delete access and refresh cookies
         response.delete_cookie('access')
         response.delete_cookie('refresh')
 
