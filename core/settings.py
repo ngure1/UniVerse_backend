@@ -13,6 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+## Also comment out SECRET_KEY in your dotenv file
 SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 
@@ -61,15 +62,16 @@ AUTH_USER_MODEL = 'accounts.MyUser'
 
 ## djoser
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset-confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
+    
 }
 
 #Domain and site name configurations
-DOMAIN = 'localhost:3000'
+DOMAIN = os.getenv('DOMAIN')
 SITE_NAME = 'UniVerse'
 
 MIDDLEWARE = [
@@ -81,15 +83,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    #cors headers middlewear
+    #cors headers middleware
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
 ]
 ##cors headers allowed origins
+## We will configure these in the production settings
 # CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000",
 # ]
-CORS_ALLOW_ALL_ORIGINS = True
+# For now we will allow all origins
+ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'core.urls'
 
