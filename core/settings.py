@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from os import getenv
 from dotenv import load_dotenv
 from django.core.management.utils import get_random_secret_key
 
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
     
     #custom apps
     'accounts',
+    'social_django',
 
     # external packages
     'rest_framework_simplejwt',
@@ -58,7 +60,7 @@ REST_FRAMEWORK = {
 }
 
 ##user model
-AUTH_USER_MODEL = 'accounts.MyUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 ## djoser
 DJOSER = {
@@ -67,7 +69,7 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
-    
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS').split(',')
 }
 
 #Domain and site name configurations
@@ -82,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 
     #cors headers middleware
     "corsheaders.middleware.CorsMiddleware",
@@ -94,7 +97,13 @@ MIDDLEWARE = [
 #     "http://localhost:8080",
 #     "http://127.0.0.1:9000",
 # ]
-# For now we will allow all origins
+#From youtube Tutorial
+# CORS_ALLOWED_ORIGINS = getenv(
+#    "CORS_ALLOWED_ORIGINS", 
+#    "http://localhost:3000,http://127.0.0.1:3000"
+# ).split(",")
+# CORS_ALLOW_CREDENTIALS = True # This is required under the case of using cookies
+# # For now we will allow all origins
 ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'core.urls'
@@ -110,6 +119,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+
             ],
         },
     },
@@ -147,6 +159,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Social Auth
+#Google
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = getenv('GOOGLE_AUTH_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = getenv('GOOGLE_AUTH_SECRET_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid'
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
