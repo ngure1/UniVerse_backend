@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from os import getenv
 from dotenv import load_dotenv
 from django.core.management.utils import get_random_secret_key
 
@@ -12,6 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+## Also comment out SECRET_KEY in your dotenv file
 SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 
@@ -33,6 +35,7 @@ INSTALLED_APPS = [
     
     #custom apps
     'accounts',
+    'social_django',
 
     # external packages
     'rest_framework_simplejwt',
@@ -62,18 +65,25 @@ REST_FRAMEWORK = {
 }
 
 ##user model
-AUTH_USER_MODEL = 'accounts.MyUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 ## djoser
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset-confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': os.getenv('REDIRECT_URIS').split(','),
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS').split(',')
     'SOCIAL_AUTH_STRATEGY': 'social_django.strategy.DjangoStrategy',
 }
+
+
+#Domain and site name configurations
+DOMAIN = os.getenv('DOMAIN')
+SITE_NAME = 'UniVerse'
+
+
 
 
 MIDDLEWARE = [
@@ -85,16 +95,25 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django.middleware.common.CommonMiddleware",
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    #cors headers middleware
+    "corsheaders.middleware.CorsMiddleware",
+
 ]
 ##cors headers allowed origins
+## We will configure these in the production settings
 # CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000",
 # ]
+
+ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_HEADERS = ["Authorization", "Content-Type", "Accept"]
 CORS_ALLOW_CREDENTIALS = True
+
 
 ROOT_URLCONF = 'core.urls'
 
@@ -110,7 +129,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect'
+                'social_django.context_processors.login_redirect',
+
             ],
         },
     },
@@ -148,6 +168,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Social Auth
+#Google
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = getenv('GOOGLE_AUTH_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = getenv('GOOGLE_AUTH_SECRET_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'openid'
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
