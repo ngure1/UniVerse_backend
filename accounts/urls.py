@@ -1,13 +1,11 @@
-from django.urls import path, include, re_path
-from .views import (
-    CustomProviderAuthView,
-    CustomTokenObtainPairView,
-    CustomTokenRefreshView,
-    CustomTokenVerifyView,
-    LogoutView
-)
 
-
+from django.urls import path, re_path
+from .views import (CustomProviderAuthView,
+                    CustomTokenObtainPairView, 
+                    CustomTokenRefreshView,
+                    CustomTokenVerifyView, 
+                    LogoutView
+                    )
 
 urlpatterns = [
     # Include the URLs from the 'djoser' app

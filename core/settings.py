@@ -78,10 +78,10 @@ DJOSER = {
     'SOCIAL_AUTH_STRATEGY': 'social_django.strategy.DjangoStrategy',
 }
 
-
 #Domain and site name configurations
 DOMAIN = os.getenv('DOMAIN')
 SITE_NAME = 'UniVerse'
+
 
 
 
@@ -95,10 +95,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+
     #cors headers middleware
     "corsheaders.middleware.CorsMiddleware",
-
+    "django.middleware.common.CommonMiddleware",
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 ##cors headers allowed origins
 ## We will configure these in the production settings
@@ -111,9 +112,6 @@ MIDDLEWARE = [
 
 ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_HEADERS = ["Authorization", "Content-Type", "Accept"]
-CORS_ALLOW_CREDENTIALS = True
-
 
 ROOT_URLCONF = 'core.urls'
 
@@ -129,8 +127,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
-
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
