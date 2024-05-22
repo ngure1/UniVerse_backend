@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import  AbstractBaseUser ,PermissionsMixin
 from . import managers
+
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 # custom user model
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class MyUser(AbstractBaseUser, PermissionsMixin):
     """
     Custom user model representing a user of the application.
     """
@@ -29,38 +30,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         Returns a string representation of the user.
         """
 
-# Address model
-class Address(models.Model):
-    street = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
-    postal_code = models.CharField(max_length=20)
-    country = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
-
-# Education model
-class Education(models.Model):
-    institution_name = models.CharField(max_length=255)
-    field_of_study = models.CharField(max_length=255)
-    start_date = models.DateField()
-    end_date = models.DateField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.field_of_study} from {self.institution_name}"
-
 # User profile model
 class UserProfile(models.Model):
     """
     Model representing a user profile.
     """
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
-    phone_number = models.CharField(max_length=20, blank=True)
-    bio = models.TextField(blank=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name="user_profile")
+    address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True, related_name="user_address")
+    education = models.ForeignKey('Education', on_delete=models.SET_NULL, null=True, blank=True, related_name="user_education")
+   
     profile_picture = models.ImageField(
         _("Profile Picture"),
-        upload_to="profile_pictures",
+        upload_to="media/profile_pictures",
         blank=True,
         null=True,
     )
@@ -72,14 +53,13 @@ class UserProfile(models.Model):
     updated_at = models.DateTimeField(_("Date updated"), auto_now=True)
     phone_number = PhoneNumberField(blank=True)
     bio = models.TextField(_("Bio"), blank=True)
-    education = models.ForeignKey(Education, on_delete=models.SET_NULL, null=True, blank=True)
     linked_in_url = models.URLField(_("LinkedIn Profile"), max_length=100, blank=True, null=True)
     x_in_url = models.URLField(_("X Profile"), max_length=100, blank=True, null=True)
-    superset_url = models.URLField(_("Superset Profile"), max_length=100, blank=True, null=True)
+    # superset_url = models.URLField(_("Superset Profile"), max_length=100, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if self.user:
-            self.profile_picture.upload_to = f"profile_pictures/{self.user.email}"
+            self.profile_picture.upload_to = f"media/profile_pictures/{self.user.email}"
         super().save(*args, **kwargs)
 
 
@@ -87,9 +67,32 @@ class UserProfile(models.Model):
         """
         Returns a string representation of the user profile.
         """
-        return f"{self.user.email}'s profile"
+        return f"{self.user.first_name}'s profile"
 
     
     def __repr__(self) -> str:
-        return self.user.email
+        return self.user.first_name
     
+    # Education model
+class Education(models.Model):
+    userprofile= models.ForeignKey('UserProfile', on_delete=models.CASCADE, null=True, blank=True, related_name="user_education")
+    institution_name = models.CharField(max_length=255)
+    field_of_study = models.CharField(max_length=255)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.field_of_study} from {self.institution_name}"
+    
+    # Address model
+class Address(models.Model):
+    userprofile = models.ForeignKey('UserProfile', on_delete=models.CASCADE, null=True, blank=True, related_name="user_address")
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    county = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.street}, {self.city}, {self.postal_code}, {self.county}"
+
+

@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     
     #custom apps
     'accounts',
-    'social_django',
+    'posts',
 
     # external packages
     'rest_framework_simplejwt',
@@ -65,7 +65,7 @@ REST_FRAMEWORK = {
 }
 
 ##user model
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'accounts.MyUser'
 
 ## djoser
 DJOSER = {
@@ -74,7 +74,7 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS').split(',')
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URIS').split(','),
     'SOCIAL_AUTH_STRATEGY': 'social_django.strategy.DjangoStrategy',
 }
 
@@ -96,8 +96,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    #cors headers middleware
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
