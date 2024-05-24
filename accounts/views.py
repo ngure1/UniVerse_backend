@@ -1,15 +1,12 @@
+from .models import MyUser, UserProfile, Education, Address
+from .serializers import MyUserSerializer, UserProfileSerializer, AddressSerializer, EducationSerializer
 from django.conf import settings
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from djoser.social.views import ProviderAuthView
-
-
-from djoser.social.views import ProviderAuthView
-
-from djoser.social.views import ProviderAuthView
-
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
