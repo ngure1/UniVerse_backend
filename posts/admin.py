@@ -4,14 +4,14 @@ class PostAdmin(admin.ModelAdmin):
     list_display=("title", "author", "created_at")
 
 class PostLikeAdmin(admin.ModelAdmin):
-    list_display=("post", "user", "created_at")
+    list_display=("post", "owner", "created_at")
 
 
 class PostCommentAdmin(admin.ModelAdmin):
-    list_display=("post", "user", "created_at")
+    list_display=("post", "owner", "created_at")
 
 class PostBookmarkAdmin(admin.ModelAdmin):
-    list_display=("post", "user", "created_at")
+    list_display=("post", "owner", "created_at")
 
   
 admin.site.register(models.Post, PostAdmin)
