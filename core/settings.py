@@ -1,7 +1,6 @@
 from datetime import timedelta
 from pathlib import Path
 import os
-from os import getenv
 from dotenv import load_dotenv
 from django.core.management.utils import get_random_secret_key
 
@@ -14,7 +13,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-## Also comment out SECRET_KEY in your dotenv file
 SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 
@@ -89,17 +87,17 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 
-##user model
+   #user model
 AUTH_USER_MODEL = 'accounts.MyUser'
 
-## djoser
+  # djoser
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URIS').split(','),
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': os.getenv('REDIRECT_URIS').split(','),
     'SOCIAL_AUTH_STRATEGY': 'social_django.strategy.DjangoStrategy',
     "SERIALIZERS": {
         "user_create": "accounts.serializers.MyUserSerializer",
@@ -194,9 +192,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = 'static/'  # The URL prefix for static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # The absolute path to the directory where collectstatic will collect static files for deployment
 
+  # Media files (uploads)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -208,7 +209,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DOMAIN = os.getenv('DOMAIN')
 SITE_NAME = 'UniVerse'
 
-#email
+    #email
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
@@ -216,7 +217,7 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
-#Authentication cookie
+   #Authentication cookie
 AUTH_COOKIE = 'access'
 AUTH_COOKIE_MAX_AGE = 60 * 60 * 24
 AUTH_COOKIE_SECURE = os.getenv('AUTH_COOKIE_SECURE', 'True') == 'True'  # Whether the authentication cookie should be secure (HTTPS only)
@@ -224,6 +225,7 @@ AUTH_COOKIE_HTTP_ONLY = True  # Whether the authentication cookie should be acce
 AUTH_COOKIE_PATH = '/'
 AUTH_COOKIE_SAMESITE = 'None'
 
+  # google oauth
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('GOOGLE_SECRET')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
