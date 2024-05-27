@@ -2,16 +2,10 @@ from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
 from .models import UserProfile, MyUser, Address, Education
 
-class MyUserSerializer(UserCreateSerializer):
-    class Meta(UserCreateSerializer.Meta):
+class MyUserSerializer(serializers.ModelSerializer):
+    class Meta:
         model = MyUser
-        fields = (
-            "id",
-            "email",
-            "password",
-            "first_name",
-            "last_name",
-        )
+        fields = ['id', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -20,8 +14,8 @@ class MyUserSerializer(UserCreateSerializer):
         user = MyUser.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password'],
-            first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', '')
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name']
         )
         return user
 
