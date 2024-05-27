@@ -35,10 +35,7 @@ class UserProfile(models.Model):
     """
     Model representing a user profile.
     """
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name="user_profile")
-    address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True, related_name="user_address")
-    education = models.ForeignKey('Education', on_delete=models.SET_NULL, null=True, blank=True, related_name="user_education")
-   
+    user = models.OneToOneField(MyUser, on_delete=models.CASCADE, related_name="user_profile")
     profile_picture = models.ImageField(
         _("Profile Picture"),
         upload_to="media/profile_pictures",
@@ -55,7 +52,6 @@ class UserProfile(models.Model):
     bio = models.TextField(_("Bio"), blank=True)
     linked_in_url = models.URLField(_("LinkedIn Profile"), max_length=100, blank=True, null=True)
     x_in_url = models.URLField(_("X Profile"), max_length=100, blank=True, null=True)
-    # superset_url = models.URLField(_("Superset Profile"), max_length=100, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if self.user:
@@ -75,7 +71,8 @@ class UserProfile(models.Model):
     
     # Education model
 class Education(models.Model):
-    userprofile= models.ForeignKey('UserProfile', on_delete=models.CASCADE, null=True, blank=True, related_name="user_education")
+    owner= models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="education")
+    
     institution_name = models.CharField(max_length=255)
     field_of_study = models.CharField(max_length=255)
     start_date = models.DateField()
@@ -86,13 +83,14 @@ class Education(models.Model):
     
     # Address model
 class Address(models.Model):
-    userprofile = models.ForeignKey('UserProfile', on_delete=models.CASCADE, null=True, blank=True, related_name="user_address")
+    owner= models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="address")
+    
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)
-    county = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.street}, {self.city}, {self.postal_code}, {self.county}"
+        return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
 
 

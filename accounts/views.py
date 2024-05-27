@@ -12,42 +12,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-class CustomProviderAuthView(ProviderAuthView):
-    def get(self, request, *args, **kwargs):
-        provider = kwargs.get('provider')
-        if not provider:
-            raise ValidationError("Provider parameter is missing in the URL.")
-        return super().get(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-
-        if response.status_code == 201:
-            access_token = response.data.get('access')
-            refresh_token = response.data.get('refresh')
-
-            response.set_cookie(
-                'access',
-                access_token,
-                max_age=settings.AUTH_COOKIE_MAX_AGE,
-                path=settings.AUTH_COOKIE_PATH,
-                secure=settings.AUTH_COOKIE_SECURE,
-                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
-                samesite=settings.AUTH_COOKIE_SAMESITE
-            )
-            response.set_cookie(
-                'refresh',
-                refresh_token,
-                max_age=settings.AUTH_COOKIE_MAX_AGE,
-                path=settings.AUTH_COOKIE_PATH,
-                secure=settings.AUTH_COOKIE_SECURE,
-                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
-                samesite=settings.AUTH_COOKIE_SAMESITE
-            )
-
-        return response
-
-
+from rest_framework import generics
+from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly
 
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
@@ -80,41 +47,6 @@ class CustomProviderAuthView(ProviderAuthView):
             )
 
         return response
-
-
-
-class CustomProviderAuthView(ProviderAuthView):
-    def post(self, request, *args, **kwargs):
-        # Call the parent class's post method
-        response = super().post(request, *args, **kwargs)
-
-        if response.status_code == 201:
-            # Get the access and refresh tokens from the response data
-            access_token = response.data.get('access')
-            refresh_token = response.data.get('refresh')
-
-            # Set cookies for the access and refresh tokens
-            response.set_cookie(
-                'access',
-                access_token,
-                max_age=settings.AUTH_COOKIE_MAX_AGE,
-                path=settings.AUTH_COOKIE_PATH,
-                secure=settings.AUTH_COOKIE_SECURE,
-                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
-                samesite=settings.AUTH_COOKIE_SAMESITE
-            )
-            response.set_cookie(
-                'refresh',
-                refresh_token,
-                max_age=settings.AUTH_COOKIE_MAX_AGE,
-                path=settings.AUTH_COOKIE_PATH,
-                secure=settings.AUTH_COOKIE_SECURE,
-                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
-                samesite=settings.AUTH_COOKIE_SAMESITE
-            )
-
-        return response
-
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
@@ -218,3 +150,43 @@ class LogoutView(APIView):
         response.delete_cookie('refresh')
 
         return response
+    
+class ListProfile(generics.ListCreateAPIView):
+    queryset=UserProfile.objects.all()
+    serializer_class=UserProfileSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset=UserProfile.objects.all()
+    serializer_class=UserProfileSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    
+class AddressProfile(generics.ListCreateAPIView):
+    queryset=Address.objects.all()
+    serializer_class=AddressSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user.user_profile)
+        
+class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Address.objects.all()
+    serializer_class=AddressSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+class EducationProfile(generics.ListCreateAPIView):
+    queryset=Education.objects.all()
+    serializer_class=EducationSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user.user_profile)
+        
+class EducationDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Education.objects.all()
+    serializer_class=EducationSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]

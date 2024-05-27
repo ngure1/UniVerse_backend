@@ -4,23 +4,26 @@ from .views import (CustomProviderAuthView,
                     CustomTokenObtainPairView,
                     CustomTokenRefreshView,
                     CustomTokenVerifyView,
-                    LogoutView
+                    LogoutView,
+                    ListProfile,
+                    ProfileDetail
                     )
 
 urlpatterns = [
     # Include the URLs from the 'djoser' app
-    path('', include('djoser.urls')),
+    path('auth/', include('djoser.urls')),
     re_path(r'^o/(?P<provider>\S+)/$', CustomProviderAuthView.as_view(), name='provider-auth'),
     # Custom JWT token endpoints
-    path('jwt/create/', CustomTokenObtainPairView.as_view()),  # Endpoint to obtain JWT token pair
-    path('jwt/refresh/', CustomTokenRefreshView.as_view()),  # Endpoint to refresh JWT token
-    path('jwt/verify/', CustomTokenVerifyView.as_view()),  # Endpoint to verify JWT token
+    path('auth/jwt/create/', CustomTokenObtainPairView.as_view()),  # Endpoint to obtain JWT token pair
+    path('auth/jwt/refresh/', CustomTokenRefreshView.as_view()),  # Endpoint to refresh JWT token
+    path('auth/jwt/verify/', CustomTokenVerifyView.as_view()),  # Endpoint to verify JWT token
   
     # Logout endpoint
-    path('logout/', LogoutView.as_view()),  # Endpoint to log out user
-       re_path(
-        r'^o/(?P<provider>\S+)/$',
-        CustomProviderAuthView.as_view(),
-        name='provider-auth'
-    ), # Endpoint to authenticate user using social provider
+    path('auth/logout/', LogoutView.as_view()),  # Endpoint to log out user
+    path('profilelist/', ListProfile.as_view()),
+    path("profiledetail/<int:pk>/", ProfileDetail.as_view()),
+    path('Addresslist/', ListProfile.as_view()),
+    path("Addressdetail/<int:pk>/", ProfileDetail.as_view()),
+    path('Educationlist/', ListProfile.as_view()),
+    path("Educationdetail/<int:pk>/", ProfileDetail.as_view()),
 ]
