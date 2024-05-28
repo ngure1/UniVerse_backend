@@ -1,13 +1,16 @@
 from . import models
 from . import serializers
-# from rest_framework import status
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
-# from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 from accounts.models import UserProfile
-
+from django.db.models import Q
+from .models import Post, Bookmark
+from .serializers import PostSerializer, BookmarkSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 class ListCreatePosts(generics.ListCreateAPIView):
     queryset=models.Post.objects.all()
@@ -88,8 +91,29 @@ class UserBookmarksList(generics.ListAPIView):
     
     
 
-    
-    
+@api_view(['GET'])
+@permission_classes([IsAuthenticatedOrReadOnly])
+def search_posts(request):
+    query = request.GET.get('q', '')
+
+    if not query:
+        return Response({'error': 'Query parameter "q" is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    post_results = Post.objects.filter(
+        Q(title__icontains=query) | 
+        Q(content__icontains=query)
+    )
+
+    bookmark_results = Bookmark.objects.filter(
+        Q(post__title__icontains=query) | 
+        Q(post__content__icontains=query)
+    )
+
+    post_serializer = PostSerializer(post_results, many=True)
+    bookmark_serializer = BookmarkSerializer(bookmark_results, many=True)
+
+    return Response({'posts': post_serializer.data})
+
     
     
     
