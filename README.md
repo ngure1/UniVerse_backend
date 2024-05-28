@@ -4,8 +4,8 @@
 ## Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/study-buddy.git
-    cd study-buddy
+    git clone https://github.com/your-username/UniVerse_backend.git
+    cd UniVerse_backend
     ```
 
 2. Create a virtual environment:
