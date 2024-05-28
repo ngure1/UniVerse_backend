@@ -6,7 +6,8 @@ from .views import (CustomProviderAuthView,
                     CustomTokenVerifyView,
                     LogoutView,
                     ListProfile,
-                    ProfileDetail
+                    ProfileDetail,
+                    search,
                     )
 
 urlpatterns = [
@@ -26,4 +27,5 @@ urlpatterns = [
     path("Addressdetail/<int:pk>/", ProfileDetail.as_view()),
     path('Educationlist/', ListProfile.as_view()),
     path("Educationdetail/<int:pk>/", ProfileDetail.as_view()),
+    path('accounts/search/', search ),
 ]
