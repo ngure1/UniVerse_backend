@@ -1,6 +1,11 @@
 from django.contrib import admin
 from . import models
 
+admin.site.site_header = "UniVerse Admin"
+admin.site.site_title = "UniVerse Admin Area"
+admin.site.index_title = "Welcome to the UniVerse Admin Area"
+
+# List dsplay for UniVerse_Account_Admin
 class MyUserAdmin(admin.ModelAdmin):
     list_display = ("first_name", "last_name", "email")
 
@@ -25,6 +30,7 @@ class AddressAdmin(admin.ModelAdmin):
 class EducationAdmin(admin.ModelAdmin):
     list_display = ('owner','institution_name', 'field_of_study', 'start_date', 'end_date')
 
+# Register your models here.
 admin.site.register(models.MyUser, MyUserAdmin)
 admin.site.register(models.UserProfile, MyUserProfileAdmin)
 admin.site.register(models.Education, EducationAdmin)
