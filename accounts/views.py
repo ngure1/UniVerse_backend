@@ -204,8 +204,7 @@ def search(request):
 
     user_profiles = UserProfile.objects.filter(
         Q(user__first_name__icontains=query) | 
-        Q(user__last_name__icontains=query) | 
-        Q(user__email__icontains=query) 
+        Q(user__last_name__icontains=query) 
 
     )
     education_results = Education.objects.filter(
