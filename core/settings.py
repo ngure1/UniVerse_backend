@@ -45,8 +45,7 @@ INSTALLED_APPS = [
     'social_django',
     'support',
     'jobs',
-    
-
+    'announcements'
 
 ]
 
