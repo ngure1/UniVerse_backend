@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'djoser',
     'corsheaders',
     'social_django',
-    'support'
-
+    'support',
+    'jobs',
+    'announcements'
 
 ]
 
