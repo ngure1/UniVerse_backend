@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your views here.
@@ -19,7 +20,7 @@ class ListCreateSupport(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         user_profile = self.request.user.user_profile
         if not self.request.user.is_superuser:
-            raise ValidationError("Only admins can create support posts.")
+            raise ValidationError(_("Only admins can create support posts."))
         serializer.save(owner=user_profile)
 
 
@@ -36,7 +37,7 @@ def search_support(request):
     query = request.GET.get('q', '')
 
     if not query:
-        return Response({'error': 'Query parameter "q" is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': _('Query parameter "q" is required.')}, status=status.HTTP_400_BAD_REQUEST)
 
     support_results = models.Support.objects.filter(
         Q(title__icontains=query) | 

@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'social_django',
     'drf_spectacular',
 
-
+    'support',
+    'jobs',
+    'announcements'
 ]
 
 AUTHENTICATION_BACKENDS = [
