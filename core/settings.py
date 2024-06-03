@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     #custom apps
     'accounts',
     'posts',
+    'support',
 
     # external packages
     'rest_framework_simplejwt',
@@ -43,10 +44,11 @@ INSTALLED_APPS = [
     'djoser',
     'corsheaders',
     'social_django',
+    'drf_spectacular',
+
     'support',
     'jobs',
     'announcements'
-
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -63,7 +65,9 @@ REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'accounts.authentication.CustomJWTAuthentication',
-    )
+    ),
+    
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -237,3 +241,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 ]
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'UniVerse APIs',
+    'DESCRIPTION': 'APIs for UniVerse',
+    'VERSION': '1.0.0',
+    # OTHER SETTINGS
+}
