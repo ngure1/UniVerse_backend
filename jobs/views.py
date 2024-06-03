@@ -11,6 +11,7 @@ from accounts.models import UserProfile
 from django.db.models import Q
 from .serializers import JobSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.utils.translation import gettext_lazy as _
 
 class ListCreateJob(generics.ListCreateAPIView):
     queryset=models.Job.objects.all()
@@ -33,10 +34,10 @@ def search_jobs(request):
     query = request.GET.get('q', '')
 
     if not query:
-        return Response({'error': 'Query parameter "q" is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': _('Query parameter "q" is required.')}, status=status.HTTP_400_BAD_REQUEST)
 
     job_results = models.Job.objects.filter(
-       #Q(job_owner__userprofile__user__username__icontains=query) | 
+        Q(job_owner__user__first_name__icontains=query) |
         Q(title__icontains=query) | 
         Q(description__icontains=query) |
         Q(application_deadline__icontains=query)
