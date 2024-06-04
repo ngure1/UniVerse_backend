@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import  AbstractBaseUser ,PermissionsMixin
 from . import managers
-
+from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -47,6 +47,7 @@ class UserProfile(models.Model):
     is_alumni = models.BooleanField(default=False)
     is_lecturer = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Date updated"), auto_now=True)
     phone_number = PhoneNumberField(blank=True)

@@ -1,5 +1,7 @@
+
 from .models import MyUser, UserProfile, Education, Address
 from .serializers import MyUserSerializer, UserProfileSerializer, AddressSerializer, EducationSerializer
+from posts.serializers import PostSerializer
 from django.conf import settings
 from rest_framework import status
 from rest_framework.views import APIView
@@ -16,7 +18,6 @@ from rest_framework_simplejwt.views import (
 from rest_framework import generics
 from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly
 from django.db.models import Q
-from .models import MyUser, UserProfile, Education, Address
 
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
@@ -165,8 +166,6 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=UserProfile.objects.all()
     serializer_class=UserProfileSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
-    
-    
 class AddressProfile(generics.ListCreateAPIView):
     queryset=Address.objects.all()
     serializer_class=AddressSerializer
@@ -226,3 +225,4 @@ def search(request):
         'educations': education_serializer.data,
         'addresses': address_serializer.data
     })
+

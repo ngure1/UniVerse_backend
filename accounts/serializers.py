@@ -20,11 +20,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'profile_picture', 'is_student',
             'is_alumni', 'is_lecturer', 'isAdmin', 'created_at', 'updated_at',
-            'phone_number', 'bio', 'linked_in_url', 'x_in_url'
+            'phone_number', 'bio', 'linked_in_url', 'x_in_url', 'address', 'education', 
+            'followers_count', 'following_count', 'posts'
         ]
         read_only_fields = ('created_at', 'updated_at')
-        
-        
+
 
 # customuser serializer methods for creating and updating user profile
     # def create(self, validated_data):
@@ -60,7 +60,6 @@ class EducationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-        
 # profile serializer methods for creating and updating user profile
     # def create(self, validated_data):
     #     user_data = validated_data.pop('user')
