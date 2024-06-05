@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'social_django',
     'drf_spectacular',
 
-    'support',
+    # 'support',
     'jobs',
     'announcements'
 ]
@@ -71,7 +71,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-  "ACCESS_TOKEN_LIFETIME": timedelta(days=5),
+  "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -89,7 +89,7 @@ SIMPLE_JWT = {
     "TOKEN_TYPE_CLAIM": "token_type",
     "JTI_CLAIM": "jti",
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_LIFETIME": timedelta(hours=1),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 
@@ -99,7 +99,7 @@ AUTH_USER_MODEL = 'accounts.MyUser'
   # djoser
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
-    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'ACTIVATION_URL': 'activation/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
@@ -129,6 +129,31 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    'authorization',
+    'content-type',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'https://yourfrontenddomain.com',
+]
+
+
 
 ROOT_URLCONF = 'core.urls'
 
