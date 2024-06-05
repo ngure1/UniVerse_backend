@@ -8,6 +8,9 @@ from .views import (CustomProviderAuthView,
                     ListProfile,
                     ProfileDetail,
                     search,
+                    FollowToggleView,
+                    FollowerList,
+                    FollowingList,
                     )
 
 urlpatterns = [
@@ -28,4 +31,8 @@ urlpatterns = [
     path('Educationlist/', ListProfile.as_view()),
     path("Educationdetail/<int:pk>/", ProfileDetail.as_view()),
     path('accounts/search/', search ),
+    path('follow-toggle/', FollowToggleView.as_view()),
+    path('followers/', FollowerList.as_view()),
+    path('following/', FollowingList.as_view()),
+
 ]

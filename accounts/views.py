@@ -1,9 +1,9 @@
 
-from .models import MyUser, UserProfile, Education, Address
-from .serializers import MyUserSerializer, UserProfileSerializer, AddressSerializer, EducationSerializer
+from .models import MyUser, UserProfile, Education, Address, Follower
+from .serializers import MyUserSerializer, UserProfileSerializer, AddressSerializer, EducationSerializer, FollowerSerializer
 from posts.serializers import PostSerializer
 from django.conf import settings
-from rest_framework import status
+from rest_framework import status,generics,views
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -16,8 +16,13 @@ from rest_framework_simplejwt.views import (
 )
 
 from rest_framework import generics
-from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly, IsAuthenticated
 from django.db.models import Q
+from rest_framework.throttling import UserRateThrottle
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from .pagination import CustomPagination
+import logging
 
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
@@ -192,7 +197,6 @@ class EducationDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=EducationSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
 
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def search(request):
@@ -226,3 +230,62 @@ def search(request):
         'addresses': address_serializer.data
     })
 
+
+logger = logging.getLogger(__name__)
+
+class FollowThrottle(UserRateThrottle):
+    rate = '5/min'
+
+class FollowToggleView(views.APIView):
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [FollowThrottle]
+
+    def post(self, request, *args, **kwargs):
+        follower = request.user.user_profile
+        followed_id = request.data.get('followed_id')
+
+        if not followed_id:
+            return Response({'error': 'followed_id is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if follower.id == followed_id:
+            return Response({'error': "Users cannot follow themselves."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            followed = UserProfile.objects.get(id=followed_id)
+            follow_relation, created = Follower.objects.get_or_create(follower=follower, followed=followed)
+            
+            if not created:
+                follow_relation.delete()
+                notify_unfollow(follower, followed)
+                logger.info(f"User {follower.user.email} unfollowed {followed.user.email}")
+                return Response({'message': "Unfollowed successfully."}, status=status.HTTP_200_OK)
+            
+            notify_follow(follower, followed)
+            logger.info(f"User {follower.user.email} followed {followed.user.email}")
+            return Response({'message': "Followed successfully."}, status=status.HTTP_201_CREATED)
+        
+        except UserProfile.DoesNotExist:
+            return Response({'error': "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@method_decorator(cache_page(60*2), name='dispatch')  # Cache the view for 2 minutes
+class FollowerList(generics.ListAPIView):
+    serializer_class = FollowerSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        user_profile = self.request.user.user_profile
+        return Follower.objects.filter(followed=user_profile)
+
+@method_decorator(cache_page(60*2), name='dispatch')  # Cache the view for 2 minutes
+class FollowingList(generics.ListAPIView):
+    serializer_class = FollowerSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        user_profile = self.request.user.user_profile
+        return Follower.objects.filter(follower=user_profile)

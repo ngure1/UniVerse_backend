@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'posts',
     'support',
     'jobs',
-    'announcements'
+    'announcements',
 
     # external packages
     'rest_framework_simplejwt',

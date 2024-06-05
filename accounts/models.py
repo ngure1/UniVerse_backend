@@ -96,3 +96,18 @@ class Address(models.Model):
         return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
 
 
+class Follower(models.Model):
+    follower = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="following")
+    followed = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='followers')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['follower', 'followed']
+
+    def save(self, *args,**kwargs):
+        if self.follower == self.followed:
+            raise ValidationError({'detail': 'Users cannot follow yourself'})
+        super().save(*args,**kwargs)
+
+    def __str__(self):
+        return f"{self.follower.user.first_name} follows {self.followed.user.first_name}"
