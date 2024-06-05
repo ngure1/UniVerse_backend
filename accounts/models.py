@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import  AbstractBaseUser ,PermissionsMixin
 from . import managers
-
+from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -47,6 +47,7 @@ class UserProfile(models.Model):
     is_alumni = models.BooleanField(default=False)
     is_lecturer = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Date updated"), auto_now=True)
     phone_number = PhoneNumberField(blank=True)
@@ -95,3 +96,18 @@ class Address(models.Model):
         return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
 
 
+class Follower(models.Model):
+    follower = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="following")
+    followed = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='followers')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['follower', 'followed']
+
+    def save(self, *args,**kwargs):
+        if self.follower == self.followed:
+            raise ValidationError({'detail': 'Users cannot follow yourself'})
+        super().save(*args,**kwargs)
+
+    def __str__(self):
+        return f"{self.follower.user.first_name} follows {self.followed.user.first_name}"

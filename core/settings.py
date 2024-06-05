@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
     'support',
+    'jobs',
+    'announcements',
 
     # external packages
     'rest_framework_simplejwt',
@@ -46,9 +48,7 @@ INSTALLED_APPS = [
     'social_django',
     'drf_spectacular',
 
-    'support',
-    'jobs',
-    'announcements'
+    
 ]
 
 AUTHENTICATION_BACKENDS = [

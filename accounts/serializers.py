@@ -1,6 +1,6 @@
 from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
-from .models import UserProfile, MyUser, Address, Education
+from .models import UserProfile, MyUser, Address, Education, Follower
 
 # customUser Serializer
 class MyUserSerializer(UserCreateSerializer):
@@ -15,16 +15,37 @@ class MyUserSerializer(UserCreateSerializer):
 # UserProfile Serializer
 class UserProfileSerializer(serializers.ModelSerializer):
     user = MyUserSerializer(read_only=True)
+    address = serializers.SerializerMethodField()
+    education = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField()
+    posts = serializers.SerializerMethodField()
+
+
     class Meta:
         model = UserProfile
         fields = [
             'id', 'user', 'profile_picture', 'is_student',
             'is_alumni', 'is_lecturer', 'isAdmin', 'created_at', 'updated_at',
-            'phone_number', 'bio', 'linked_in_url', 'x_in_url'
+            'phone_number', 'bio', 'linked_in_url', 'x_in_url', 'address', 'education', 
+            'followers_count', 'following_count', 'posts'
         ]
         read_only_fields = ('created_at', 'updated_at')
-        
-        
+    
+    def get_followers_count(self, obj):
+        return obj.followers.count()
+
+    def get_following_count(self, obj):
+        return obj.following.count()
+
+    def get_address(self, obj):
+        addresses = obj.address_set.all()
+        return AddressSerializer(addresses,many=True).data
+
+    def get_education(self, obj):
+        education = obj.education_set.all()
+        return EducationSerializer(education,many=True).data
+
 
 # customuser serializer methods for creating and updating user profile
     # def create(self, validated_data):
@@ -59,9 +80,21 @@ class EducationSerializer(serializers.ModelSerializer):
         model = Education
         fields = '__all__'
 
+class FollowerSerializer(serializers.ModelSerializer):
+    follower_name = serializers.SerializerMethodField()
+    followed_name = serializers.SerializerMethodField()
 
-        
-# profile serializer methods for creating and updating user profile
+    class Meta:
+        model = Follower
+        fields = ['id','follower_name','followed_name','created_at']
+
+    def get_follower_name(self, obj):
+        return f"{obj.follower.user.first_name} {obj.follower.user.last_name}"
+
+    def get_followed_name(self, obj):
+        return f"{obj.followed.user.first_name} {obj.followed.user.last_name}"
+
+    # profile serializer methods for creating and updating user profile
     # def create(self, validated_data):
     #     user_data = validated_data.pop('user')
     #     address_data = validated_data.pop('address')
