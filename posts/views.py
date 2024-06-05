@@ -3,190 +3,207 @@ from . import serializers
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 from accounts.models import UserProfile
 from django.db.models import Q
-from .models import Post, Bookmark
-from .serializers import PostSerializer, BookmarkSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 
+   # list all posts* // create a new post
 class ListCreatePosts(generics.ListCreateAPIView):
     queryset=models.Post.objects.all()
     serializer_class=serializers.PostSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
     
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
     def perform_create(self, serializer):
         user_profile = self.request.user.user_profile
         serializer.save(author=user_profile)
-        
+
+
+  # retrieve a sigle instance of post, update and delete
 class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=models.Post.objects.all()
     serializer_class=serializers.PostSerializer
     permission_classes=[IsOwnerOrReadOnly]
-    
-    
-class ListCreateLikes(generics.ListCreateAPIView):
-    queryset=models.Like.objects.all()
-    serializer_class=serializers.LikedSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    
-    def perform_create(self, serializer):
-        user_profile = self.request.user.user_profile
-        serializer.save(owner=user_profile)
-    
-class LikesDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset=models.Like.objects.all()
-    serializer_class=serializers.LikedSerializer
-    permission_classes=[IsOwnerOrReadOnly]
-    
-    
-class ListCreateComments(generics.ListCreateAPIView):
-    queryset=models.Comment.objects.all()
-    serializer_class=serializers.CommentSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    
-    def perform_create(self, serializer):
-        user_profile = self.request.user.user_profile
-        serializer.save(owner=user_profile)
-        
-class CommentsDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset=models.Comment.objects.all()
-    serializer_class=serializers.CommentSerializer
-    permission_classes=[IsOwnerOrReadOnly]
-    
-    
-class ListCreateBookmarks(generics.ListCreateAPIView):
-    queryset=models.Bookmark.objects.all()
-    serializer_class=serializers.BookmarkSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    
-    def perform_create(self, serializer):
-        user_profile = self.request.user.user_profile
-        serializer.save(owner=user_profile)
-        
-class BookmarksDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset=models.Bookmark.objects.all()
-    serializer_class=serializers.BookmarkSerializer
-    permission_classes=[IsOwnerOrReadOnly]
-    
-   #  get all posts by a user
+
+
+
+   #  get all posts by a specific user
 class UserPostsList(generics.ListAPIView):
     serializer_class = serializers.PostSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
         user_profile = UserProfile.objects.get(user__id=user_id)
         return models.Post.objects.filter(author=user_profile)
     
-    # get all bookmarks by a user
+    
+        # create a new like//list all likes*
+class ListCreateLikes(generics.ListCreateAPIView):
+    queryset=models.Like.objects.all()
+    serializer_class=serializers.LikedSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
+    
+    def perform_create(self, serializer):
+        user_profile = self.request.user.user_profile
+        serializer.save(owner=user_profile)
+    
+    
+    # retrieve a single instance of like, update and delete
+class LikesDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset=models.Like.objects.all()
+    serializer_class=serializers.LikedSerializer
+    permission_classes=[IsOwnerOrReadOnly]
+    
+    
+    # likes count for a post instance
+class PostLikesCount(generics.GenericAPIView):
+    def get(self, request, post_id, *args, **kwargs):
+        try:
+            post = models.Post.objects.get(id=post_id)
+            likes_count = post.likes.count()
+            return Response({"likes_count": likes_count})
+        except models.Post.DoesNotExist:
+            return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+    # get all likes for a specific post instance
+class PostLikesList(generics.ListAPIView):
+    serializer_class = serializers.LikedSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
+
+    def get_queryset(self):
+        post_id = self.kwargs['post_id']
+        return models.Like.objects.filter(post__id=post_id)
+
+    
+    # create a new instace of a comment // list all comments*
+class ListCreateComments(generics.ListCreateAPIView):
+    queryset=models.Comment.objects.all()
+    serializer_class=serializers.CommentSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
+    
+    def perform_create(self, serializer):
+        user_profile = self.request.user.user_profile
+        serializer.save(owner=user_profile)
+        
+        
+    # retrieve a single instance of a comment , update and delete
+class CommentsDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset=models.Comment.objects.all()
+    serializer_class=serializers.CommentSerializer
+    permission_classes=[IsOwnerOrReadOnly]
+    
+    
+    # comments count for a post instance
+class PostCommentsCount(generics.GenericAPIView):
+    def get(self, request, post_id, *args, **kwargs):
+        try:
+            post = models.Post.objects.get(id=post_id)
+            comments_count = post.comments.count()
+            return Response({"comments_count": comments_count})
+        except models.Post.DoesNotExist:
+            return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        
+    # get all comments for a specific post instance
+class PostCommentsList(generics.ListAPIView):
+    serializer_class = serializers.CommentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
+
+    def get_queryset(self):
+        post_id = self.kwargs['post_id']
+        return models.Comment.objects.filter(post__id=post_id)
+
+    # create a new bookmark instance // list all bookmarks*
+class ListCreateBookmarks(generics.ListCreateAPIView):
+    queryset=models.Bookmark.objects.all()
+    serializer_class=serializers.BookmarkSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
+    
+    def perform_create(self, serializer):
+        user_profile = self.request.user.user_profile
+        serializer.save(owner=user_profile)
+     
+     
+    # retrieve a single instance of a Bookmark , update and delete
+class BookmarksDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset=models.Bookmark.objects.all()
+    serializer_class=serializers.BookmarkSerializer
+    permission_classes=[IsOwnerOrReadOnly]
+    
+    
+    # get all bookmarks by a specific user
 class UserBookmarksList(generics.ListAPIView):
     serializer_class = serializers.BookmarkSerializer
+    parser_classes=[IsAuthenticatedOrReadOnly]
 
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
+    
     def get_queryset(self):
         user_id = self.kwargs['user_id']
         user_profile = UserProfile.objects.get(user__id=user_id)
         return models.Bookmark.objects.filter(owner=user_profile)
+
+        # bookmarks count for a post instance
+class PostBookmarksCount(generics.GenericAPIView):
+    def get(self, request, post_id, *args, **kwargs):
+        try:
+            post = models.Post.objects.get(id=post_id)
+            bookmarks_count = post.bookmarks.count()
+            return Response({"bookmarks_count": bookmarks_count})
+        except models.Post.DoesNotExist:
+            return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    # get all bookmarks for a specific post instance
+class PostBookmarksList(generics.ListAPIView):
+    serializer_class = serializers.BookmarkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 5
     
-    
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticatedOrReadOnly])
-def search_posts(request):
-    query = request.GET.get('q', '')
-
-    if not query:
-        return Response({'error': 'Query parameter "q" is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-    post_results = Post.objects.filter(
-        Q(title__icontains=query) | 
-        Q(content__icontains=query)
-    )
-
-    bookmark_results = Bookmark.objects.filter(
-        Q(post__title__icontains=query) | 
-        Q(post__content__icontains=query)
-    )
-
-    post_serializer = PostSerializer(post_results, many=True)
-    bookmark_serializer = BookmarkSerializer(bookmark_results, many=True)
-
-    return Response({'posts': post_serializer.data})
+    def get_queryset(self):
+        post_id = self.kwargs['post_id']
+        return models.Bookmark.objects.filter(post__id=post_id)
 
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-# @api_view(["GET", "POST"])
-# def postList(request):
-#     if request.method=="GET":
-#         posts=models.Post.objects.all()
-#         serializer=serializers.PostSerializer(posts)
-#         return Response(serializer.data)
-    
-#     elif request.method=="POST":
-#         serializer=serializers.PostSerializer(data=request.data)
-#         if serializer.is_valid:
-#             serializer.save()
-#             return Response(serializer.data, status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-    
+class SearchPosts(generics.ListAPIView):
+    serializer_class = serializers.PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'content']
 
-# @api_view(["GET", "PUT", "PATCH", "DELETE"])
-# def postDetail(request, pk):
-#     try:
-#         post=models.Post.objects.get(pk=pk)
+    def get_queryset(self):
+        query = self.request.query_params.get('q', '')
+        if not query:
+            return models.Post.objects.none()
         
-#     except post.DOESNOTEXIST:
-#         return Response(status.HTTP_404_NOT_FOUND)
-    
-#     if request.method=="GET":
-#         serializer=serializers.PostSerializer(post)
-#         return Response(serializer.data)
-
-#     elif request.method=="PATCH":
-#         serializer= serializers.PostSerializer(post, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(status.HTTP_400_BAD_REQUEST)
-    
-#     elif request.method=="DELETE":
-#         post.delete()
-#         return Response(status.HTTP_204_NO_CONTENT)
+        return models.Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query)
+        )
