@@ -11,7 +11,7 @@ class MyUserAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name')
 
 class MyUserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user_first_name', 'user_last_name', 'user_email', 'created_at')
+    list_display = ('id','user_first_name', 'user_last_name', 'user_email', 'created_at')
     search_fields = ('user_first_name', 'user_last_name', 'user_email')
     list_filter = ('user__is_active', 'created_at', 'updated_at')
 

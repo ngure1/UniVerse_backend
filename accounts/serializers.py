@@ -41,6 +41,10 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = '__all__'
+        read_only_fields = ['owner']
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user.user_profile)
 
 # EducationModel Serializer
 class EducationSerializer(serializers.ModelSerializer):
