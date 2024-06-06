@@ -31,24 +31,24 @@ class AnnouncementDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticatedOrReadOnly])
-def search_announcements(request):
-    query = request.GET.get('q', '')
+class AnnouncementSearchView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = AnnouncementSerializer
 
-    if not query:
-        return Response({'error': _('Query parameter "q" is required.')}, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('q', '')
 
-    #title_matches = Announcement.objects.filter(title__icontains=query)
-    #You can separate queries as above this may help one know where the error is 
-    announcement_results = Announcement.objects.filter(  
-        Q(title__icontains=query) | 
-        Q(creator__user__email__icontains=query) |
-        Q(creator__user__first_name__icontains=query) |  
-        Q(content__icontains=query)
-    )
+        if not query:
+            return Response({'error': _('Query parameter "q" is required.')}, status=status.HTTP_400_BAD_REQUEST)
 
-    announcement_serializer = AnnouncementSerializer(announcement_results, many=True)
+        announcement_results = Announcement.objects.filter(  
+            Q(title__icontains=query) | 
+            Q(creator__user__email__icontains=query) |
+            Q(creator__user__first_name__icontains=query) |  
+            Q(content__icontains=query)
+        )
 
-    return Response({'Announcements': announcement_serializer.data})
+        announcement_serializer = self.get_serializer(announcement_results, many=True)
+
+        return Response({'Announcements': announcement_serializer.data})
     

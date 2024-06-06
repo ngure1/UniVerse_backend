@@ -4,6 +4,5 @@ from . import models
 urlpatterns = [
     path("list/", views.ListCreateSupport.as_view()),
     path("detail/<int:pk>/", views.SupportDetail.as_view()),
-    path("search/", views.search_support),
-
+    path("search/", views.SupportSearchView.as_view()),
 ]
