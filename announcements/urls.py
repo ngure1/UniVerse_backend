@@ -7,5 +7,5 @@ from . import models
 urlpatterns = [
     path("list/", views.ListCreateAnnouncement.as_view()),
     path("detail/<int:pk>/", views.AnnouncementDetail.as_view()),
-    path("search/", views.search_announcements)
+    path("search/", views.AnnouncementSearchView.as_view())
 ]

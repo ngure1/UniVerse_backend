@@ -15,11 +15,8 @@ class MyUserSerializer(UserCreateSerializer):
 # UserProfile Serializer
 class UserProfileSerializer(serializers.ModelSerializer):
     user = MyUserSerializer(read_only=True)
-    address = serializers.SerializerMethodField()
-    education = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
-    posts = serializers.SerializerMethodField()
 
 
     class Meta:
@@ -38,14 +35,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_following_count(self, obj):
         return obj.following.count()
 
-    def get_address(self, obj):
-        addresses = obj.address_set.all()
-        return AddressSerializer(addresses,many=True).data
 
-    def get_education(self, obj):
-        education = obj.education_set.all()
-        return EducationSerializer(education,many=True).data
+class AddressSerializer(serializers.ModelSerializer):
+    owner = UserProfileSerializer(read_only=True)
+    class Meta:
+        model = Address
+        fields = '__all__'
 
+# EducationModel Serializer
+class EducationSerializer(serializers.ModelSerializer):
+    owner = UserProfileSerializer(read_only=True)
+    class Meta:
+        model = Education
+        fields = '__all__'
 
 # customuser serializer methods for creating and updating user profile
     # def create(self, validated_data):
@@ -67,18 +69,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     #     return instance
 
 #AddressModel Serializer
-class AddressSerializer(serializers.ModelSerializer):
-    owner = UserProfileSerializer(read_only=True)
-    class Meta:
-        model = Address
-        fields = '__all__'
-
-# EducationModel Serializer
-class EducationSerializer(serializers.ModelSerializer):
-    owner = UserProfileSerializer(read_only=True)
-    class Meta:
-        model = Education
-        fields = '__all__'
 
 class FollowerSerializer(serializers.ModelSerializer):
     follower_name = serializers.SerializerMethodField()

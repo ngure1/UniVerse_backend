@@ -197,38 +197,43 @@ class EducationDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=EducationSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticatedOrReadOnly])
-def search(request):
-    query = request.GET.get('q', '')
+class SearchView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    if not query:
-        return Response({'error': 'Query parameter "q" is required.'}, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_class(self):
+        return UserProfileSerializer  # Default serializer class, not used directly
 
-    user_profiles = UserProfile.objects.filter(
-        Q(user__first_name__icontains=query) | 
-        Q(user__last_name__icontains=query) 
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('q', '')
 
-    )
-    education_results = Education.objects.filter(
-        Q(institution_name__icontains=query) | 
-        Q(field_of_study__icontains=query)
-    )
-    address_results = Address.objects.filter(
-        Q(street__icontains=query) | 
-        Q(city__icontains=query) | 
-        Q(country__icontains=query)
-    )
+        if not query:
+            return Response({'error': 'Query parameter "q" is required.'}, status=400)
 
-    profile_serializer = UserProfileSerializer(user_profiles, many=True)
-    education_serializer = EducationSerializer(education_results, many=True)
-    address_serializer = AddressSerializer(address_results, many=True)
+        user_profiles = UserProfile.objects.filter(
+            Q(user__first_name__icontains=query) | 
+            Q(user__last_name__icontains=query)
+        )
+        education_results = Education.objects.filter(
+            Q(institution_name__icontains=query) | 
+            Q(field_of_study__icontains=query)
+        )
+        address_results = Address.objects.filter(
+            Q(street__icontains=query) | 
+            Q(city__icontains=query) | 
+            Q(country__icontains=query)
+        )
 
-    return Response({
-        'profiles': profile_serializer.data,
-        'educations': education_serializer.data,
-        'addresses': address_serializer.data
-    })
+        profile_serializer = UserProfileSerializer(user_profiles, many=True)
+        education_serializer = EducationSerializer(education_results, many=True)
+        address_serializer = AddressSerializer(address_results, many=True)
+
+        combined_results = {
+            'user_profile': profile_serializer.data,
+            'education': education_serializer.data,
+            'address': address_serializer.data
+        }
+
+        return Response(combined_results)
 
 
 logger = logging.getLogger(__name__)

@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from .models import Support
 
 
 # Create your views here.
@@ -31,21 +32,21 @@ class SupportDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # SearchView support
-@api_view(['GET'])
-@permission_classes([IsAuthenticatedOrReadOnly])
-def search_support(request):
-    query = request.GET.get('q', '')
+class SupportSearchView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = serializers.SupportSerializer
 
-    if not query:
-        return Response({'error': _('Query parameter "q" is required.')}, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('q', '')
 
-    support_results = models.Support.objects.filter(
-        Q(title__icontains=query) | 
-        Q(amount__icontains=query)
-    )
+        if not query:
+            return Response({'error': _('Query parameter "q" is required.')}, status=status.HTTP_400_BAD_REQUEST)
 
-    support_serializer = serializers.SupportSerializer(support_results, many=True)
+        support_results = Support.objects.filter(
+            Q(title__icontains=query) | 
+            Q(amount__icontains=query)
+        )
 
-    return Response({
-        'supports': support_serializer.data
-    })
+        support_serializer = self.get_serializer(support_results, many=True)
+
+        return Response({'supports': support_serializer.data})
