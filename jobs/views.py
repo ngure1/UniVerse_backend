@@ -13,6 +13,7 @@ from .serializers import JobSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.utils.translation import gettext_lazy as _
 from .models import Job
+from django.http import Http404
 
 class ListCreateJob(generics.ListCreateAPIView):
     queryset=models.Job.objects.all()
@@ -20,8 +21,8 @@ class ListCreateJob(generics.ListCreateAPIView):
     permission_classes=[IsAuthenticatedOrReadOnly]
     
     def perform_create(self, serializer):
-        user_profile = self.request.user.user_profile
-        serializer.save(author=user_profile)
+        user_profile = UserProfile.objects.get(user=self.request.user)
+        serializer.save(job_owner=user_profile)
    
 class JobDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Job.objects.all()

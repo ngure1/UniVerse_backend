@@ -9,6 +9,9 @@ from accounts.models import UserProfile
 from django.db.models import Q
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from .models import Post
 
    # list all posts* // create a new post
 class ListCreatePosts(generics.ListCreateAPIView):
@@ -32,18 +35,28 @@ class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
    #  get all posts by a specific user
-class UserPostsList(generics.ListAPIView):
-    serializer_class = serializers.PostSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
+# class UserPostsList(generics.ListAPIView):
+#     serializer_class = serializers.PostSerializer
+#     permission_classes=[IsAuthenticatedOrReadOnly]
     
-    pagination_class = PageNumberPagination
-    pagination_class.page_size = 5
+#     pagination_class = PageNumberPagination
+#     pagination_class.page_size = 5
 
-    def get_queryset(self):
-        user_id = self.kwargs['user_id']
-        user_profile = UserProfile.objects.get(user__id=user_id)
-        return models.Post.objects.filter(author=user_profile)
-    
+#     def get_queryset(self):
+#         user_id = self.kwargs['user_id']
+#         user_profile = UserProfile.objects.get(user__id=user_id)
+#         return models.Post.objects.filter(author=user_profile)
+
+
+class UserPostsList(APIView):
+    def get(self, request, user_id):
+        # Ensure user_id is an integer or can be converted to an integer
+        user_profile = get_object_or_404(UserProfile, id=user_id)
+        posts = Post.objects.filter(author=user_profile)
+        # Pass context={'request': request} when instantiating the serializer
+        serializer = serializers.PostSerializer(posts, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     
         # create a new like//list all likes*
 class ListCreateLikes(generics.ListCreateAPIView):

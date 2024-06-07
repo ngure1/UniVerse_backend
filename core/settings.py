@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'support',
     'jobs',
     'announcements',
+    'events',
 
     # external packages
     'rest_framework_simplejwt',

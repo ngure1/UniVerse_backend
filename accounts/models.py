@@ -4,6 +4,7 @@ from . import managers
 from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
+from django.core.validators import FileExtensionValidator
 
 # custom user model
 class MyUser(AbstractBaseUser, PermissionsMixin):
@@ -85,7 +86,7 @@ class Education(models.Model):
     
     # Address model
 class Address(models.Model):
-    owner= models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="address")
+    owner= models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="address")
     
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
@@ -99,7 +100,7 @@ class Address(models.Model):
 class Follower(models.Model):
     follower = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="following")
     followed = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='followers')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
 
     class Meta:
         unique_together = ['follower', 'followed']
