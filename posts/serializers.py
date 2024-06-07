@@ -15,6 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Post
         fields = (
+            "id",
             "url",
             "author",
             "title",
@@ -27,6 +28,9 @@ class PostSerializer(serializers.ModelSerializer):
             "is_bookmarked",
         )
         read_only_fields = ('created_at', 'updated_at')
+    # def create(self, validated_data):
+    #     user_profile = models.UserProfile.objects.get(user=self.context['request'].user)
+    #     return models.Post.objects.create(author=user_profile, **validated_data)
 
     def get_likes_count(self, obj):
         return obj.likes.count()
@@ -37,13 +41,21 @@ class PostSerializer(serializers.ModelSerializer):
     def get_is_liked(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            return models.Like.objects.filter(post=obj, owner=user).exists()
+            try:
+                user_profile = user.user_profile
+                return models.Like.objects.filter(post=obj, owner=user_profile).exists()
+            except models.UserProfile.DoesNotExist:
+                pass
         return False
 
     def get_is_bookmarked(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            return models.Bookmark.objects.filter(post=obj, owner=user).exists()
+            try:
+                user_profile = user.user_profile
+                return models.Bookmark.objects.filter(post=obj, owner=user_profile).exists()
+            except models.UserProfile.DoesNotExist:
+                pass
         return False
 
 # 2
