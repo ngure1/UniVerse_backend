@@ -26,7 +26,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'is_alumni', 'is_lecturer', 'isAdmin', 'is_verified', 'created_at', 'updated_at',
             'phone_number', 'bio', 'linked_in_url', 'x_in_url','followers_count', 'following_count',
         ]
-        read_only_fields = ('created_at', 'updated_at')
+        read_only_fields = ('created_at', 'updated_at', 'followers_count', 'following_count')
     
     def get_followers_count(self, obj):
         return obj.followers.count()
