@@ -16,14 +16,14 @@ from rest_framework_simplejwt.views import (
 )
 
 from rest_framework import generics
-from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly, IsAuthenticated 
 from django.db.models import Q
 from rest_framework.throttling import UserRateThrottle
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from .pagination import CustomPagination
 import logging
-
+from posts.permissions import IsOwnerOrReadOnly
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
         # Call the parent class's post method
@@ -166,37 +166,78 @@ class ListProfile(generics.ListCreateAPIView):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-        
+
+# # LoggedInUser      
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset=UserProfile.objects.all()
-    serializer_class=UserProfileSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def get_object(self):
+        user = self.request.user
+        try:
+            return user.user_profile
+        except UserProfile.DoesNotExist:
+            raise Http404("UserProfile does not exist for this user.")
+
 class AddressProfile(generics.ListCreateAPIView):
     queryset=Address.objects.all()
     serializer_class=AddressSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    permission_classes=[IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        return Address.objects.filter(owner=self.request.user.user_profile)
     
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user.user_profile)
+        serializer.save(owner=self.request.user.user_profile)
         
 class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=Address.objects.all()
     serializer_class=AddressSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    permission_classes=[IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        return Address.objects.filter(owner=self.request.user.user_profile)
     
 class EducationProfile(generics.ListCreateAPIView):
     queryset=Education.objects.all()
     serializer_class=EducationSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        return Education.objects.filter(owner=self.request.user.user_profile)
     
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user.user_profile)
+        serializer.save(owner=self.request.user.user_profile)
         
 class EducationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=Education.objects.all()
     serializer_class=EducationSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    permission_classes=[IsOwnerOrReadOnly]
 
+    def get_queryset(self):
+        return Education.objects.filter(owner=self.request.user.user_profile)
+
+
+# Normal User
+class UserProfileDetail(generics.RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class UserAddressDetail(generics.RetrieveAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class UserEducationDetail(generics.RetrieveAPIView):
+    queryset = Education.objects.all()
+    serializer_class = EducationSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    
 class SearchView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 

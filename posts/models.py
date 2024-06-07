@@ -1,11 +1,17 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import FileExtensionValidator
 
 
 class Post(models.Model):
     author=models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="posts")
     title=models.CharField(_("Post Title"),max_length=255)
-    media=models.ImageField(_("Post Media"), upload_to='posts', null=True, blank=True)
+    media=models.FileField(
+    _("Post Media"),
+    null=True, blank=True,
+    upload_to='media/posts', 
+    validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi'])]
+    )
     content=models.CharField(_("Post contents"), max_length=255)
     created_at=models.DateTimeField( _("Date Created"), auto_now_add=True)
     updated_at=models.DateTimeField(_("Date Updated"), auto_now=True)
