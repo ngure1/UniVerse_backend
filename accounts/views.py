@@ -167,14 +167,18 @@ class ListProfile(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-# LoggedInUser        
+# # LoggedInUser      
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset=UserProfile.objects.all()
-    serializer_class=UserProfileSerializer
-    permission_classes=[IsOwnerOrReadOnly]
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsOwnerOrReadOnly]
 
     def get_object(self):
-        return self.request.user.user_profile
+        user = self.request.user
+        try:
+            return user.user_profile
+        except UserProfile.DoesNotExist:
+            raise Http404("UserProfile does not exist for this user.")
 
 class AddressProfile(generics.ListCreateAPIView):
     queryset=Address.objects.all()

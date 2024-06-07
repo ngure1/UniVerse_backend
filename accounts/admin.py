@@ -45,7 +45,7 @@ class EducationAdmin(admin.ModelAdmin):
     search_fields = ('institution_name', 'field_of_study')
 
 class FollowerAdmin(admin.ModelAdmin):
-    list_display = ('follower', 'followed', 'created_at')
+    list_display = ('id','follower', 'followed', 'created_at' )
     search_fields = ('follower_name', 'followed_name')
 
     # Define methods to display follower's and followed person's full name and email
