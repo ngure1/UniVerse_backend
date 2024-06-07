@@ -65,7 +65,7 @@ class UserProfile(models.Model):
         """
         Returns a string representation of the user profile.
         """
-        return f"{self.user.first_name}'s profile"
+        return self.user.first_name
 
     
     def __repr__(self) -> str:
