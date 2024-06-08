@@ -2,7 +2,7 @@ from accounts.models import UserProfile
 from . import models, serializers
 from accounts.pagination import CustomPagination
 from .mixins import GetUserProfileAndPostMixin
-from rest_framework import generics,status
+from rest_framework import generics
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -26,7 +26,7 @@ class ListCreatePosts(generics.ListCreateAPIView, GetUserProfileAndPostMixin):
 
 # retrieve a single instance of post, update and delete
 class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Post.objects.all()
+    queryset = models.Post.objects.all().order_by('-created_at')
     serializer_class = serializers.PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
@@ -42,7 +42,7 @@ class UserPostsList(generics.ListAPIView):
         try:
             user_id = int(user_id)
             user_profile = UserProfile.objects.get(user__id=user_id)
-            return models.Post.objects.filter(author=user_profile)
+            return models.Post.objects.filter(author=user_profile).order_by('-created_at')
         except UserProfile.DoesNotExist:
             raise NotFound("UserProfile matching query does not exist.")
 
@@ -50,7 +50,7 @@ class UserPostsList(generics.ListAPIView):
 
 # create a new like instance
 class CreateLikes(generics.CreateAPIView, GetUserProfileAndPostMixin):
-    queryset = models.Like.objects.all()
+    queryset = models.Like.objects.all().order_by('-created_at')
     serializer_class = serializers.LikedSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -62,7 +62,7 @@ class CreateLikes(generics.CreateAPIView, GetUserProfileAndPostMixin):
 
 # retrieve a single instance of like, update and delete
 class LikesDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Like.objects.all()
+    queryset = models.Like.objects.all().order_by('-created_at')
     serializer_class = serializers.LikedSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
@@ -90,14 +90,14 @@ class PostLikesList(generics.ListAPIView):
         try:
             post_id = int(post_id)
             post = models.Post.objects.get(id=post_id)
-            return models.Like.objects.filter(post=post)
+            return models.Like.objects.filter(post=post).order_by('-created_at')
         except models.Post.DoesNotExist:
             raise NotFound("Post does not exist")
 
 
 # create a new instance of a comment
 class CreateComments(generics.CreateAPIView, GetUserProfileAndPostMixin):
-    queryset = models.Comment.objects.all()
+    queryset = models.Comment.objects.all().order_by('-created_at')
     serializer_class = serializers.CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -110,7 +110,7 @@ class CreateComments(generics.CreateAPIView, GetUserProfileAndPostMixin):
 
 # retrieve a single instance of a comment, update and delete
 class CommentsDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Comment.objects.all()
+    queryset = models.Comment.objects.all().order_by('-created_at')
     serializer_class = serializers.CommentSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
@@ -138,13 +138,13 @@ class PostCommentsList(generics.ListAPIView):
         try:
             post_id = int(post_id)
             post = models.Post.objects.get(id=post_id)
-            return models.Comment.objects.filter(post=post)
+            return models.Comment.objects.filter(post=post).order_by('-created_at')
         except models.Post.DoesNotExist:
             raise NotFound("Post does not exist")
 
 # create a new bookmark instance
 class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
-    queryset = models.Bookmark.objects.all()
+    queryset = models.Bookmark.objects.all().order_by('-created_at')
     serializer_class = serializers.BookmarkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -156,7 +156,7 @@ class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
 
 # retrieve a single instance of a bookmark, update and delete
 class BookmarksDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Bookmark.objects.all()
+    queryset = models.Bookmark.objects.all().order_by('-created_at')
     serializer_class = serializers.BookmarkSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
@@ -172,7 +172,7 @@ class UserBookmarksList(generics.ListAPIView):
         try:
             user_id = int(user_id)
             user_profile = UserProfile.objects.get(user__id=user_id)
-            return models.Bookmark.objects.filter(author=user_profile)
+            return models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
         except UserProfile.DoesNotExist:
             raise NotFound("User profile does not exist")
 
@@ -197,7 +197,7 @@ class PostBookmarksList(generics.ListAPIView):
         try:
             post_id = int(post_id)
             post = models.Post.objects.get(id=post_id)
-            return models.Bookmark.objects.filter(post=post)
+            return models.Bookmark.objects.filter(post=post).order_by('-created_at')
         except models.Post.DoesNotExist:
             raise NotFound("Post does not exist")
 
@@ -216,4 +216,4 @@ class SearchPosts(generics.ListAPIView):
         return models.Post.objects.filter(
             Q(title__icontains=query) |
             Q(content__icontains=query)
-        )
+        ).order_by('-created_at')
