@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from . import models
-from accounts.serializers import UserProfileSerializer
+from accounts.serializers import UserProfileSimpleSerializer
 
 class PostSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer(read_only=True)
+    author = UserProfileSimpleSerializer(read_only=True)
     url = serializers.HyperlinkedIdentityField(view_name='post-detail', lookup_field='pk')
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
@@ -57,11 +57,21 @@ class PostSerializer(serializers.ModelSerializer):
                 pass
         return False
 
+class PostSimpleSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='post-detail', lookup_field='pk')
+
+    class Meta:
+        model = models.Post
+        fields = (
+            "id",
+            "url",
+            "title",
+        )
 
 
 class LikedSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer(read_only=True)
-    post = PostSerializer(read_only=True)
+    author = UserProfileSimpleSerializer(read_only=True)
+    post = PostSimpleSerializer(read_only=True)
 
     class Meta:
         model = models.Like
@@ -74,8 +84,8 @@ class LikedSerializer(serializers.ModelSerializer):
         read_only_fields = ('created_at',)
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer(read_only=True)
-    post = PostSerializer(read_only=True)
+    author = UserProfileSimpleSerializer(read_only=True)
+    post = PostSimpleSerializer(read_only=True)
 
     class Meta:
         model = models.Comment
@@ -90,8 +100,8 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ('created_at', 'updated_at')
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer(read_only=True)
-    post = PostSerializer(read_only=True)
+    author = UserProfileSimpleSerializer(read_only=True)
+    post = PostSimpleSerializer(read_only=True)
 
     class Meta:
         model = models.Bookmark
