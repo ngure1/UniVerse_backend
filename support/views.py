@@ -6,7 +6,6 @@ from .permissions import IsAdminOrReadOnly
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from .models import Support
@@ -43,7 +42,7 @@ class SupportSearchView(generics.GenericAPIView):
             return Response({'error': _('Query parameter "q" is required.')}, status=status.HTTP_400_BAD_REQUEST)
 
         support_results = Support.objects.filter(
-            Q(title__icontains=query) | 
+            Q(title__icontains=query) |
             Q(amount__icontains=query)
         )
 
