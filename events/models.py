@@ -4,16 +4,16 @@ from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 class Event(models.Model):
-    creator = models.ForeignKey("accounts.UserProfile",on_delete=models.CASCADE, related_name="Event")
-    title = models.CharField(max_length=255),
+    author = models.ForeignKey("accounts.UserProfile",on_delete=models.CASCADE, related_name="Event")
+    title = models.CharField(max_length=255, default="Default Title")
     description = models.TextField(_("Description"), blank=False)
-    created_at = models.TimeField(_("Date Created"),auto_now_add=True)
-    updated_at = models.TimeField(_("Updated_at"),auto_now=True)
-    address = models.OneToOneField("accounts.Address", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(_("Date Created"),auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated_at"),auto_now=True)
+    # address = models.OneToOneField("accounts.Address", on_delete=models.CASCADE)
     media = models.FileField(
     _("Event Media"),
     null=True, blank=True,
-    upload_to="media/event", 
+    upload_to="media/event",
     validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi'])]
     )
     capacity = models.IntegerField(_("Event's capacity"))
