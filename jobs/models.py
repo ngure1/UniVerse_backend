@@ -5,13 +5,13 @@ from django.core.validators import FileExtensionValidator
 
 
 class Job(models.Model):
-    job_owner = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="jobs", verbose_name=_("Job Owner"))
+    author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="jobs", verbose_name=_("Job Owner"))
     title = models.CharField(_("Title") ,max_length=255)
     description = models.TextField(_("Description"))
     media = models.FileField(
     _("Job Media"),
     null=True, blank=True,
-    upload_to="media/Job_Media", 
+    upload_to="media/Job_Media",
     validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi'])]
     )
     application_deadline = models.DateTimeField(_("Application Deadline"))
