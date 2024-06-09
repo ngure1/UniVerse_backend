@@ -19,12 +19,12 @@ class PostSerializer(serializers.ModelSerializer):
             "title",
             "content",
             "media",
-            "created_at",
-            "updated_at",
             "likes_count",
             "comments_count",
             "is_liked",
             "is_bookmarked",
+            "created_at",
+            "updated_at",
         )
         read_only_fields = ('created_at', 'updated_at')
 
