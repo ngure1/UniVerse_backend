@@ -1,16 +1,18 @@
-from accounts.serializers import UserProfileSerializer
+from accounts.serializers import UserProfileSimpleSerializer
 from rest_framework import serializers
 from . import models
 
 
 
 class JobSerializer(serializers.ModelSerializer):
-    job_owner=UserProfileSerializer(read_only=True)
+    author=UserProfileSimpleSerializer(read_only=True)
+    url=serializers.HyperlinkedIdentityField(view_name="job-detail", lookup_field="pk")
     class Meta:
         model=models.Job
         fields=(
             "id",
-            "job_owner",
+            "url",
+            "author",
             "title",
             "description",
             "application_procedure",
