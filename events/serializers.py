@@ -1,24 +1,21 @@
 from rest_framework import serializers
-from . import models
-from accounts.serializers import UserProfileSerializer
-
+from .models import Event
+from accounts.serializers import UserProfileSimpleSerializer
 
 class EventSerializer(serializers.ModelSerializer):
-    creator = UserProfileSerializer(read_only=True)
-
+    author = UserProfileSimpleSerializer(read_only=True)
+    url=serializers.HyperlinkedIdentityField(view_name='event-detail',lookup_field='pk')
     class Meta:
-        model = models.Event
+        model = Event
         fields = (
             "id",
-            "creator",
+            "url",
+            "author",
             "title",
             "description",
+            "media",
+            "capacity",
             "created_at",
             "updated_at",
-            "address",
-            "media",
-            "capacity"
-
-
         )
         read_only_fields = ('created_at', 'updated_at')
