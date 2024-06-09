@@ -11,16 +11,16 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author')
 
 class PostLikeAdmin(admin.ModelAdmin):
-    list_display=("post", "owner", "created_at")
+    list_display=("post", "author", "created_at")
 
 
 class PostCommentAdmin(admin.ModelAdmin):
-    list_display=("post", "owner", "created_at")
-    search_fields = ('post', 'owner')
+    list_display=("post", "author", "created_at")
+    search_fields = ('post', 'author')
 
 class PostBookmarkAdmin(admin.ModelAdmin):
-    list_display=("post", "owner", "created_at")
-    search_fields = ('post', 'owner')
+    list_display=("post", "author", "created_at")
+    search_fields = ('post', 'author')
 
 # Register your models here.
 admin.site.register(models.Post, PostAdmin)

@@ -48,7 +48,7 @@ urlpatterns = [
     path('education/<int:pk>/', EducationDetail.as_view()),  # Retrieve, update, or delete a specific education detail for the logged-in user
     
     # Normal User URLs
-    path('user/profile/<int:pk>/', UserProfileDetail.as_view()),  # View the profile of a normal user
+    path('user/profile/<int:pk>/', UserProfileDetail.as_view(), name="userprofile-detail"),  # View the profile of a normal user
     path('user/address/<int:pk>/', UserAddressDetail.as_view()),  # View the addresses of a normal user
     path('user/education/<int:pk>/', UserEducationDetail.as_view()),  # View the education details of a normal user
 
