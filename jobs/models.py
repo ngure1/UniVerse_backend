@@ -15,9 +15,10 @@ class Job(models.Model):
     validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi'])]
     )
     application_deadline = models.DateTimeField(_("Application Deadline"))
+    application_procedure = models.TextField(_("Application Procedure"))
     created_at = models.DateTimeField(_("Created At"),auto_now_add=True)
     updated_at = models.DateTimeField(_("Created At"),auto_now=True)
-    application_procedure = models.TextField(_("Application Procedure"))
+
 
     def __str__(self):
         return self.title
