@@ -12,7 +12,7 @@ class Support(models.Model):
     media = models.FileField(
     _("Support Media"),
     null=True, blank=True,
-    upload_to="media/support_Media/", 
+    upload_to="media/support_Media/",
     validators=[ FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi'])]
     )
     amount = models.DecimalField(_("Amount"),max_digits=15, decimal_places=2)
