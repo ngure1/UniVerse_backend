@@ -40,11 +40,14 @@ class UserPostsList(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')
         try:
-            user_id = int(user_id)
             user_profile = UserProfile.objects.get(user__id=user_id)
-            return models.Post.objects.filter(author=user_profile).order_by('-created_at')
+            posts = models.Post.objects.filter(author=user_profile).order_by('-created_at')
+            if not posts.exists():
+                raise NotFound("This user does not have any posts.")
+            return posts
         except UserProfile.DoesNotExist:
-            raise NotFound("UserProfile matching query does not exist.")
+            raise NotFound("User profile does not exist")
+
 
 
 
@@ -88,11 +91,14 @@ class PostLikesList(generics.ListAPIView):
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
         try:
-            post_id = int(post_id)
             post = models.Post.objects.get(id=post_id)
-            return models.Like.objects.filter(post=post).order_by('-created_at')
+            likes = models.Like.objects.filter(post=post)
+            if not likes.exists():
+                raise NotFound("This post does not have any likes.")
+            return likes
         except models.Post.DoesNotExist:
             raise NotFound("Post does not exist")
+
 
 
 # create a new instance of a comment
@@ -136,11 +142,14 @@ class PostCommentsList(generics.ListAPIView):
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
         try:
-            post_id = int(post_id)
             post = models.Post.objects.get(id=post_id)
-            return models.Comment.objects.filter(post=post).order_by('-created_at')
+            comments = models.Comment.objects.filter(post=post)
+            if not comments.exists():
+                raise NotFound("This post does not have any comments.")
+            return comments
         except models.Post.DoesNotExist:
             raise NotFound("Post does not exist")
+
 
 # create a new bookmark instance
 class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
@@ -170,11 +179,14 @@ class UserBookmarksList(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')
         try:
-            user_id = int(user_id)
             user_profile = UserProfile.objects.get(user__id=user_id)
-            return models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
+            bookmarks = models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
+            if not bookmarks.exists():
+                raise NotFound("This user does not have any bookmarks.")
+            return bookmarks
         except UserProfile.DoesNotExist:
             raise NotFound("User profile does not exist")
+
 
 # bookmarks count for a post instance
 class PostBookmarksCount(generics.GenericAPIView):
@@ -195,11 +207,14 @@ class PostBookmarksList(generics.ListAPIView):
     def get_queryset(self):
         post_id = self.kwargs['post_id']
         try:
-            post_id = int(post_id)
             post = models.Post.objects.get(id=post_id)
-            return models.Bookmark.objects.filter(post=post).order_by('-created_at')
+            bookmarks = models.Bookmark.objects.filter(post=post)
+            if not bookmarks.exists():
+                raise NotFound("This post does not have any bookmarks.")
+            return bookmarks
         except models.Post.DoesNotExist:
             raise NotFound("Post does not exist")
+
 
 
 
