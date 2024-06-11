@@ -7,6 +7,7 @@ class Event(models.Model):
     author = models.ForeignKey("accounts.UserProfile",on_delete=models.CASCADE, related_name="Event")
     title = models.CharField(max_length=255, default="Default Title")
     description = models.TextField(_("Description"), blank=False)
+    address = models.OneToOneField("accounts.Address", on_delete=models.CASCADE, related_name="event_address", null=True, blank=True)
     media = models.FileField(
     _("Event Media"),
     null=True, blank=True,
@@ -16,7 +17,6 @@ class Event(models.Model):
     capacity = models.IntegerField(_("Event's capacity"))
     created_at = models.DateTimeField(_("Date Created"),auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated_at"),auto_now=True)
-    # address = models.OneToOneField("accounts.Address", on_delete=models.CASCADE)
 
     
 

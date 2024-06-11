@@ -38,7 +38,9 @@ class UserEventsList(generics.ListAPIView):
         user_id = self.kwargs.get('user_id')
         try:
             user_profile = UserProfile.objects.get(user__id=user_id)
-            return Event.objects.filter(author=user_profile)
+            events=Event.objects.filter(author=user_profile)
+            if not events.exists():
+                raise NotFound("This user does not have any event postings.")
         except UserProfile.DoesNotExist:
             raise NotFound("User profile does not exist")
 
