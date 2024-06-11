@@ -186,11 +186,11 @@ class AddressProfile(generics.CreateAPIView):
     serializer_class=AddressSerializer
     permission_classes=[IsOwnerOrReadOnly]
 
-    def get_queryset(self):
-        return Address.objects.filter(owner=self.request.user.user_profile)
-    
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.user_profile)
+        user_profile = self.request.user.user_profile
+        if user_profile.address:
+            raise ValidationError("This user already has an address associated.")
+        serializer.save(profile_address=user_profile)
         
 class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=Address.objects.all()
@@ -199,7 +199,7 @@ class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Address.objects.filter(owner=self.request.user.user_profile)
-    
+
 class EducationProfile(generics.ListCreateAPIView):
     queryset=Education.objects.all().order_by('-created_at')
     serializer_class=EducationSerializer
