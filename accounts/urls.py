@@ -26,7 +26,7 @@ urlpatterns = [
     # Include the URLs from the 'djoser' app
     path('auth/', include('djoser.urls')),
     re_path(r'^o/(?P<provider>\S+)/$', CustomProviderAuthView.as_view(), name='provider-auth'),
-    
+
     # Custom JWT token endpoints
     path('auth/jwt/create/', CustomTokenObtainPairView.as_view()),  # Endpoint to obtain JWT token pair
     path('auth/jwt/refresh/', CustomTokenRefreshView.as_view()),  # Endpoint to refresh JWT token
@@ -43,7 +43,7 @@ urlpatterns = [
     path('following/', FollowingList.as_view()), # Ednpoint to list following
 
         # LoggedInUser URLs
-    path('profile/<int:pk>/', ProfileDetail.as_view()),  # View and update the logged-in user's profile
+    path('profile/', ProfileDetail.as_view()),  # View and update the logged-in user's profile
     path('address/create/', AddressProfile.as_view()),  # Create and list addresses for the logged-in user
     path('address/<int:pk>/', AddressDetail.as_view()),  # Retrieve, update, or delete a specific address for the logged-in user
     path('education/create/', EducationProfile.as_view()),  # Create and list education details for the logged-in user
