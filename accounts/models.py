@@ -81,6 +81,8 @@ class Education(models.Model):
     field_of_study = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Date updated"), auto_now=True)
 
     def __str__(self):
         return f"{self.field_of_study} from {self.institution_name}"
