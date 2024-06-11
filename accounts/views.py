@@ -1,11 +1,10 @@
 
-from .models import MyUser, UserProfile, Education, Address, Follower
-from .serializers import MyUserSerializer, UserProfileSerializer, AddressSerializer, EducationSerializer, FollowerSerializer
-from posts.serializers import PostSerializer
+from django.http import Http404
+from .models import UserProfile, Education, Address, Follower
+from .serializers import UserProfileSerializer, AddressSerializer, EducationSerializer, FollowerSerializer
 from django.conf import settings
 from rest_framework import status,generics,views
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from djoser.social.views import ProviderAuthView
@@ -16,7 +15,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from rest_framework import generics
-from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly, IsAuthenticated 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated 
 from django.db.models import Q
 from rest_framework.throttling import UserRateThrottle
 from django.utils.decorators import method_decorator
@@ -24,6 +23,9 @@ from django.views.decorators.cache import cache_page
 from .pagination import CustomPagination
 import logging
 from posts.permissions import IsOwnerOrReadOnly
+from django.shortcuts import get_object_or_404
+
+
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
         # Call the parent class's post method
@@ -297,26 +299,18 @@ class FollowToggleView(views.APIView):
 
         if follower.id == followed_id:
             return Response({'error': "Users cannot follow themselves."}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            followed = UserProfile.objects.get(id=followed_id)
-            follow_relation, created = Follower.objects.get_or_create(follower=follower, followed=followed)
-            
-            if not created:
-                follow_relation.delete()
-                notify_unfollow(follower, followed)
-                logger.info(f"User {follower.user.email} unfollowed {followed.user.email}")
-                return Response({'message': "Unfollowed successfully."}, status=status.HTTP_200_OK)
-            
-            notify_follow(follower, followed)
-            logger.info(f"User {follower.user.email} followed {followed.user.email}")
-            return Response({'message': "Followed successfully."}, status=status.HTTP_201_CREATED)
         
-        except UserProfile.DoesNotExist:
-            return Response({'error': "User not found."}, status=status.HTTP_404_NOT_FOUND)
-        except ValidationError as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        followed = get_object_or_404(UserProfile, id=followed_id)
 
+        follow_relation, created = Follower.objects.get_or_create(follower=follower, followed=followed)
+        
+        if not created:
+            follow_relation.delete()
+            logger.info(f"User {follower.user.email} unfollowed {followed.user.email}")
+            return Response({'message': "Unfollowed successfully."}, status=status.HTTP_200_OK)
+
+        logger.info(f"User {follower.user.email} followed {followed.user.email}")
+        return Response({'message': "Followed successfully."}, status=status.HTTP_201_CREATED)
 
 @method_decorator(cache_page(60*2), name='dispatch')  # Cache the view for 2 minutes
 class FollowerList(generics.ListAPIView):
@@ -331,7 +325,7 @@ class FollowerList(generics.ListAPIView):
 @method_decorator(cache_page(60*2), name='dispatch')  # Cache the view for 2 minutes
 class FollowingList(generics.ListAPIView):
     serializer_class = FollowerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
