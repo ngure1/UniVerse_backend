@@ -8,7 +8,7 @@ class Post(models.Model):
     media = models.FileField(
         _("Post Media"),
         null=True, blank=True,
-        upload_to='media/posts',
+        upload_to='posts',
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi'])]
     )
     content = models.CharField(_("Post contents"), max_length=255)

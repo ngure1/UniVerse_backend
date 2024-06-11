@@ -4,7 +4,7 @@ from . import managers
 from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
-from django.core.validators import FileExtensionValidator
+
 
 # custom user model
 class MyUser(AbstractBaseUser, PermissionsMixin):
@@ -49,12 +49,13 @@ class UserProfile(models.Model):
     is_lecturer = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
-    created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
-    updated_at = models.DateTimeField(_("Date updated"), auto_now=True)
     phone_number = PhoneNumberField(blank=True)
+    address = models.OneToOneField("Address", on_delete=models.CASCADE, related_name="profile_address", null=True, blank=True)
     bio = models.TextField(_("Bio"), blank=True)
     linked_in_url = models.URLField(_("LinkedIn Profile"), max_length=100, blank=True, null=True)
     x_in_url = models.URLField(_("X Profile"), max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Date updated"), auto_now=True)
 
     def save(self, *args, **kwargs):
         if self.user:
@@ -86,8 +87,6 @@ class Education(models.Model):
     
     # Address model
 class Address(models.Model):
-    owner= models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="address")
-    
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)

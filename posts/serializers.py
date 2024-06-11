@@ -9,6 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
     comments_count = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
+    is_following_creator = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Post
@@ -20,6 +21,7 @@ class PostSerializer(serializers.ModelSerializer):
             "content",
             "media",
             "likes_count",
+            'is_following_creator',
             "comments_count",
             "is_liked",
             "is_bookmarked",
@@ -40,6 +42,17 @@ class PostSerializer(serializers.ModelSerializer):
             try:
                 user_profile = user.user_profile
                 return models.Like.objects.filter(post=obj, author=user_profile).exists()
+            except AttributeError:
+                # Handle the case where the user does not have a profile
+                pass
+        return False
+
+    def get_is_following_creator(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            try:
+                user_profile = user.user_profile
+                return models.Follower.objects.filter(follower=user_profile, followed=obj.author).exists()
             except AttributeError:
                 # Handle the case where the user does not have a profile
                 pass

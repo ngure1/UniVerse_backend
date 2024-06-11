@@ -11,10 +11,20 @@ class MyUserSerializer(UserCreateSerializer):
             'password': {'write_only': True}
         }
         
+    #AddressModel Serializer
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user.user_profile)
+        
         
 # UserProfile Serializer
 class UserProfileSerializer(serializers.ModelSerializer):
     user = MyUserSerializer(read_only=True)
+    address=AddressSerializer(read_only=True),
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
 
@@ -22,9 +32,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = [
-            'id', 'user', 'profile_picture', 'is_student',
-            'is_alumni', 'is_lecturer', 'isAdmin', 'is_verified', 'created_at', 'updated_at',
-            'phone_number', 'bio', 'linked_in_url', 'x_in_url','followers_count', 'following_count',
+            'id', 'user', 'profile_picture', 'is_student','address',
+            'is_alumni', 'is_lecturer', 'isAdmin', 'is_verified','phone_number', 'bio', 'linked_in_url', 'x_in_url',
+            'followers_count', 'following_count', 'created_at', 'updated_at',
         ]
         read_only_fields = ('created_at', 'updated_at', 'followers_count', 'following_count')
     
@@ -35,14 +45,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return obj.following.count()
 
 
-class AddressSerializer(serializers.ModelSerializer):
-    owner = UserProfileSerializer(read_only=True)
-    class Meta:
-        model = Address
-        fields = '__all__'
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.user_profile)
 
 # EducationModel Serializer
 class EducationSerializer(serializers.ModelSerializer):
@@ -52,7 +54,6 @@ class EducationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-#AddressModel Serializer
 
 class FollowerSerializer(serializers.ModelSerializer):
     follower_name = serializers.SerializerMethodField()
