@@ -1,6 +1,6 @@
 from rest_framework.exceptions import NotFound
 from accounts.models import UserProfile
-from . import models
+from .models import Post
 
 class GetUserProfileAndPostMixin:
     def get_user_profile(self):
@@ -8,10 +8,21 @@ class GetUserProfileAndPostMixin:
             return self.request.user.user_profile
         except UserProfile.DoesNotExist:
             raise NotFound("UserProfile matching query does not exist.")
-
-    def get_post(self):
-        post_id = self.request.data.get('post')
+        
+    def get_user_profile_by_id(self, user_id):
+        user_id= self.kwargs.get('user_id') or self.request.data.get('user') or self.request.query_params.get('user')
+        if not user_id:
+            raise NotFound("User ID not provided.")
         try:
-            return models.Post.objects.get(id=post_id)
-        except models.Post.DoesNotExist:
+            return UserProfile.objects.get(user__id=user_id)
+        except UserProfile.DoesNotExist:
+            raise NotFound("User profile matching query does not exist.")
+    
+    def get_post(self):
+        post_id = self.kwargs.get('post_id') or self.request.data.get('post') or self.request.query_params.get('post')
+        if not post_id:
+            raise NotFound("Post ID not provided.")
+        try:
+            return Post.objects.get(id=post_id)
+        except Post.DoesNotExist:
             raise NotFound("Post matching query does not exist.")
