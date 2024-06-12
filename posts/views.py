@@ -5,6 +5,7 @@ from .mixins import GetUserProfileAndPostMixin
 from rest_framework import generics
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .permissions import IsOwnerOrReadOnly
@@ -30,28 +31,49 @@ class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
+    # get all posts by the current logged in user   -no id needed
+class CurrentUserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
+    serializer_class = serializers.PostSerializer
+    permission_classes = [IsOwnerOrReadOnly]
 
-# get all posts by a specific user
-class UserPostsList(generics.ListAPIView):
+    def get_queryset(self):
+        # Get the current logged-in user's profile
+        user_profile = self.get_user_profile()
+        # Filter posts by this user profile
+        return models.Post.objects.filter(author=user_profile).order_by('-created_at')
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            return Response({"detail": "The current user has no posts."}, status=status.HTTP_204_NO_CONTENT)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    
+# get all posts by a specific user  -id needed
+class UserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')
-        try:
-            user_profile = UserProfile.objects.get(user__id=user_id)
-            posts = models.Post.objects.filter(author=user_profile).order_by('-created_at')
-            if not posts.exists():
-                raise NotFound("This user does not have any posts.")
-            return posts
-        except UserProfile.DoesNotExist:
-            raise NotFound("User profile does not exist")
+        user_profile = self.get_user_profile_by_id(user_id)
+        posts = models.Post.objects.filter(author=user_profile).order_by('-created_at')
+        if not posts.exists():
+            raise NotFound("This user does not have any posts.")
+        return posts
 
 
 
 
-# create a new like instance
+
+    #Like a post
 class CreateLikes(generics.CreateAPIView, GetUserProfileAndPostMixin):
     queryset = models.Like.objects.all().order_by('-created_at')
     serializer_class = serializers.LikedSerializer
@@ -60,98 +82,94 @@ class CreateLikes(generics.CreateAPIView, GetUserProfileAndPostMixin):
     def perform_create(self, serializer):
         user_profile = self.get_user_profile()
         post = self.get_post()
+        
+        # Check if the user has already liked the post
+        if models.Like.objects.filter(post=post, author=user_profile).exists():
+            raise NotFound("You have already liked this post.")
+        
         serializer.save(author=user_profile, post=post)
 
 
-# retrieve a single instance of like, update and delete
-class LikesDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Like.objects.all().order_by('-created_at')
-    serializer_class = serializers.LikedSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    # unlike a post
+class UnlikePost(generics.GenericAPIView, GetUserProfileAndPostMixin):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def delete(self, request, post_id, *args, **kwargs):
+        
+        user_profile = self.get_user_profile()
+        post = self.get_post()
 
-# likes count for a post instance
-class PostLikesCount(generics.GenericAPIView):
-    def get(self, request, post_id, *args, **kwargs):
         try:
-            post_id = int(post_id)
-            post = models.Post.objects.get(id=post_id)
-            likes_count = post.likes.count()
-            return Response({"likes_count": likes_count})
-        except models.Post.DoesNotExist:
-            raise NotFound("Post does not exist")
+            like = models.Like.objects.get(post=post, author=user_profile)
+            like.delete()
+            return Response({"detail": "Unliked the post successfully."}, status=status.HTTP_204_NO_CONTENT)
+        except models.Like.DoesNotExist:
+            return Response({"detail": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# get all likes for a specific post instance
-class PostLikesList(generics.ListAPIView):
+# get all likes for a specific post
+class PostLikesList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.LikedSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
-        post_id = self.kwargs.get('post_id')
-        try:
-            post = models.Post.objects.get(id=post_id)
-            likes = models.Like.objects.filter(post=post)
-            if not likes.exists():
-                raise NotFound("This post does not have any likes.")
-            return likes
-        except models.Post.DoesNotExist:
-            raise NotFound("Post does not exist")
+        post = self.get_post()
+        likes = models.Like.objects.filter(post=post)
+        if not likes.exists():
+            raise NotFound("This post does not have any likes.")
+        return likes
 
 
 
-# create a new instance of a comment
+    # Comment on a post
 class CreateComments(generics.CreateAPIView, GetUserProfileAndPostMixin):
     queryset = models.Comment.objects.all().order_by('-created_at')
     serializer_class = serializers.CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-
     def perform_create(self, serializer):
         user_profile = self.get_user_profile()
         post = self.get_post()
+        
+        # Check if the user has already commented on the post
+        if models.Comment.objects.filter(post=post, author=user_profile).exists():
+            raise NotFound("You have already commented on this post.")
+        
         serializer.save(author=user_profile, post=post)
 
+    #delete a comment
 
-# retrieve a single instance of a comment, update and delete
-class CommentsDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Comment.objects.all().order_by('-created_at')
-    serializer_class = serializers.CommentSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+class DeleteComment(generics.GenericAPIView, GetUserProfileAndPostMixin):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def delete(self, request, post_id, *args, **kwargs):
+        
+        user_profile = self.get_user_profile()
+        post = self.get_post()
 
-# comments count for a post instance
-class PostCommentsCount(generics.GenericAPIView):
-    def get(self, request, post_id, *args, **kwargs):
         try:
-            post_id = int(post_id)
-            post = models.Post.objects.get(id=post_id)
-            comments_count = post.comments.count()
-            return Response({"comments_count": comments_count})
-        except models.Post.DoesNotExist:
-            raise NotFound("Post does not exist")
+            comment = models.Comment.objects.get(post=post, author=user_profile)
+            comment.delete()
+            return Response({"detail": "Deleted the comment successfully."}, status=status.HTTP_204_NO_CONTENT)
+        except models.Comment.DoesNotExist:
+            return Response({"detail": "Comment does not exist or you are not the author of the comment."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# get all comments for a specific post instance
-class PostCommentsList(generics.ListAPIView):
+    #list all comments for a specific post
+class PostCommentsList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
-        post_id = self.kwargs.get('post_id')
-        try:
-            post = models.Post.objects.get(id=post_id)
-            comments = models.Comment.objects.filter(post=post)
-            if not comments.exists():
-                raise NotFound("This post does not have any comments.")
-            return comments
-        except models.Post.DoesNotExist:
-            raise NotFound("Post does not exist")
+        post = self.get_post()
+        comments = models.Comment.objects.filter(post=post)
+        if not comments.exists():
+            raise NotFound("This post does not have any comments.")
+        return comments
 
-
-# create a new bookmark instance
+    #Bookmark a post
 class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
     queryset = models.Bookmark.objects.all().order_by('-created_at')
     serializer_class = serializers.BookmarkSerializer
@@ -160,32 +178,50 @@ class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
     def perform_create(self, serializer):
         user_profile = self.get_user_profile()
         post = self.get_post()
+        
+        # Check if the user has already bookmarked the post
+        if models.Bookmark.objects.filter(post=post, author=user_profile).exists():
+            raise NotFound("You have already bookmarked this post.")
+        
         serializer.save(author=user_profile, post=post)
 
+        
+        
+        
+    # unbookmark a post
+class UnbookmarkPost(generics.GenericAPIView, GetUserProfileAndPostMixin):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-# retrieve a single instance of a bookmark, update and delete
-class BookmarksDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Bookmark.objects.all().order_by('-created_at')
-    serializer_class = serializers.BookmarkSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    def delete(self, request, post_id, *args, **kwargs):
+        
+        user_profile = self.get_user_profile()
+        post = self.get_post(post_id=post_id)
+
+
+        try:
+            bookmark = models.Bookmark.objects.get(post=post, author=user_profile)
+            bookmark.delete()
+            return Response({"detail": "Unbookmarked the post successfully."}, status=status.HTTP_204_NO_CONTENT)
+        except models.Bookmark.DoesNotExist:
+            return Response({"detail": "Bookmark does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 # get all bookmarks by a specific user
-class UserBookmarksList(generics.ListAPIView):
+class UserBookmarksList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.BookmarkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')
-        try:
-            user_profile = UserProfile.objects.get(user__id=user_id)
-            bookmarks = models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
-            if not bookmarks.exists():
-                raise NotFound("This user does not have any bookmarks.")
-            return bookmarks
-        except UserProfile.DoesNotExist:
-            raise NotFound("User profile does not exist")
+        user_profile = self.get_user_profile_by_id(user_id)  # Using the mixin to get user_profile
+        bookmarks = models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
+        if not bookmarks.exists():
+            raise NotFound("This user does not have any bookmarks.")
+        return bookmarks
 
 
 # bookmarks count for a post instance
@@ -197,26 +233,29 @@ class PostBookmarksCount(generics.GenericAPIView):
             return Response({"bookmarks_count": bookmarks_count})
         except models.Post.DoesNotExist:
             raise NotFound("Post does not exist")
+        
+# bookmarks count for a post instance
+class PostBookmarksCount(generics.GenericAPIView):
+    def get(self, request, post_id, *args, **kwargs):
+        try:
+            post = models.Post.objects.get(id=post_id)
+            bookmarks_count = post.bookmarks.count()
+            return Response({"bookmarks_count": bookmarks_count})
+        except models.Post.DoesNotExist:
+            raise NotFound("Post does not exist")
 
-# get all bookmarks for a specific post instance
-class PostBookmarksList(generics.ListAPIView):
+    # get all bookmarks by the current logged in  user
+class CurrentUserBookmarksList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.BookmarkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
-        post_id = self.kwargs['post_id']
-        try:
-            post = models.Post.objects.get(id=post_id)
-            bookmarks = models.Bookmark.objects.filter(post=post)
-            if not bookmarks.exists():
-                raise NotFound("This post does not have any bookmarks.")
-            return bookmarks
-        except models.Post.DoesNotExist:
-            raise NotFound("Post does not exist")
-
-
-
+        user_profile = self.get_user_profile()
+        bookmarks = models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
+        if not bookmarks.exists():
+            raise NotFound("You do not have any bookmarks.")
+        return bookmarks
 
 class SearchPosts(generics.ListAPIView):
     serializer_class = serializers.PostSerializer
