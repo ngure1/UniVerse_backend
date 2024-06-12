@@ -1,4 +1,5 @@
 
+from .exceptions import UserProfileDoesNotExist
 from django.http import Http404
 from .models import UserProfile, Education, Address, Follower
 from .serializers import UserProfileSerializer, AddressSerializer, EducationSerializer, FollowerSerializer
@@ -160,7 +161,7 @@ class LogoutView(APIView):
         response.delete_cookie('refresh')
 
         return response
-    
+
 class ListProfile(generics.ListCreateAPIView):
     queryset=UserProfile.objects.all().order_by('-created_at')
     serializer_class=UserProfileSerializer
@@ -168,6 +169,8 @@ class ListProfile(generics.ListCreateAPIView):
     pagination_class=CustomPagination
     
     def perform_create(self, serializer):
+        if UserProfile.objects.filter(user=self.request.user).exists():
+            raise ValidationError("This user already has a profile.")
         serializer.save(user=self.request.user)
 
 # # LoggedInUser      
@@ -189,7 +192,11 @@ class AddressProfile(generics.CreateAPIView):
     permission_classes=[IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
-        user_profile = self.request.user.user_profile
+        try:
+            user_profile = self.request.user.user_profile
+        except UserProfile.DoesNotExist:
+            raise UserProfileDoesNotExist()
+        
         if user_profile.address:
             raise ValidationError("This user already has an address associated.")
         serializer.save(profile_address=user_profile)
@@ -200,7 +207,7 @@ class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=[IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        return Address.objects.filter(owner=self.request.user.user_profile)
+        return Address.objects.filter(profile_address=self.request.user.user_profile)
 
 class EducationProfile(generics.ListCreateAPIView):
     queryset=Education.objects.all().order_by('-created_at')

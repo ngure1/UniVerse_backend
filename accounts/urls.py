@@ -34,7 +34,7 @@ urlpatterns = [
   
 
     path('auth/logout/', LogoutView.as_view()),  # Endpoint to log out user
-    path('profile/listcreate/', ListProfile.as_view()),  # List and create profiles
+    path('profile/create/', ListProfile.as_view()),  # List and create profiles
     path('accounts/search/', SearchView.as_view() ), # Searching for Accounts
 
     # follow Urls
@@ -44,7 +44,7 @@ urlpatterns = [
 
         # LoggedInUser URLs
     path('profile/', ProfileDetail.as_view()),  # View and update the logged-in user's profile
-    path('address/create/', AddressProfile.as_view()),  # Create and list addresses for the logged-in user
+    path('address/create/', AddressProfile.as_view()),  # Create for the logged-in user
     path('address/<int:pk>/', AddressDetail.as_view()),  # Retrieve, update, or delete a specific address for the logged-in user
     path('education/create/', EducationProfile.as_view()),  # Create and list education details for the logged-in user
     path('education/<int:pk>/', EducationDetail.as_view()),  # Retrieve, update, or delete a specific education detail for the logged-in user
