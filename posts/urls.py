@@ -2,25 +2,23 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("posts/listcreate/", views.ListCreatePosts.as_view(), name='post-list-create'),
-    path("posts/detail/<int:pk>/", views.PostsDetail.as_view(),name="post-detail"),
-    path('posts/user/<int:user_id>/', views.UserPostsList.as_view(), name='user-posts-list'),
+    path("", views.ListCreatePosts.as_view(), name='post-list-create'),
+    path("<int:pk>/", views.PostsDetail.as_view(),name="post-detail"),
+    path('user/<int:user_id>/', views.UserPostsList.as_view(), name='user-posts-list'),
+    path("me/", views.CurrentUserPostsList.as_view(), name='my-posts-list'),
     
-    path("likes/create/", views.CreateLikes.as_view()),
-    path("likes/detail/<int:pk>/", views.LikesDetail.as_view(),name="like-detail"),
-    path('likes/count/<int:post_id>/', views.PostLikesCount.as_view(), name='post-likes-count'),
-    path('likes/list/<int:post_id>/', views.PostLikesList.as_view(), name='post-likes-list'),
+    path("likes/<int:post_id>/", views.CreateLikes.as_view() , name='like-create'),
+    path('unlikes/<int:post_id>/', views.UnlikePost.as_view(), name='post-unlike'),
+    path('likes/post/<int:post_id>/', views.PostLikesList.as_view(), name='post-likes-list'),
     
-    path("comments/create/", views.CreateComments.as_view()),
-    path("comments/detail/<int:pk>/", views.CommentsDetail.as_view(),name="comment-detail"),
-    path('comments/count/<int:post_id>/', views.PostCommentsCount.as_view(), name='post-comments-count'),
-    path('comments/list/<int:post_id>/', views.PostCommentsList.as_view(), name='post-comments-list'),
+    path("comments/<int:post_id>/", views.CreateComments.as_view() , name='comment-create'),
+    path("uncomments/<int:post_id>/", views.DeleteComment.as_view(),name="comment-detail"),
+    path('comments/post/<int:post_id>/', views.PostCommentsList.as_view(), name='post-comments-list'),
     
-    path("bookmarks/create/", views.CreateBookmarks.as_view()),
-    path("bookmarks/detail/<int:pk>/", views.BookmarksDetail.as_view(),name="bookmark-detail"),
-    path('bookmarks/count/<int:post_id>/', views.PostBookmarksCount.as_view(), name='post-bookmarks-count'),
-    path('bookmarks/list/<int:post_id>/', views.PostBookmarksList.as_view(), name='post-bookmarks-list'),
+    path("bookmarks/<int:post_id>/", views.CreateBookmarks.as_view() , name='bookmark-create'),
+    path("unbookmarks/<int:post_id>/", views.UnbookmarkPost.as_view(),name="unbookmark-post"),
     path('bookmarks/user/<int:user_id>/', views.UserBookmarksList.as_view(), name='user-bookmarks-list'),
+    path('bookmarks/me/', views.CurrentUserBookmarksList.as_view(), name='my-bookmarks-list'),
 
-    path("search/", views.SearchPosts.as_view()),
+    path("search/", views.SearchPosts.as_view() , name='post-search'),
 ]
