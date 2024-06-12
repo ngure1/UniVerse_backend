@@ -38,9 +38,9 @@ urlpatterns = [
     path('accounts/search/', SearchView.as_view() ), # Searching for Accounts
 
     # follow Urls
-    path('follow-toggle/', FollowToggleView.as_view()), #Endpoint for following and unfollowing users
+    path('follow-toggle/', FollowToggleView.as_view()), #Endpoint for following and un-follow users
     path('followers/', FollowerList.as_view()), # Endpoint to list followers
-    path('following/', FollowingList.as_view()), # Ednpoint to list following
+    path('following/', FollowingList.as_view()), # Endpoint to list following
 
         # LoggedInUser URLs
     path('profile/', ProfileDetail.as_view()),  # View and update the logged-in user's profile
