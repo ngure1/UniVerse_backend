@@ -162,18 +162,7 @@ class LogoutView(APIView):
 
         return response
 
-class CreateProfile(generics.ListCreateAPIView):
-    queryset=UserProfile.objects.all().order_by('-created_at')
-    serializer_class=UserProfileSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    pagination_class=CustomPagination
-    
-    def perform_create(self, serializer):
-        if UserProfile.objects.filter(user=self.request.user).exists():
-            raise ValidationError("This user already has a profile.")
-        serializer.save(user=self.request.user)
-
-# # LoggedInUser      
+# LoggedInUser      
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer

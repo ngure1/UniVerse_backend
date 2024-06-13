@@ -5,7 +5,6 @@ from .views import (CustomProviderAuthView,
                     CustomTokenRefreshView,
                     CustomTokenVerifyView,
                     LogoutView,
-                    CreateProfile,
                     ProfileDetail,
                     SearchView,
                     FollowToggleView,
@@ -42,9 +41,8 @@ urlpatterns = [
     path('following/', FollowingList.as_view()), # Endpoint to list following
 
 
-    path('profile/create/', CreateProfile.as_view(), name='profile-list'),  # List and create profiles
         # LoggedInUser URLs
-    path('profiles/', ProfileDetail.as_view(),name='profile-detail'),  # Read, Update and Delete(RUD) the logged-in user's profile
+    path('profile/', ProfileDetail.as_view(),name='profile-detail'),  # Read, Update and Delete(RUD) the logged-in user's profile
     path('address/create/', AddressProfile.as_view(), name='address-create'),  # Create for the logged-in user
     path('address/<int:pk>/', AddressDetail.as_view(), name='address-detail'),  # Retrieve, update, or delete a specific address for the logged-in user
     path('education/create/', EducationProfile.as_view(), name='education-create'),  # Create and list education details for the logged-in user
