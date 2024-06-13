@@ -192,10 +192,10 @@ class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
 class UnbookmarkPost(generics.GenericAPIView, GetUserProfileAndPostMixin):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def delete(self, request, post_id, *args, **kwargs):
+    def delete(self, request,*args, **kwargs):
         
         user_profile = self.get_user_profile()
-        post = self.get_post(post_id=post_id)
+        post = self.get_post()
 
 
         try:
