@@ -37,7 +37,7 @@ class MyUserProfileAdmin(admin.ModelAdmin):
         return queryset.select_related('user')
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('street', 'city', 'postal_code', 'country')
+    list_display = ('city', 'country')
     search_fields = ('country', 'city', 'street')
 
 class EducationAdmin(admin.ModelAdmin):

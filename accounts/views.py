@@ -162,7 +162,7 @@ class LogoutView(APIView):
 
         return response
 
-class ListProfile(generics.ListCreateAPIView):
+class CreateProfile(generics.ListCreateAPIView):
     queryset=UserProfile.objects.all().order_by('-created_at')
     serializer_class=UserProfileSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
