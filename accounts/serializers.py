@@ -16,6 +16,7 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = '__all__'
+        read_only_fields = ('created_at', 'updated_at')
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.user_profile)
@@ -24,7 +25,7 @@ class AddressSerializer(serializers.ModelSerializer):
 # UserProfile Serializer
 class UserProfileSerializer(serializers.ModelSerializer):
     user = MyUserSerializer(read_only=True)
-    address=AddressSerializer(read_only=True),
+    address=AddressSerializer(read_only=True)
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
 

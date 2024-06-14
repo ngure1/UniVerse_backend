@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 # Create your views here.
-class ListCreateSupport(generics.ListCreateAPIView):
+class ListCreateSupport(generics.CreateAPIView):
     queryset = models.Support.objects.all().order_by('-created_at')
     serializer_class = serializers.SupportSerializer
     permission_classes = [IsAdminOrReadOnly]

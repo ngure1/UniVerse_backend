@@ -1,4 +1,3 @@
-
 from django.http import Http404
 from .models import UserProfile, Education, Address, Follower
 from .serializers import UserProfileSerializer, AddressSerializer, EducationSerializer, FollowerSerializer
@@ -160,17 +159,8 @@ class LogoutView(APIView):
         response.delete_cookie('refresh')
 
         return response
-    
-class ListProfile(generics.ListCreateAPIView):
-    queryset=UserProfile.objects.all().order_by('-created_at')
-    serializer_class=UserProfileSerializer
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    pagination_class=CustomPagination
-    
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
-# # LoggedInUser      
+# LoggedInUser      
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -190,9 +180,12 @@ class AddressProfile(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         user_profile = self.request.user.user_profile
-        if user_profile.address:
-            raise ValidationError("This user already has an address associated.")
-        serializer.save(profile_address=user_profile)
+        if hasattr(user_profile, 'address') and user_profile.address is not None:
+            raise ValidationError({"detail" : "This user already has an address associated."})
+        address = serializer.save()
+        user_profile.address = address
+        user_profile.save()
+        
         
 class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=Address.objects.all()
@@ -200,7 +193,7 @@ class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=[IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        return Address.objects.filter(owner=self.request.user.user_profile)
+        return Address.objects.filter(profile_address=self.request.user.user_profile)
 
 class EducationProfile(generics.ListCreateAPIView):
     queryset=Education.objects.all().order_by('-created_at')
