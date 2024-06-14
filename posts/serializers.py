@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from . import models
 from accounts.serializers import UserProfileSimpleSerializer
-from accounts.models import Follower
+from accounts.models import Follow as Follower
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserProfileSimpleSerializer(read_only=True)
