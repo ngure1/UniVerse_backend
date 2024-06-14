@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import  AbstractBaseUser ,PermissionsMixin
 from . import managers
+from django.urls import reverse
 from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -61,6 +62,9 @@ class UserProfile(models.Model):
         if self.user:
             self.profile_picture.upload_to = f"media/profile_pictures/{self.user.email}"
         super().save(*args, **kwargs)
+        
+    def get_absolute_url(self):
+        return reverse('userprofile-detail', kwargs={'pk': self.pk})
 
 
     def __str__(self):
@@ -91,12 +95,14 @@ class Education(models.Model):
 class Address(models.Model):
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
+    created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Date updated"), auto_now=True)
 
     def __str__(self):
         return f"{self.city}, {self.country}"
 
 
-class Follower(models.Model):
+class Follow(models.Model):
     follower = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="following")
     followed = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='followers')
     created_at = models.DateTimeField(_("Date created"), auto_now_add=True)

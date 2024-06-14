@@ -1,5 +1,5 @@
 from django.http import Http404
-from .models import UserProfile, Education, Address, Follower
+from .models import UserProfile, Education, Address, Follow as Follower
 from .serializers import UserProfileSerializer, AddressSerializer, EducationSerializer, FollowerSerializer
 from django.conf import settings
 from rest_framework import status,generics,views
@@ -221,6 +221,7 @@ class UserProfileDetail(generics.RetrieveAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_field = 'pk'
 
 
 class UserAddressDetail(generics.RetrieveAPIView):

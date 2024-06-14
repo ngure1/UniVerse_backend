@@ -36,9 +36,9 @@ urlpatterns = [
     path('accounts/search/', SearchView.as_view() ), # Searching for Accounts
 
     # follow Urls
-    path('follow-toggle/', FollowToggleView.as_view()), #Endpoint for following and un-follow users
-    path('followers/', FollowerList.as_view()), # Endpoint to list followers
-    path('following/', FollowingList.as_view()), # Endpoint to list following
+    path('follow-toggle/', FollowToggleView.as_view(), name='follow-toggle'), #Endpoint for following and un-follow users
+    path('followers/', FollowerList.as_view(), name='follower-list'), # Endpoint to list followers
+    path('following/', FollowingList.as_view(), name='following-list'), # Endpoint to list following
 
 
         # LoggedInUser URLs
@@ -49,7 +49,7 @@ urlpatterns = [
     path('education/<int:pk>/', EducationDetail.as_view(), name='education-detail'),  # Retrieve, update, or delete a specific education detail for the logged-in user
     
     # Normal User URLs
-    path('user/profiles/<int:pk>/', UserProfileDetail.as_view(), name="user-profile-detail"),  # View the profile of a normal user
+    path('user/profiles/<int:pk>/', UserProfileDetail.as_view(), name="userprofile-detail"),  # View the profile of a normal user
     path('user/addresses/<int:pk>/', UserAddressDetail.as_view(), name='address-create'),  # View the addresses of a normal user
     path('user/educations/<int:pk>/', UserEducationDetail.as_view(), name='user-education-detail'),  # View the education details of a normal user
 
