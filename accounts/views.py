@@ -1,5 +1,3 @@
-
-from .exceptions import UserProfileDoesNotExist
 from django.http import Http404
 from .models import UserProfile, Education, Address, Follower
 from .serializers import UserProfileSerializer, AddressSerializer, EducationSerializer, FollowerSerializer
@@ -181,14 +179,13 @@ class AddressProfile(generics.CreateAPIView):
     permission_classes=[IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
-        try:
-            user_profile = self.request.user.user_profile
-        except UserProfile.DoesNotExist:
-            raise UserProfileDoesNotExist()
+        user_profile = self.request.user.user_profile
+        if hasattr(user_profile, 'address') and user_profile.address is not None:
+            raise ValidationError({"detail" : "This user already has an address associated."})
+        address = serializer.save()
+        user_profile.address = address
+        user_profile.save()
         
-        if user_profile.address:
-            raise ValidationError("This user already has an address associated.")
-        serializer.save(profile_address=user_profile)
         
 class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=Address.objects.all()
