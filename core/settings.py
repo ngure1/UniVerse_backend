@@ -98,10 +98,12 @@ AUTH_USER_MODEL = 'accounts.MyUser'
   # djoser
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION":True,
     'ACTIVATION_URL': 'activation/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
+    "SEND_CONFIRMATION_EMAIL":True,
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': os.getenv('REDIRECT_URIS').split(','),
     'SOCIAL_AUTH_STRATEGY': 'social_django.strategy.DjangoStrategy',
     "SERIALIZERS": {
@@ -149,7 +151,6 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
-    'https://yourfrontenddomain.com',
 ]
 
 
@@ -242,10 +243,11 @@ SITE_NAME = 'UniVerse'
     #email
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))  # Convert to integer
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')  # Convert to boolean
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_TIMEOUT = 60
 
    #Authentication cookie
 AUTH_COOKIE = 'access'

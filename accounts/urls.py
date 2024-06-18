@@ -24,7 +24,7 @@ from .views import (CustomProviderAuthView,
 urlpatterns = [
     # Include the URLs from the 'djoser' app
     path('auth/', include('djoser.urls')),
-    re_path(r'^o/(?P<provider>\S+)/$', CustomProviderAuthView.as_view(), name='provider-auth'),
+    re_path(r'^auth/o/(?P<provider>\S+)/$', CustomProviderAuthView.as_view(), name='provider-auth'),
 
     # Custom JWT token endpoints
     path('auth/jwt/create/', CustomTokenObtainPairView.as_view()),  # Endpoint to obtain JWT token pair

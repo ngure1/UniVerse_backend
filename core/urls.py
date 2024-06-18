@@ -7,6 +7,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', include('social_django.urls', namespace='social')),
     path('',include('accounts.urls')),
     path('posts/', include("posts.urls")),
     path('support/', include('support.urls')),
