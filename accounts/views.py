@@ -5,7 +5,7 @@ from django.conf import settings
 from rest_framework import status,generics,views
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, NotAuthenticated
 from djoser.social.views import ProviderAuthView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -168,6 +168,8 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         user = self.request.user
+        if not user.is_authenticated:
+            raise NotAuthenticated(detail="Authentication credentials were not provided.")
         try:
             return user.user_profile
         except UserProfile.DoesNotExist:

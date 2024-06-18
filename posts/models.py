@@ -11,7 +11,7 @@ class Post(models.Model):
         upload_to='posts',
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi'])]
     )
-    content = models.CharField(_("Post contents"), max_length=255)
+    content = models.TextField(_("Post contents"))
     created_at = models.DateTimeField(_("Date Created"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Date Updated"), auto_now=True)
 
