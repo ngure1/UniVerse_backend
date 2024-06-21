@@ -40,7 +40,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE, related_name="user_profile")
     profile_picture = models.ImageField(
         _("Profile Picture"),
-        default="default.jpg",
+        default=None,
         upload_to="profile_pictures",
         blank=True,
         null=True,
@@ -51,7 +51,7 @@ class UserProfile(models.Model):
     isAdmin = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
     phone_number = PhoneNumberField(blank=True)
-    address = models.OneToOneField("Address", on_delete=models.CASCADE, related_name="profile_address", null=True, blank=True)
+    address = models.OneToOneField("Address", on_delete=models.SET_NULL, related_name="profile_address", null=True, blank=True)
     bio = models.TextField(_("Bio"), blank=True)
     linked_in_url = models.URLField(_("LinkedIn Profile"), max_length=100, blank=True, null=True)
     x_in_url = models.URLField(_("X Profile"), max_length=100, blank=True, null=True)

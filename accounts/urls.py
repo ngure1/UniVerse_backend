@@ -44,7 +44,7 @@ urlpatterns = [
         # LoggedInUser URLs
     path('profile/', ProfileDetail.as_view(),name='profile-detail'),  # Read, Update and Delete(RUD) the logged-in user's profile
     path('address/create/', AddressProfile.as_view(), name='address-create'),  # Create for the logged-in user
-    path('address/<int:pk>/', AddressDetail.as_view(), name='address-detail'),  # Retrieve, update, or delete a specific address for the logged-in user
+    path('address/', AddressDetail.as_view(), name='address-detail'),  # Retrieve, update, or delete a specific address for the logged-in user
     path('education/create/', EducationProfile.as_view(), name='education-create'),  # Create and list education details for the logged-in user
     path('education/<int:pk>/', EducationDetail.as_view(), name='education-detail'),  # Retrieve, update, or delete a specific education detail for the logged-in user
     
