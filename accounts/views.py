@@ -23,6 +23,7 @@ from .pagination import CustomPagination
 import logging
 from posts.permissions import IsOwnerOrReadOnly
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import NotFound
 
 
 class CustomProviderAuthView(ProviderAuthView):
@@ -174,28 +175,34 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
             return user.user_profile
         except UserProfile.DoesNotExist:
             raise Http404("UserProfile does not exist for this user.")
-
-class AddressProfile(generics.CreateAPIView):
-    queryset=Address.objects.all()
-    serializer_class=AddressSerializer
-    permission_classes=[IsOwnerOrReadOnly]
-
-    def perform_create(self, serializer):
-        user_profile = self.request.user.user_profile
-        if hasattr(user_profile, 'address') and user_profile.address is not None:
-            raise ValidationError({"detail" : "This user already has an address associated."})
-        address = serializer.save()
-        user_profile.address = address
-        user_profile.save()
         
         
-class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset=Address.objects.all()
-    serializer_class=AddressSerializer
-    permission_classes=[IsOwnerOrReadOnly]
+class AddressDetail(generics.RetrieveUpdateAPIView):
+    serializer_class = AddressSerializer
+    permission_classes = [IsOwnerOrReadOnly]
 
     def get_queryset(self):
         return Address.objects.filter(profile_address=self.request.user.user_profile)
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = generics.get_object_or_404(queryset)
+        if obj.profile_address.user != self.request.user:
+            raise NotFound("Address not found.")
+        return obj
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return self.retrieve(request, *args, **kwargs)
+        except NotFound as e:
+            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            return self.update(request, *args, **kwargs)
+        except NotFound as e:
+            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+
 
 class EducationProfile(generics.ListCreateAPIView):
     queryset=Education.objects.all().order_by('-created_at')
