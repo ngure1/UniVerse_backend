@@ -33,6 +33,17 @@ class PostListView(generics.ListAPIView):
     def get_queryset(self):
         # Exclude posts created by the current logged-in user
         return models.Post.objects.exclude(author=self.request.user)
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if queryset.exists():
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(
+                {'error': 'Posts for current use cannot be displayed in his feed'},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
 
 
