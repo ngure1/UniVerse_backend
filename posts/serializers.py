@@ -118,14 +118,11 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ('created_at', 'updated_at')
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    author = UserProfileSimpleSerializer(read_only=True)
-    post = PostSimpleSerializer(read_only=True)
+    post = PostSerializer(read_only=True)
 
     class Meta:
         model = models.Bookmark
         fields = (
-            "id",
-            "author",
             "post",
             "created_at",
             "updated_at"
