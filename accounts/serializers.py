@@ -8,15 +8,15 @@ class MyUserSerializer(UserCreateSerializer):
         model = MyUser
         fields = ['id', 'email', 'first_name', 'last_name']
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True}  
         }
         
     #AddressModel Serializer
 class AddressSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='address-detail',lookup_field='pk')
+   # url = serializers.HyperlinkedIdentityField(view_name='address-detail',lookup_field='pk')
     class Meta:
         model = Address
-        fields = ('city', 'country', 'created_at', 'updated_at', 'url')
+        fields = ('city', 'country', 'created_at', 'updated_at')
         read_only_fields = ('created_at', 'updated_at')
 
     def perform_create(self, serializer):
