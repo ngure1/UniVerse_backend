@@ -24,6 +24,17 @@ class ListCreatePosts(generics.ListCreateAPIView, GetUserProfileAndPostMixin):
         user_profile = self.get_user_profile()
         serializer.save(author=user_profile)
 
+    # get all posts excluding ones created by the current logged in user
+class PostListView(generics.ListAPIView):
+    serializer_class = serializers.PostSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        # Exclude posts created by the current logged-in user
+        return models.Post.objects.exclude(author=self.request.user)
+
+
 
 # retrieve a single instance of post, update and delete
 class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
