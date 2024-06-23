@@ -15,7 +15,6 @@ from rest_framework import filters
 
 # list all posts* // create a new post
 class ListCreatePosts(generics.ListCreateAPIView, GetUserProfileAndPostMixin):
-    queryset = models.Post.objects.all().order_by('-created_at')
     serializer_class = serializers.PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
@@ -23,37 +22,26 @@ class ListCreatePosts(generics.ListCreateAPIView, GetUserProfileAndPostMixin):
     def perform_create(self, serializer):
         user_profile = self.get_user_profile()
         serializer.save(author=user_profile)
-
-    # get all posts excluding ones created by the current logged in user
-class PostListView(generics.ListAPIView):
-    serializer_class = serializers.PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    pagination_class = CustomPagination
-
+        
     def get_queryset(self):
-        # Exclude posts created by the current logged-in user
-        return models.Post.objects.exclude(author=self.request.user)
-    
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        if queryset.exists():
-            serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
+        user = self.request.user
+        if user.is_authenticated:
+            return models.Post.objects.exclude(author=user.user_profile).order_by('-created_at')
         else:
-            return Response(
-                {'error': 'Posts for current use cannot be displayed in his feed'},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return models.Post.objects.all().order_by('-created_at')
 
 
 
-# retrieve a single instance of post, update and delete
+    # retrieve a single instance of post, update and delete
 class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Post.objects.all().order_by('-created_at')
     serializer_class = serializers.PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
+    
 
-    # get all posts by the current logged in user   -no id needed
+
+
+    # get all posts by the current logged in user   (no id needed)
 class CurrentUserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
@@ -77,6 +65,7 @@ class CurrentUserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
         return Response(serializer.data)
     
     
+    
 # get all posts by a specific user  -id needed
 class UserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.PostSerializer
@@ -90,7 +79,6 @@ class UserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
         if not posts.exists():
             raise NotFound("This user does not have any posts.")
         return posts
-
 
 
 
@@ -129,7 +117,7 @@ class UnlikePost(generics.GenericAPIView, GetUserProfileAndPostMixin):
             return Response({"detail": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# get all likes for a specific post
+    # get all likes for a specific post
 class PostLikesList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.LikedSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -159,9 +147,10 @@ class CreateComments(generics.CreateAPIView, GetUserProfileAndPostMixin):
             raise NotFound("You have already commented on this post.")
         
         serializer.save(author=user_profile, post=post)
+        
+        
 
     #delete a comment
-
 class DeleteComment(generics.GenericAPIView, GetUserProfileAndPostMixin):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -228,56 +217,41 @@ class UnbookmarkPost(generics.GenericAPIView, GetUserProfileAndPostMixin):
             return Response({"detail": "Bookmark does not exist."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-
 # get all bookmarks by a specific user
 class UserBookmarksList(generics.ListAPIView, GetUserProfileAndPostMixin):
-    serializer_class = serializers.BookmarkSerializer
+    serializer_class = serializers.PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')
-        user_profile = self.get_user_profile_by_id(user_id)  # Using the mixin to get user_profile
-        bookmarks = models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
-        if not bookmarks.exists():
-            raise NotFound("This user does not have any bookmarks.")
-        return bookmarks
-
-
-# bookmarks count for a post instance
-class PostBookmarksCount(generics.GenericAPIView):
-    def get(self, request, post_id, *args, **kwargs):
-        try:
-            post = models.Post.objects.get(id=post_id)
-            bookmarks_count = post.bookmarks.count()
-            return Response({"bookmarks_count": bookmarks_count})
-        except models.Post.DoesNotExist:
-            raise NotFound("Post does not exist")
-        
-# bookmarks count for a post instance
-class PostBookmarksCount(generics.GenericAPIView):
-    def get(self, request, post_id, *args, **kwargs):
-        try:
-            post = models.Post.objects.get(id=post_id)
-            bookmarks_count = post.bookmarks.count()
-            return Response({"bookmarks_count": bookmarks_count})
-        except models.Post.DoesNotExist:
-            raise NotFound("Post does not exist")
+        if not user_id:
+            raise NotFound("User ID not provided.")
+        user_profile = self.get_user_profile_by_id(user_id)
+        bookmarked_posts = models.Post.objects.filter(bookmarks__author=user_profile).order_by('-created_at') # get all posts that have been bookmarked by this user
+        if not bookmarked_posts.exists():
+            raise NotFound("This user does not have any bookmarked posts.")
+        return bookmarked_posts
 
     # get all bookmarks by the current logged in  user
 class CurrentUserBookmarksList(generics.ListAPIView, GetUserProfileAndPostMixin):
-    serializer_class = serializers.BookmarkSerializer
+    serializer_class = serializers.PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
 
     def get_queryset(self):
         user_profile = self.get_user_profile()
-        bookmarks = models.Bookmark.objects.filter(author=user_profile).order_by('-created_at')
-        if not bookmarks.exists():
-            raise NotFound("You do not have any bookmarks.")
-        return bookmarks
+        bookmarked_posts = models.Post.objects.filter(bookmarks__author=user_profile).order_by('-created_at') # get all posts that have been bookmarked by this user
+        return bookmarked_posts
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 class SearchPosts(generics.ListAPIView):
     serializer_class = serializers.PostSerializer
