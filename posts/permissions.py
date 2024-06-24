@@ -1,4 +1,5 @@
 from rest_framework.permissions import BasePermission
+from rest_framework.exceptions import NotAuthenticated
 
 class IsOwnerOrReadOnly(BasePermission):
     """
@@ -6,6 +7,10 @@ class IsOwnerOrReadOnly(BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
+        
+        if not request.user.is_authenticated:
+            raise NotAuthenticated("User not authenticated.")
+        
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in ['GET', 'HEAD', 'OPTIONS']:
