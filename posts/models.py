@@ -4,7 +4,7 @@ from django.core.validators import FileExtensionValidator
 
 class Post(models.Model):
     author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="posts")
-    title = models.CharField(_("Post Title"), max_length=255)
+    title = models.CharField(_("Post Title"), max_length=255,null=True,blank=True)
     media = models.FileField(
         _("Post Media"),
         null=True, blank=True,
