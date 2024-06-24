@@ -1,0 +1,3 @@
+posts/me = to return 401 anauthorised for unlogged in user
+change the result form fetching bookmarks to 0:{...post}
+time sina bookmarks return for me an empty result not 404 not found you do not have any bookmarks
