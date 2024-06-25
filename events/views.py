@@ -17,6 +17,7 @@ class ListCreateEvent(generics.ListCreateAPIView, GetUserProfileAndPostMixin):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
+    
     def perform_create(self, serializer):
         user_profile = self.get_user_profile()
         serializer.save(author=user_profile)
@@ -43,6 +44,8 @@ class UserEventsList(generics.ListAPIView):
                 raise NotFound("This user does not have any event postings.")
         except UserProfile.DoesNotExist:
             raise NotFound("User profile does not exist")
+        
+
 
 class EventSearchView(generics.GenericAPIView):
     serializer_class = EventSerializer
