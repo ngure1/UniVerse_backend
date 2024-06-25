@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 # Create your views here.
-class ListCreateSupport(generics.CreateAPIView):
+class ListCreateSupport(generics.ListCreateAPIView):
     queryset = models.Support.objects.all().order_by('-created_at')
     serializer_class = serializers.SupportSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -41,22 +41,6 @@ class SupportDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.SupportSerializer
     permission_classes = [IsAdminOrReadOnly]
 
-
-# class UserSupportsList(generics.ListAPIView):
-#     serializer_class = serializers.SupportSerializer
-#     permission_classes = [IsAdminOrReadOnly]
-#     pagination_class = CustomPagination
-
-#     def get_queryset(self):
-#         user_id = self.kwargs.get('user_id')
-#         try:
-#             user_profile = UserProfile.objects.get(user__id=user_id)
-#             supports = models.Support.objects.filter(author=user_profile).order_by('-created_at')  # Adjust the model and field names as needed
-#             if not supports.exists():
-#                 raise NotFound("This user does not have any support instances.")
-#             return supports
-#         except UserProfile.DoesNotExist:
-#             raise NotFound("User profile does not exist")
 
 
 # SearchView support

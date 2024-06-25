@@ -161,7 +161,9 @@ class LogoutView(APIView):
 
         return response
 
-# LoggedInUser      
+""" Views for LoggedInUser   
+    Includes views that deal with Profile, Address, Education
+"""    
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -225,7 +227,11 @@ class EducationDetail(generics.RetrieveUpdateDestroyAPIView):
         return Education.objects.filter(owner=self.request.user.user_profile)
 
 
-# Normal User
+
+"""
+    Views for Normal User
+    Includes views that deal with Profile, Address, Education
+"""
 class UserProfileDetail(generics.RetrieveAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -244,7 +250,10 @@ class UserEducationDetail(generics.RetrieveAPIView):
     serializer_class = EducationSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    
+
+""" 
+    Class-Based(Generic) SearchView
+"""
 class SearchView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -284,6 +293,11 @@ class SearchView(generics.GenericAPIView):
         return Response(combined_results)
 
 
+""" 
+    Logger for Follow/Unfollow 
+    FollowThrottle View - Limits the number of follow/unfollow actions a user can perform to 5 actions per minute.
+    ToggleView  - handles the follow/unfollow functionality.
+"""
 logger = logging.getLogger(__name__)
 
 class FollowThrottle(UserRateThrottle):
@@ -315,8 +329,12 @@ class FollowToggleView(views.APIView):
         logger.info(f"User {follower.user.email} followed {followed.user.email}")
         return Response({'message': "Followed successfully."}, status=status.HTTP_201_CREATED)
 
-@method_decorator(cache_page(60*2), name='dispatch')  # Cache the view for 2 minutes
-class FollowerList(generics.ListAPIView):
+""" 
+    The method decorators Caches the view for 2 minutes
+    This reduces the load on the server by serving cached results for repeated requests within the cache duration. 
+"""
+@method_decorator(cache_page(60*2), name='dispatch') 
+class FollowerList(generics.ListAPIView): 
     serializer_class = FollowerSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
@@ -325,7 +343,7 @@ class FollowerList(generics.ListAPIView):
         user_profile = self.request.user.user_profile
         return Follower.objects.filter(followed=user_profile)
 
-@method_decorator(cache_page(60*2), name='dispatch')  # Cache the view for 2 minutes
+@method_decorator(cache_page(60*2), name='dispatch')  
 class FollowingList(generics.ListAPIView):
     serializer_class = FollowerSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]

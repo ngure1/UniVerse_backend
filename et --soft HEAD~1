@@ -1,0 +1,1506 @@
+[33mcommit f7d7252f05176af2817b7078a2d60f6e70beb58b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 25 07:25:46 2024 +0300
+
+     ♻ [200~refactor: Update support URLs and views
+
+[33mcommit e9d4697344e369fac31c71742cd45504e3e6958a[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 25 07:20:55 2024 +0300
+
+     ♻ refactor: Remove unnecessary imports.
+
+[33mcommit 6131525874e8b78c76d4a102133680c3bdfeedbb[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 25 07:11:00 2024 +0300
+
+     ♻ refactor: Add comments in Accounts Serializers and Accounts Views.
+
+[33mcommit e15476a74ec1f9c0a0d3f9191bfe076010ba0d50[m[33m ([m[1;31morigin/pr_here[m[33m)[m
+Merge: fb55e66 09c41af
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 24 10:10:32 2024 +0300
+
+    Merge pull request #54 from Macharia-Maurice/main
+    
+    🐛 fix: Add authentication check to GetUserProfileAndPostMixin
+
+[33mcommit 09c41af7e7388db3e6e2f61eccee19d6950015f7[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 24 09:57:41 2024 +0300
+
+    🐛 fix: Add authentication check to GetUserProfileAndPostMixin
+
+[33mcommit fb55e663e082fe2b08c0ef1b7a706bd311adde16[m
+Merge: b6108c9 9d26362
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 24 08:32:03 2024 +0300
+
+    Merge pull request #53 from Macharia-Maurice/main
+    
+    ♻️ refactor: Update .env sample
+
+[33mcommit 9d263622881372258d662e20d14c1c3c3b3a0b62[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 24 08:29:51 2024 +0300
+
+    ♻️ refactor: Update Django settings for token-based authentication
+
+[33mcommit b6108c9a6d96e1e22bf9c6f5fb19bea90414a65a[m
+Merge: f9521af 0675be6
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 24 08:28:21 2024 +0300
+
+    Merge pull request #52 from ngure1/ngure1/dev
+    
+    refactor :recycle: : update post models
+
+[33mcommit 0675be6e8246d6f950b0f89990b9679b3935f035[m
+Author: ngure1 <ngugijoseph700@gmail.com>
+Date:   Mon Jun 24 08:27:39 2024 +0300
+
+    refactor :recycle: : update post models
+
+[33mcommit f9521afc6e686444bf9168214865d07214f212cd[m
+Merge: 01943f5 339bef5
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 24 08:26:46 2024 +0300
+
+    Merge pull request #51 from Macharia-Maurice/main
+    
+    ♻️ refactor: change bookmark view to return same in for as for listing posts
+
+[33mcommit 339bef557c51df657f7741f1fd796cc31a47bbf3[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 23 21:55:22 2024 +0300
+
+    ♻️ refactor:
+    -change the bookmark view to return same info as a post
+    -change list view of posts to exclude posts created by logged in user
+
+[33mcommit 01943f5c7d79ebcbe079141d410db2cd90d82cd0[m
+Merge: 90d2c1e d094951
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sat Jun 22 19:24:55 2024 +0300
+
+    Merge pull request #50 from Macharia-Maurice/main
+    
+    add session settings
+
+[33mcommit d0949518216c48b98cc523d2db8e9088ba2787fe[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 22 19:12:02 2024 +0300
+
+    ♻️ refactor: Update BookmarkSerializer in posts/serializers.py
+
+[33mcommit 7a79174779d89e6401d85b1cf05ac586bf2905cc[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 22 19:11:21 2024 +0300
+
+    ♻️ refactor: Update Django settings for token-based authentication
+    
+    - Configure token settings for JWT or other token-based authentication
+    - Adjust token lifetimes and rotation settings
+    - Update token algorithm and signing key
+    - Set allowed hosts for CORS
+    - Update CSRF trusted origins
+    - Configure session settings for security
+
+[33mcommit 90d2c1e35594d3e31a87063ceaf43b99a837affe[m
+Merge: 1ac78ab 949b2a6
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sat Jun 22 19:11:08 2024 +0300
+
+    Merge pull request #49 from theurikarue/main
+    
+    Refactor: Change Address URL and it's view
+
+[33mcommit 1ac78abaea130cd03174aafb2c2794f3754c8d3f[m
+Merge: 928b604 77b5311
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sat Jun 22 19:10:53 2024 +0300
+
+    Merge pull request #48 from Macharia-Maurice/main
+    
+    ✨feat : add api to Exclude current user's posts in PostListView
+
+[33mcommit 949b2a6aace7e6802f1fa22ee88264482da8025c[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Sat Jun 22 06:54:32 2024 +0300
+
+     ♻️ refactor: Update AddressDetail view in accounts/views.py to handle authentication and return appropriate responses
+
+[33mcommit de0b637d8a97ad05bc04ae1b041846d5f4aa1915[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Fri Jun 21 11:29:12 2024 +0300
+
+    refactor: alter profile picture attribute on profile model
+
+[33mcommit 77b53117fe091fb3d6064891e4d52155f54abf42[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 19 15:13:24 2024 +0300
+
+    ✨feat : add api to Exclude current user's posts in PostListView
+
+[33mcommit 928b604fca715c016ec53023c2bb9b080dbf9df9[m
+Merge: 624333e 574d8d2
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue Jun 18 09:17:11 2024 +0300
+
+    Merge pull request #47 from Macharia-Maurice/main
+    
+    ♻️ refactor: Update URLs in accounts/urls.py and fix authentication c…
+
+[33mcommit 574d8d2ec0c3e0ad958ec048ed97e359c04af73f[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Tue Jun 18 09:14:00 2024 +0300
+
+    ♻️ refactor: Update URLs in accounts/urls.py and fix authentication check in ProfileDetail view
+
+[33mcommit 624333e60af20217347fea301dd9e39ac7c752f1[m
+Merge: c46eb92 bc6bd66
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Fri Jun 14 10:30:58 2024 +0300
+
+    Merge pull request #46 from theurikarue/pr_here
+    
+    refactor: Rename Follower model to Follow
+
+[33mcommit bc6bd663d5a10e36870cf76bdbc7a87fdfaf520c[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Fri Jun 14 10:26:46 2024 +0300
+
+    refactor: Rename Follower model to Follow
+    
+    - Updated the import statements and references to the model in relevant files.
+    - Also updated the model name in the admin site registration.
+    
+    Co-authored-by: Macharia-Maurice <Macharia-Maurice@users.noreply.github.com>
+
+[33mcommit c46eb92ea0fe3eb01c1f7a5416d0ac9426285474[m
+Merge: fe8d5aa 618fda4
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Fri Jun 14 08:37:01 2024 +0300
+
+    Merge pull request #45 from theurikarue/pr_here
+    
+    Refactor
+
+[33mcommit fe8d5aa15cca1e2e92c0e2315fb419892ad05fb8[m
+Merge: bd54f4c 06123cd
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Fri Jun 14 08:36:50 2024 +0300
+
+    Merge pull request #44 from Macharia-Maurice/main
+    
+    🔥 remove: Remove unnecessary parameter in delete method of Unbookmark…
+
+[33mcommit 618fda4802aeb4bf4f26029b840e54a357726807[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Fri Jun 14 08:33:23 2024 +0300
+
+    ♻️  refactor: Remove UserProfileDoesNotExist exception and update AddressSerializer
+
+[33mcommit 06123cd868196693cff0a345e12f2661305e9385[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Thu Jun 13 22:52:22 2024 +0300
+
+    🔥 remove: Remove unnecessary parameter in delete method of UnbookmarkPost view
+
+[33mcommit 866648819a32222e3ecd6db24ac69a92550b484c[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu Jun 13 10:40:23 2024 +0300
+
+    ♻️ refactor: add signals module to ensure a user instances automatically creates a profile instance.
+    
+    Co-authored-by: Macharia-Maurice <Macharia-Maurice@users.noreply.github.com>
+
+[33mcommit ca93de9e825491c811a44c5da4668d03413474e7[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu Jun 13 09:49:11 2024 +0300
+
+    ♻️  refactor: remove street and postal code
+
+[33mcommit c54a72e6116193bf6c808fcf3749993aec18d162[m
+Merge: ec9df44 54cecbd
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu Jun 13 08:54:37 2024 +0300
+
+    Merge branch 'pr_here' of https://github.com/theurikarue/UniVerse_backend into pr_here
+
+[33mcommit 54cecbd2db08f36ddfcf5d08a8517ffa4a8b2452[m
+Merge: ce39914 bd54f4c
+Author: Bonitheuri <133132495+theurikarue@users.noreply.github.com>
+Date:   Thu Jun 13 08:44:55 2024 +0300
+
+    Merge branch 'ngure1:main' into pr_here
+
+[33mcommit ec9df444a1c0da2371ae79681bc28ab3a9e7aa44[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Wed Jun 12 11:51:51 2024 +0300
+
+    ♻️  refactor: change views to handle error
+
+[33mcommit bd54f4cbd7b1b73d92dd4d027f4eef2dc36ecb23[m
+Merge: d740e5d a2c5b06
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Wed Jun 12 10:23:53 2024 +0300
+
+    Merge pull request #43 from Macharia-Maurice/main
+    
+    refactor posts views and urls
+
+[33mcommit a2c5b0648d59ca1bca262f8e321661da1ba31c92[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 12 10:20:28 2024 +0300
+
+    ✅ update: Update URLs in posts/urls.py to follow RESTful conventions
+
+[33mcommit d37417766e42ae76a014e72a076f2edf343f2ed8[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 12 10:19:02 2024 +0300
+
+    ✅ add: Update PostSerializer to include bookmarks count
+
+[33mcommit c9b46ef2a34bd6bda444c626735c9844cf910c6d[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 12 10:18:24 2024 +0300
+
+    ✨ refactor: Update GetUserProfileAndPostMixin to handle user_id and post_id in URLs
+
+[33mcommit f746716c95a4e3e9689a54c3f6b9061134617bc0[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 12 10:18:05 2024 +0300
+
+    ⚡️ refactor: Update core/urls.py to include 'posts/' in the path for posts URLs
+
+[33mcommit f3533b78ba43ea244cb23f883777909f5676d0bd[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 12 10:17:42 2024 +0300
+
+    ♻️ refactor:pass post_id in urls instead of body
+
+[33mcommit ce39914e3c668fc2bb03f921b0698c64bf7d1c65[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Wed Jun 12 08:37:00 2024 +0300
+
+    refactor: Update follow and unfollow endpoints in accounts/urls.py
+
+[33mcommit d740e5d93a0103a8b28d60c7edae9ede4ba24f0e[m
+Merge: 1879bd3 4a721d9
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue Jun 11 11:28:29 2024 +0300
+
+    Merge pull request #42 from Macharia-Maurice/main
+    
+    ♻️ refactor: Add created_at and updated_at fields to Education model
+
+[33mcommit 4a721d94187ffd11509ff7000f6e0a5c6c41360f[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Tue Jun 11 11:24:39 2024 +0300
+
+    ♻️ refactor: Add created_at and updated_at fields to Education model
+
+[33mcommit 1879bd33708c64255f94c1215d627d9d41257a35[m
+Merge: 2d50ff0 5a0fd3a
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue Jun 11 11:21:38 2024 +0300
+
+    Merge pull request #41 from theurikarue/pr_here
+    
+    Refactor: Remove unnecessary importations
+
+[33mcommit 2d50ff0c37b94a552f9438ec6fd5de8192b0e791[m
+Merge: cf86320 390469c
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue Jun 11 10:53:02 2024 +0300
+
+    Merge pull request #40 from theurikarue/pr_here
+    
+    refactor
+
+[33mcommit cf86320652c53bf072ea2ff73995fb651c434112[m
+Merge: f3d0697 728f8a2
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue Jun 11 08:34:49 2024 +0300
+
+    Merge pull request #39 from Macharia-Maurice/main
+    
+    Update address to be an attribute in userprofile
+
+[33mcommit 5a0fd3abd46d63dba9600086118eb098d1fd2e74[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 07:45:13 2024 +0300
+
+    feat: Add cSpell configuration for spell checking
+
+[33mcommit f57742f05c977cb97cfa32d5233947364d56325f[m
+Merge: 572c79b 2d50ff0
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 07:38:18 2024 +0300
+
+    Merge branch 'pr_here' of https://github.com/theurikarue/UniVerse_backend into pr_here
+
+[33mcommit 572c79bed7879086a58c0a2de80d150e78e640eb[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 07:31:06 2024 +0300
+
+    🔨 refactor: Update view imports and remove unused code in accounts/views.py
+
+[33mcommit 390469ce33fdc02dfc2d93562c5e909e5488ed0a[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 06:42:08 2024 +0300
+
+    🔨 refactor: Add created_at and updated_at fields to Education model and make them read-only
+
+[33mcommit fd3305b5f2df606e57332aa57a6292dada9f097e[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 06:18:21 2024 +0300
+
+    🔨 refactor: Query profiles and education by creation date and add pagination to lists
+
+[33mcommit 42108bedecc5595e91984ada9a72d2b538dfacb0[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 06:12:32 2024 +0300
+
+    refactor: Update profile URL and remove unnecessary URL patterns
+
+[33mcommit 1ff0df99e9607648f3101a2952595ae564c707fc[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 05:38:02 2024 +0300
+
+    🔨 refactor: Update URLs and add new endpoints for profiles, searching, following, and followers
+
+[33mcommit 6718325a9f2b09ae9687f8ccd0320cd803cc2a25[m
+Merge: 3e9b433 cf86320
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 05:28:06 2024 +0300
+
+    refactor: Update media upload path for Post model
+
+[33mcommit 3e9b43333cd19f0dc43a0aaf920dcefc658afd96[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 11 05:26:04 2024 +0300
+
+    refactor: Add media field to Announcement model and serializer
+
+[33mcommit 728f8a2410b2003ec4ba91bfbb92a8e6294a5aea[m
+Merge: 693c851 f3d0697
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 10 16:28:17 2024 +0300
+
+    Merge branch 'main' of https://github.com/Macharia-Maurice/UniVerse_backend
+
+[33mcommit 693c851893b50f8bd509b470576cefe845087402[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 10 16:24:28 2024 +0300
+
+    ✨ feat: Add is_following_creator field to PostSerializer
+
+[33mcommit d1d9ec02dcead49b5e7783e1dafb49167fee3a43[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 10 16:23:57 2024 +0300
+
+    ♻️ refactor: Add address field to Event model and related views
+
+[33mcommit 49764ac773dbc7fbfc5a2e740c0a425a402c152d[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 10 16:23:33 2024 +0300
+
+    🗃️ db changes: Remove address owner field from Address model and add address field to UserProfile and Event models
+
+[33mcommit d0f71fa458f1e02881ad78d1d643028866a94d00[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 10 16:22:35 2024 +0300
+
+    ♻️ refactor: Add address field to UserProfile model and related serializers
+
+[33mcommit f3d06971dd7cb1e28b1733dced39025d616a6fcd[m
+Merge: eba94f8 d20f48f
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 10 08:28:06 2024 +0300
+
+    Merge pull request #38 from Macharia-Maurice/main
+    
+    🐛 fix bugs and ♻️refactor code in announcements,  jobs, events, support and posts apps
+
+[33mcommit d20f48fa459cf4528533d5042a13595ded3179bf[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 23:35:40 2024 +0300
+
+    refactor: Update Job model to include application procedure field
+
+[33mcommit 0420d5f7f25b7b6ef492240849bb3f002822429b[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 23:35:22 2024 +0300
+
+    🔥 refactor: Remove redundant code and reorder fields in Event model
+
+[33mcommit fa439bd4b4e7329d85a3223cdcbbffd4b576ddce[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 23:35:03 2024 +0300
+
+    ♻️ refactor: Reorder fields in PostSerializer to match model definition
+
+[33mcommit 347962173bacc0592249a258c6f0aa1b6686c25b[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 23:34:30 2024 +0300
+
+    ✨ feat: Add media field to Announcement model and serializer
+
+[33mcommit eccb58032013bdc68a27f37629fce39bdeacf466[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 23:33:51 2024 +0300
+
+    ♻️ refactor: refactor support app
+
+[33mcommit 7c6521ce743204e15864a47a2efe706d761c709c[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:39:25 2024 +0300
+
+    🗃️ refactor: Rename job_owner field to author in Job model and related files
+
+[33mcommit 631a62f8ef39380970136ca0e7b5918b2ce4560b[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:37:10 2024 +0300
+
+    🔥 remove: Update Announcement views to use consistent formatting and remove unused imports
+
+[33mcommit 039c1cb4b5753512d29c8e7925da27ba7e24a8fa[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:36:31 2024 +0300
+
+    🐛 fix : Improve error handling in UserPostsList and PostLikesList views
+    - Added error handling to handle cases where a user or post does not exist
+
+[33mcommit 47bd863832de1ea688cce59df769ff2ac1803371[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:19:31 2024 +0300
+
+    🔥 remove: Update SupportSearchView to use consistent naming conventions and remove unused imports
+
+[33mcommit 083b6f75128429d667f102202e0b3558e1ebf078[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:18:59 2024 +0300
+
+    ♻️ refactor: Update ListCreateJob view to use GetUserProfileAndPostMixin and add pagination
+
+[33mcommit f1e7dc2e8283507c7fdfb9fac6db1b25bab81680[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:17:45 2024 +0300
+
+    ♻️ refactor: Add URL name for user-jobs-list endpoint in jobs/urls.py
+
+[33mcommit 7503165aa8a75fb2782b840c4d2764fca73566f0[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:17:19 2024 +0300
+
+    ♻️ refactor: Update JobSerializer to use "author" instead of "job_owner" and add URL field
+
+[33mcommit 015ba978c12eebff03a1d00ae1cffef803289a60[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:16:49 2024 +0300
+
+    🗃️ refactor: Update Job model to use "author" instead of "job_owner" and improve media upload path
+
+[33mcommit d44c64264c1e0ed457c92148cac4418397524c0c[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 22:16:32 2024 +0300
+
+    ♻️ refactor: Update JobAdmin in admin.py to use "author" instead of "job_owner" in list_display and search_fields
+
+[33mcommit eba94f86c1010f8215de08d9663c64793293759c[m
+Merge: 2920df7 bde35f2
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sun Jun 9 16:24:04 2024 +0300
+
+    Merge pull request #37 from Macharia-Maurice/main
+    
+    refactor events app
+
+[33mcommit bde35f29e07566fcebefacb59e81371cbc86569f[m
+Merge: 57c2ed4 2920df7
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 16:18:59 2024 +0300
+
+    Merge branch 'main' of https://github.com/Macharia-Maurice/UniVerse_backend
+
+[33mcommit 57c2ed4b46f3b14e59ede40af66f1c0d5a613909[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 16:14:16 2024 +0300
+
+    🎨 refactor: Update event model and migrations to use "author" instead of "creator" and remove "address" field
+
+[33mcommit 2a5ee8df1e6ce698e4fc22f2e374a3e973a0c199[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 16:06:55 2024 +0300
+
+    ✅ add : Update ListCreateEvent view to use GetUserProfileAndPostMixin and add pagination
+
+[33mcommit da3f3fef7ec7391f99a0d941bcc46967e8b3f96a[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 16:06:07 2024 +0300
+
+    ♻️ refactor: Update events/urls.py to use consistent naming conventions and add missing URL name for event-detail
+
+[33mcommit 9175c855d22a2c113256f7915d00f81665aff664[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 16:05:10 2024 +0300
+
+    🐛 fix: Update EventSerializer to use UserProfileSimpleSerializer and add url field
+
+[33mcommit 2fffb962f2ac43f31b291358a5af6f223eb779e3[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 16:04:11 2024 +0300
+
+    ♻️ refactor: Update Event model to use "author" instead of "creator" and add default title
+
+[33mcommit 23316c8c61011b6fbfb66b893d2ffbbd6a95064a[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sun Jun 9 16:02:46 2024 +0300
+
+    ♻️ refactor: Update EventAdmin in admin.py to use "author" instead of "creator" in list_display and search_fields
+
+[33mcommit 2920df7e4a1327a00917e6b6b68d6f0331417916[m
+Merge: 21a6a30 e0747fc
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sun Jun 9 15:59:11 2024 +0300
+
+    Merge pull request #36 from Macharia-Maurice/main
+    
+    ♻️ refactor posts views
+
+[33mcommit e0747fc11c8eb6068cd6ef29522e68bc5b7c6a3f[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 23:35:31 2024 +0300
+
+    refactor: Order queryset results by created_at field in views.py
+
+[33mcommit 8bf79661cb8f499e3154290de0d5e59dcc206507[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 23:34:55 2024 +0300
+
+    refactor: Update serializers.py to use simplified serializers for UserProfile and Post models
+
+[33mcommit 4b1ed78f394198dc4f13849d4bd1625ce13bdf27[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 23:34:14 2024 +0300
+
+    refactor: Update user profile detail endpoint URL name
+
+[33mcommit ff9e8f2d07ed290f9b2d41d7e6ef171ae03c9aab[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 23:33:47 2024 +0300
+
+    refactor: Update UserProfileSimpleSerializer to include user's first and last name
+
+[33mcommit 3619613ba3f05ab938312d97b693b392faa22ad8[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:59:17 2024 +0300
+
+    fix: correct like,comment and bookmark creation and fix permission accessibility
+
+[33mcommit 53fe0e85ddaf04eaf82b2d9a18e8f0f04f8ce1ac[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:57:57 2024 +0300
+
+    refactor: Rename owner field to author in bookmark, comment, and like models
+
+[33mcommit b413db443005589cc49df0f5edb91e208230bae7[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:56:39 2024 +0300
+
+    refactor: Update serializers.py to include media field in PostSerializer
+
+[33mcommit 39c0ff7a18aff4da879a5cfb39d82618b8577c7a[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:55:52 2024 +0300
+
+    refactor: Update IsOwnerOrReadOnly permission to allow deletion of objects
+    
+    The IsOwnerOrReadOnly permission has been updated to allow owners of an object to delete it in addition to editing it. This change ensures that only the owner of the object or a superuser can perform delete operations. The code has been modified to handle cases where the user does not have a profile. This change aligns with recent user commits and follows the established repository commit message conventions.
+
+[33mcommit 011d8b68119483838f799cd1538159bc91b24e25[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:55:10 2024 +0300
+
+    refactor: Update models.py to use consistent variable names and formatting
+
+[33mcommit 574aeca0c7cb3a66a2e7476777321f2c77727123[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:54:58 2024 +0300
+
+    refactor: Add mixin for getting user profile and post
+
+[33mcommit a6c8242e46dbd5f722724b8487046d4a1c1f7e14[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:54:42 2024 +0300
+
+    refactor: Update admin.py to use "author" instead of "owner" in PostLikeAdmin, PostCommentAdmin, and PostBookmarkAdmin
+
+[33mcommit efdccbdadc0f83a71c86f9abfeb29085e759b008[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:54:28 2024 +0300
+
+    refactor: rename posts urls
+
+[33mcommit 5fa46fbb34612788dd683d556347f59b3d291042[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Sat Jun 8 18:53:37 2024 +0300
+
+    refactor: Update posts URLs
+
+[33mcommit 21a6a30e09020c32fd67c1610e9005882fe29f1f[m
+Merge: 4cfd80a 4504e3e
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Fri Jun 7 12:20:20 2024 +0300
+
+    Merge pull request #35 from Macharia-Maurice/mauricebranch2
+    
+    Fix:Create a post for current logged in user
+
+[33mcommit 4504e3edbbcc54bfe60e20c3fe35146bafc91d9e[m
+Merge: 7981574 4cfd80a
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Fri Jun 7 12:19:53 2024 +0300
+
+    Merge branch 'main' into mauricebranch2
+
+[33mcommit 4cfd80ac1ccac9ae6107b9a70a5856f24ae6241f[m
+Merge: 3793ee9 a79804c
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Fri Jun 7 12:09:16 2024 +0300
+
+    Merge pull request #34 from theurikarue/pr_here
+    
+    feat: Add endpoints for logged in user and normal users and their res…
+
+[33mcommit 7981574dfe827d693f95d0d54be0516b034ba1f1[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Fri Jun 7 12:06:29 2024 +0300
+
+    refactor: Update posts URLs, rename "list" endpoint to "listcreate"
+
+[33mcommit 363196bbf832e4e35891b511c50e0f89a2b443e6[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Fri Jun 7 12:06:21 2024 +0300
+
+    refactor: Update PostSerializer to include id field and read-only fields
+
+[33mcommit f8d1472534e746d2cdd618ec9a3212b5814adf4f[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Fri Jun 7 12:06:14 2024 +0300
+
+    refactor: Update UserProfileSerializer to include is_verified field
+
+[33mcommit 628aa398bf1c70f525ea8c107af4521d4d527765[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Fri Jun 7 12:06:03 2024 +0300
+
+    feat: Refactor UserProfile model to remove unnecessary string representation
+
+[33mcommit 326f353e660e5b055d3f4bfa48c5b1febcbba61b[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Fri Jun 7 12:05:45 2024 +0300
+
+    Refactor UserProfile model to remove unnecessary string representation
+
+[33mcommit a79804ce69888893447d90729e225130833fc61a[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Fri Jun 7 12:03:07 2024 +0300
+
+    feat: add is_verified to serializer
+
+[33mcommit 5132d3d92d9ec481bc7ca2f42868aedeee4fcd96[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Fri Jun 7 12:00:25 2024 +0300
+
+    feat: Add events app and related files
+
+[33mcommit 712ebd00a7aa7947cc91908cb1767139e4470f46[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Fri Jun 7 08:26:01 2024 +0300
+
+    refactor: Remove unnecessary fields from UserProfileSerializer
+
+[33mcommit 71ca254b6f63f86f69fb7891340cec0d7da08f16[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu Jun 6 12:34:41 2024 +0300
+
+    feat: Add endpoints for logged in user and normal users and their respective views
+
+[33mcommit 3793ee918eb7363a96fb73b79879e37cade02f86[m
+Merge: 577f2bc a51411e
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Thu Jun 6 09:10:18 2024 +0300
+
+    Merge pull request #33 from theurikarue/pr_here
+    
+    feat: Update function-based  search view functionality to generic views
+
+[33mcommit a51411e27e941d72f192e4208bfe7edf650f250a[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu Jun 6 06:20:45 2024 +0300
+
+    feat: Update function-based search functionality
+    views to generic views in jobs, support, and announcements apps and change corresponding URLs
+
+[33mcommit 577f2bc9e128496719d801d30ff743ce3e4e17b7[m
+Merge: e5aee67 63862fa
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Wed Jun 5 12:14:45 2024 +0300
+
+    Merge pull request #32 from Macharia-Maurice/dev3
+    
+    feat: refactor posts views and serializers
+
+[33mcommit 63862fa8fcf18eec383a80d45c66ea85d6611055[m
+Merge: 2e5de2e e5aee67
+Author: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+Date:   Wed Jun 5 12:12:45 2024 +0300
+
+    Merge branch 'main' into dev3
+
+[33mcommit 2e5de2e761b9a3f0d937aea0a2102d245a5fc523[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 5 12:03:52 2024 +0300
+
+    chore: Update posts URLs, add endpoints for comments, likes, and bookmarks, and update IsOwnerOrReadOnly permission
+
+[33mcommit 984131ec288a9bd81ebab48854a2ee6276124d4f[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 5 12:03:34 2024 +0300
+
+    chore: Update posts URLs and add endpoints for comments, likes, and bookmarks
+
+[33mcommit c26525c5e2eb411c4d6e8af7de33e776e87be0e3[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 5 12:02:55 2024 +0300
+
+    feat: Add URL field and additional fields to PostSerializer
+
+[33mcommit f802d871480be766986d429c44a5e1c1acf57eb1[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 5 12:01:06 2024 +0300
+
+    chore: Update path for posts URLs
+
+[33mcommit 87b598de9014b2a09075922b478c188345bd44e5[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 5 11:59:59 2024 +0300
+
+    chore: Update IsOwnerOrReadOnly permission to handle unauthenticated users
+
+[33mcommit ba2158fcc59b77087818e1b5a8d2d252a619a366[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed Jun 5 11:58:51 2024 +0300
+
+    feat: Add lazy loading for announcements, support, and Jobs app update search functionality
+
+[33mcommit e5aee6770388f0c5b446ace3958ed769c7391729[m
+Merge: 0ba9fc0 6e7c5ae
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Wed Jun 5 10:41:46 2024 +0300
+
+    Merge pull request #31 from Macharia-Maurice/mauricebranch2
+    
+    feat: Update support model fields and dependencies
+
+[33mcommit 0ba9fc0e68ec612352e661133305f4c357555da4[m
+Merge: 739b50b a1ea738
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Wed Jun 5 10:15:29 2024 +0300
+
+    Merge pull request #30 from theurikarue/pr_here
+    
+    feat: add follow functionallity
+
+[33mcommit a1ea7384743090ea0afc211c60e781eb3ead862e[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Wed Jun 5 08:30:38 2024 +0300
+
+    feat: add folow functionallity
+    chore: Add pagination for user profiles
+
+[33mcommit e99231dbb46526075425c075f501ec33ee457a26[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 4 20:18:39 2024 +0300
+
+    resolve conflict
+
+[33mcommit b9fa96c4880c82faada994d281164ea00cf25019[m
+Merge: 86da576 739b50b
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 4 20:15:16 2024 +0300
+
+    resolve conflict
+
+[33mcommit 86da5767e9810f941c6f3a00a3d422de33a10367[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 4 20:11:54 2024 +0300
+
+    feat: Add API documentation
+
+[33mcommit 8a8c0a0c7c7f2918bfaec0a99e417441c3f9049d[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue Jun 4 08:36:20 2024 +0300
+
+    feat: Add is_verified field to UserProfile model
+
+[33mcommit 6e7c5ae3db76c84bd41af4f2855d48dfa543707d[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 3 10:26:59 2024 +0300
+
+    feat: Update support model fields and dependencies
+
+[33mcommit 739b50b729f0acd74e4d7ad2f4fca1be41a53b2e[m
+Merge: 9bdaab1 0844f89
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 3 09:08:16 2024 +0300
+
+    Merge pull request #29 from Macharia-Maurice/mauricebranch2
+    
+    feat: API documentation
+
+[33mcommit 0844f8908103651e0d6c133e89b03a06b7900d18[m
+Merge: 913acb8 9bdaab1
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 3 09:07:17 2024 +0300
+
+    Merge branch 'main' into mauricebranch2
+
+[33mcommit 913acb8d9700b0feaf3cd2b1bd40c17e4acdcdba[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 3 08:38:50 2024 +0300
+
+    chore: Update job and support models
+
+[33mcommit 9cc72f3cc545a936392d5679fed4edb0a68d39a9[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 3 08:35:17 2024 +0300
+
+    chore: Add API schema endpoints for Swagger and Redoc documentation
+
+[33mcommit 9e5473ab18bd19cc1e0ef0882a61d42c425335f9[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 3 08:35:08 2024 +0300
+
+    feat: Add drf_spectacular for API documentation
+
+[33mcommit cc180002537d1ae36d04b285b3783a2141f3d100[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 3 08:34:58 2024 +0300
+
+    chore: Import ValidationError from rest_framework.exceptions
+
+[33mcommit 462190645e393782932b20e58e08d23212de23df[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 3 08:34:48 2024 +0300
+
+    chore: Update requirements.txt with new dependencies
+
+[33mcommit 86b6d41e7a160b913b85beaba8436ff7a3b9afb3[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon Jun 3 08:34:33 2024 +0300
+
+    chore: Add staticfiles and schema.yml to .gitignore
+
+[33mcommit 9bdaab18c1ce391f4d39568e37a64a1a83344212[m
+Merge: 8231c3d 0738080
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon Jun 3 08:29:59 2024 +0300
+
+    Merge pull request #28 from theurikarue/pr_here
+    
+    feat: Add lazy loading for announcements, support and Jobs app update search functionality
+
+[33mcommit 07380807788a323baf17119b6b421582247145ae[m
+Merge: b99b34e 8231c3d
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Mon Jun 3 08:25:10 2024 +0300
+
+    Merge branch 'pr_here' of https://github.com/theurikarue/UniVerse_backend into pr_here
+
+[33mcommit b99b34e6b9e31c16039d026d58d9f4b4991b0764[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Mon Jun 3 08:24:59 2024 +0300
+
+    feat: Add lazy loading for announcements, support and Jobs app update search functionality
+
+[33mcommit 8231c3d8c5cba83218d2bbc0f2399e178f8c2eb2[m
+Merge: a0f048f 034c2cb
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sat Jun 1 18:16:09 2024 +0300
+
+    Merge pull request #27 from theurikarue/pr_here
+    
+    feat: Add 'jobs' app configured all necessary files
+
+[33mcommit 034c2cb1cc0ac7720167f47c5c986906216034c3[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Sat Jun 1 15:57:20 2024 +0300
+
+    feat: Include 'announcements' app in core/urls.py
+
+[33mcommit b2f70496740f92bb1a4ca3e9ce8119d7908a5b05[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Fri May 31 10:07:17 2024 +0300
+
+    feat: Add announcements app and configure necessary files
+
+[33mcommit 5627bdf56a2d6b5ab65f2b79e04c8f6c8f3a66f3[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu May 30 10:58:06 2024 +0300
+
+    feat: Add 'jobs' app and include its URLs in core/urls.py
+
+[33mcommit a0f048fc30c2914b515394a5c156c11acc09c7ad[m
+Merge: 9e25bf1 de45956
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Thu May 30 09:30:35 2024 +0300
+
+    Merge pull request #26 from theurikarue/pr_here
+    
+    Add Support app and configure all necessary files
+
+[33mcommit de45956e7d848f836a6d11a6010356b9ee601f5f[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu May 30 09:17:47 2024 +0300
+
+    feat: Add search functionality to accounts and posts admin pages.
+    Add Support app and configure all necessary files.
+
+[33mcommit 6b2318de2e8c11d13bbbde802f91caa7a1c72dc1[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Wed May 29 14:50:45 2024 +0300
+
+    refactor: Update admin site headers and titles for UniVerse accounts and posts
+
+[33mcommit bcd2bfc838ff737b1336e0bc059c0e01b369885c[m
+Author: Bonitheuri <133132495+theurikarue@users.noreply.github.com>
+Date:   Tue May 28 16:36:51 2024 +0300
+
+    chore: Update README.md
+
+[33mcommit e60330a7fa1f587b9afeb15ccdb5c6bba2f8a6e0[m
+Merge: fa44777 9e25bf1
+Author: Bonitheuri <133132495+theurikarue@users.noreply.github.com>
+Date:   Tue May 28 16:35:04 2024 +0300
+
+    Merge branch 'ngure1:main' into main
+
+[33mcommit fa4477754d74ca4eb7727789baf5d92378de58fa[m
+Author: Bonitheuri <133132495+theurikarue@users.noreply.github.com>
+Date:   Tue May 28 16:33:39 2024 +0300
+
+    Feat add README.md file
+
+[33mcommit 9e25bf1d87a5174e2e536b5d57f5aea86c0b04b0[m
+Merge: 106c684 16a5f26
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue May 28 16:25:14 2024 +0300
+
+    Merge pull request #25 from theurikarue/main
+    
+    refactor: Add lazy loading for images in posts and update search functionality in posts app
+
+[33mcommit 16a5f26fc60b5c06775b6fffb4b4426dffdc7634[m
+Merge: e83487c 106c684
+Author: Bonitheuri <133132495+theurikarue@users.noreply.github.com>
+Date:   Tue May 28 16:19:19 2024 +0300
+
+    Merge branch 'ngure1:main' into main
+
+[33mcommit e83487ca8fa8911843020d77341fde8b34c89fe1[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue May 28 16:18:15 2024 +0300
+
+    refactor: Add lazy loading for images in posts and update search functionality in posts app
+
+[33mcommit 106c684955a1ee7253c4ececc8cfca43c82c3d81[m
+Merge: 789e3f0 c722cb4
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue May 28 13:09:38 2024 +0300
+
+    Merge pull request #24 from theurikarue/main
+    
+    Refactor : Add search functionality to Accounts app
+
+[33mcommit c722cb42cb4a5504fe945a7f59469077812bc89d[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Tue May 28 12:21:01 2024 +0300
+
+    refactor: Add search functionality to accounts app
+
+[33mcommit 427564cfda798db25f70a7a3252fe27845f5629f[m
+Merge: 7e58f41 789e3f0
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Mon May 27 23:05:29 2024 +0300
+
+    Merge branch 'main' of https://github.com/theurikarue/UniVerse_backend
+
+[33mcommit 7e58f41e957a26cb5560de04d697e254b94a0cb7[m
+Merge: e638742 05a9800
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Mon May 27 23:04:42 2024 +0300
+
+    Merge branch 'main' of https://github.com/theurikarue/UniVerse_backend
+
+[33mcommit e6387420a4c68fdfc8ab410d88e2a72beecd5109[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Mon May 27 22:46:15 2024 +0300
+
+    refactor: update MyUserSerializer to include additional fields and remove unnecessary ones
+
+[33mcommit 789e3f09057303c2490bab600be88858d544f3d7[m
+Merge: 05a9800 37399e4
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon May 27 21:49:10 2024 +0300
+
+    Merge pull request #23 from Macharia-Maurice/mauricebranch2
+    
+    feat: add media attribute to posts
+
+[33mcommit 05a9800e1d62662efd20506b7739d9b3e3119790[m
+Merge: 15d08d6 0faa3ee
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Mon May 27 21:37:07 2024 +0300
+
+    Merge pull request #22 from Macharia-Maurice/maurice-branch
+    
+    refactor accounts and posts models
+
+[33mcommit 37399e47e953b87b6b138a3eb5fc6487ece1a284[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:32:42 2024 +0300
+
+    refactor: Update Post model to allow blank and null values for media field
+
+[33mcommit 987953786bd057cebcb849742efbb2fb7ec3f49b[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:32:34 2024 +0300
+
+    refactor: Update Post model to allow blank and null values for media field
+
+[33mcommit a9061b09faadf16fc2b6bd5db2548127fd237c8f[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:32:27 2024 +0300
+
+    refactor: Add media field to Post model for storing post images
+
+[33mcommit 5cd6d0b7bada14d8a3b0edb6c7745278fa62987d[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:32:14 2024 +0300
+
+    refactor: Add media field to Post model for storing post images
+
+[33mcommit 725a028114faf6903996d02d772711fd36d485bd[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:32:04 2024 +0300
+
+    refactor: Update UserProfile model to allow blank and null values for profile_picture field
+
+[33mcommit fea8126c095b19d6ab5aba72e9a299fb90a1963a[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:31:58 2024 +0300
+
+    refactor: Update UserProfile model to allow blank and null values for profile_picture field
+
+[33mcommit 7fc3e32b6afcf0c3e435dce2e1658cca7d3bf97f[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:31:51 2024 +0300
+
+    refactor: Update UserProfile model to allow blank and null values for profile_picture field
+
+[33mcommit a51e088bafac8549f7d20488c96e4b97663807f1[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:31:43 2024 +0300
+
+    refactor: Update UserProfile model to allow blank and null values for profile_picture field
+
+[33mcommit 7855e9fb6bb82d749cc5c4fe08ca4a9257f89210[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:31:34 2024 +0300
+
+    refactor: Update UserProfile model to allow blank and null values for profile_picture field
+
+[33mcommit 5c6580008bf62fb97a9d0b6140d88d47f652146e[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 21:31:27 2024 +0300
+
+    refactor: Update profile picture upload path in UserProfile model
+
+[33mcommit 0faa3ee7251a94e1e2649a136b28eef6437f88bd[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:08:18 2024 +0300
+
+    refactor: Rename user field to owner in bookmark, comment, and like models
+
+[33mcommit 29f290188146b6b69868341a571c8b4a9133799b[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:08:09 2024 +0300
+
+    refactor: Update user profile foreign key to use UserProfile model
+
+[33mcommit 141f87613f5dbf14385b62a598f17221b809df56[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:08:02 2024 +0300
+
+    refactor: Remove address, education, and user profile fields from models and update foreign keys to use UserProfile model
+
+[33mcommit a923930061e75c4c000392d2806a6fa30e7f2eb8[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:07:55 2024 +0300
+
+    refactor: Rename 'county' field to 'country' in the 'Address' model
+
+[33mcommit 83ef4aa73a218eeae7efffe92b2c47ead084606c[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:07:48 2024 +0300
+
+    refactor: Update user profile foreign key to use UserProfile model
+
+[33mcommit a7b7b820247b132a3ba5c7f6e94a3c612dbfbf06[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:07:40 2024 +0300
+
+    refactor: Update user profile foreign key to use UserProfile model
+
+[33mcommit dc7318e9023e0e970546004a43b835fc252423bd[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:07:31 2024 +0300
+
+    refactor: Update post author foreign key to use UserProfile model
+
+[33mcommit 73c18615c8b7fd34950dd4aad99e9b67c106a745[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:05:47 2024 +0300
+
+    refactor: Update views.py to use generics for CRUD operations and add permission classes
+
+[33mcommit a48822fe766a6a64e5b9725e7e6a877b80537215[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:05:05 2024 +0300
+
+    Refactor admin display for post-related models to use 'owner' instead of 'user'
+
+[33mcommit b09eabb358d0a01e45aba3532ec0671952450573[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:04:47 2024 +0300
+
+    refactor: Update URL pattern for authentication endpoints and reorganize profile, address, and education endpoints
+
+[33mcommit 9dc76e03c994b216a50d2446f3dfa79216e15b05[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:04:30 2024 +0300
+
+    refactor: Add IsOwnerOrReadOnly permission class for post author ownership control
+
+[33mcommit a8ea3009e10890822fbd12222d016fe3f06eaf8a[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:04:14 2024 +0300
+
+    refactor: Update serializers to use UserProfileSerializer and PostSerializer for author and owner fields
+
+[33mcommit d139969fbadcfeef3e016ba18c235268a74cf742[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:03:58 2024 +0300
+
+    refactor: Add new URL patterns for user posts and optimize existing URL patterns
+
+[33mcommit 123f65a9217c65f9fb238c5a536f5ab807d781e3[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:03:41 2024 +0300
+
+    refactor: Update Post model foreign key related names and remove unused methods
+
+[33mcommit 9d532087db79311f0f5d4f231790e3536cec9247[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:03:23 2024 +0300
+
+    refactor: Update settings.py to include django-jazzmin package and configure JWT token lifetimes
+
+[33mcommit 0964c12246d5f5606f58ce98b6f781142489c5c5[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:03:04 2024 +0300
+
+    refactor: Move authentication endpoints under '/auth' and reorganize profile, address, and education endpoints under '/api'
+
+[33mcommit 43aacfd7c0ebe8b0a0421cef008b389ca1d743ad[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:02:46 2024 +0300
+
+    refactor: Add authentication endpoints under '/auth' and move profile, address, and education endpoints under '/api'
+
+[33mcommit ec5465e8da9ef89a577d67bff95d302ef3313e7e[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:02:27 2024 +0300
+
+    feat: Optimize admin display for user profiles, addresses, and education
+
+[33mcommit e2bb95adbe4237edcf45861c82fd2ce8acd00260[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:02:04 2024 +0300
+
+    refactor: optimize admin display for user profiles, addresses, and education
+
+[33mcommit 75d5445c689f20c57a7d55eccdb1bae3fbe59239[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:01:46 2024 +0300
+
+    refactor: update UserProfile model relationships and remove unused fields
+
+[33mcommit dec10a84fc0afffaf3d2849e0e28ad6ca2885e72[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:01:26 2024 +0300
+
+    feat: add django-jazzmin package to requirements.txt
+
+[33mcommit 883f11c343e295da564c0b01e3f70fa49f50159d[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:01:08 2024 +0300
+
+    chore: update .gitignore to ignore 'staticfiles'
+
+[33mcommit 1f93afce91195f6a87e58336fdbd8f7493e4312a[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Mon May 27 15:00:42 2024 +0300
+
+    chore: update .env.sample file with additional variables
+
+[33mcommit 15d08d6430adb2577cb767493e037b15c76799b7[m
+Merge: e80b257 16bb19d
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Fri May 24 09:33:43 2024 +0300
+
+    Merge pull request #19 from theurikarue/main
+    
+    feat: import necessary modules and serializers for user profiles, add…
+
+[33mcommit 16bb19d0d06424247b0329ea93197e4a87775038[m
+Author: theurikarue <iambonitheuri@gmail.com>
+Date:   Thu May 23 14:47:24 2024 +0300
+
+    feat: import necessary modules and serializers for user profiles, addresses, and education
+
+[33mcommit e80b257581c81a7d0f14045f53ff79c66c8ef15f[m
+Merge: b915434 b1f363e
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Wed May 22 09:08:19 2024 +0300
+
+    Merge pull request #18 from Macharia-Maurice/main
+    
+    feat: create posts model, serializer and sample views
+
+[33mcommit b1f363e10b571a36172f60ed9db41641413be7a6[m
+Author: Macharia-Maurice <maurice.maina@students.jkuat.ac.ke>
+Date:   Wed May 22 08:49:06 2024 +0300
+
+    feat: create posts model, serializer and sample views
+
+[33mcommit b915434fb6b9371fa0590b3ec8cc1c2178f72f8c[m
+Merge: 6bfd271 2f4e52c
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue May 21 16:33:04 2024 +0300
+
+    Merge pull request #16 from ngure1/pr-here
+    
+    Pr here
+
+[33mcommit 2f4e52cbd04b5a2a0ea7f7c685318f5c0f2459fe[m
+Merge: 154b4ca 6bfd271
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue May 21 16:31:53 2024 +0300
+
+    Merge branch 'main' into pr-here
+
+[33mcommit 154b4cadd30b3376db7c183096c7872ca3f372c8[m
+Author: Bonitheuri <133132495+theurikarue@users.noreply.github.com>
+Date:   Tue May 21 16:18:06 2024 +0300
+
+    Models (#15)
+    
+    * Tweaked a few things
+    
+    * feat: add UserProfile, Education and Address models
+    
+    *add packages to requirements.txt
+    
+    Co-authored-by: Macharia-Maurice <Macharia-Maurice@users.noreply.github.com>
+    
+    ---------
+    
+    Co-authored-by: Macharia-Maurice <Macharia-Maurice@users.noreply.github.com>
+
+[33mcommit 6bfd27152969fd64598a1b32c44fe83f647066a3[m
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sat May 18 12:59:45 2024 +0300
+
+    Pr here (#12)
+    
+    * Add sign in with google  (#9)
+    
+    * Fix: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    * feat(auth): add sign in with google
+    
+    ---------
+    
+    Co-authored-by: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+    
+    * Add sign in with google (#11)
+    
+    * Fit: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    * feat(auth): add sign in with google
+    
+    * Add sign in with google  (#9) (#10)
+    
+    * Fix: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    * feat(auth): add sign in with google
+    
+    ---------
+    
+    Co-authored-by: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+    
+    ---------
+    
+    Co-authored-by: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+    
+    ---------
+    
+    Co-authored-by: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+
+[33mcommit cd28be2e73c885ab7181ebfe744f1f6992486b61[m
+Author: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+Date:   Sat May 18 12:56:48 2024 +0300
+
+    Add sign in with google (#11)
+    
+    * Fit: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    * feat(auth): add sign in with google
+    
+    * Add sign in with google  (#9) (#10)
+    
+    * Fix: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    * feat(auth): add sign in with google
+    
+    ---------
+    
+    Co-authored-by: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+    
+    ---------
+    
+    Co-authored-by: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+
+[33mcommit b7d497500fd7e02314a92843973e3eaa93a5ae87[m
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Sat May 18 11:57:16 2024 +0300
+
+     Add sign in with google  (#9) (#10)
+    
+    * Fix: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    * feat(auth): add sign in with google
+    
+    ---------
+    
+    Co-authored-by: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+
+[33mcommit 4b954d7861420c6fc9d2ebf6fc68d6038125f481[m
+Author: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+Date:   Sat May 18 11:54:31 2024 +0300
+
+     Add sign in with google  (#9)
+    
+    * Fix: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    * feat(auth): add sign in with google
+    
+    ---------
+    
+    Co-authored-by: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+
+[33mcommit 3ab08ef0a9687365531aa5a70417d2e209378487[m
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Wed May 15 10:03:44 2024 +0300
+
+    cookies feature (#4) (#5)
+    
+    * Fit: create access and refresh cookies
+    
+    * add environment variables content
+    
+    * move myUserManager
+    
+    * feat(cookies) added comments to cookies setup
+    
+    ---------
+    
+    Co-authored-by: Macharia-Maurice <151857603+Macharia-Maurice@users.noreply.github.com>
+
+[33mcommit 4fa51aece3ed687c9d396c2dcae7f26fedab8521[m
+Merge: 1bf941d 20bd63f
+Author: Joseph Ngure <121125169+ngure1@users.noreply.github.com>
+Date:   Tue May 14 05:33:34 2024 +0300
+
+    Merge pull request #1 from ngure1/ngure1/feat/authentication
+    
+    feat(auth) : add backend authentication
+
+[33mcommit 20bd63f4f59636562fb150a26c915083f23b7c43[m
+Author: ngure1 <ngugijoseph700@gmail.com>
+Date:   Mon May 13 23:20:47 2024 +0300
+
+    feat(auth) : add backend authentication
+
+[33mcommit 1bf941d72b01928ad7da034b9fe7c55276391172[m
+Author: ngure1 <ngugijoseph700@gmail.com>
+Date:   Sat May 11 13:27:16 2024 +0300
+
+    Initial commit
