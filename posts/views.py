@@ -45,6 +45,7 @@ class PostsDetail(generics.RetrieveUpdateDestroyAPIView):
 class CurrentUserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
+    pagination_class=CustomPagination
 
     def get_queryset(self):
         # Get the current logged-in user's profile

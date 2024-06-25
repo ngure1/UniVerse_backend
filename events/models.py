@@ -22,9 +22,6 @@ class Event(models.Model):
     event_start_time = models.TimeField(_("Event Start Time"), blank=True, null=True)
     event_end_date = models.DateField(_("Event End Date"), blank=True, null=True)
     event_end_time = models.TimeField(_("Event End Time"), blank=True, null=True)
-    like= models.ForeignKey("posts.Like", on_delete=models.SET_NULL, related_name="event_likes", blank=True, null=True)
-    comment= models.ForeignKey("posts.Comment", on_delete=models.SET_NULL , related_name="event_comments", blank=True, null=True)
-    bookmark= models.ForeignKey("posts.Bookmark", on_delete=models.SET_NULL,related_name="event_bookmarks", blank=True, null=True)
     created_at = models.DateTimeField(_("Date Created"),auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated_at"),auto_now=True)
 
