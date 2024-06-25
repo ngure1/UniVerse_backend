@@ -10,11 +10,20 @@ class EventSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "url",
+            "is_online",
+            "is_physical",
             "author",
             "title",
             "description",
             "media",
-            "capacity",
+            "address",
+            "venue",
+            "event_form_url",
+            "event_start_date",
+            "event_start_time",
+            "event_end_date",
+            "event_end_time",
+            
             "created_at",
             "updated_at",
         )
