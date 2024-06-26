@@ -10,6 +10,7 @@ class EventSerializer(serializers.ModelSerializer):
     bookmarks_count = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
+    is_following_creator = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Event
@@ -47,13 +48,13 @@ class EventSerializer(serializers.ModelSerializer):
         return data
     
     def get_likes_count(self, obj):
-        return obj.like_count()
+        return obj.event_likes.count()
 
     def get_comments_count(self, obj):
-        return obj.comment_count()
-
+        return obj.event_comments.count()
+    
     def get_bookmarks_count(self, obj):
-        return obj.bookmark_count()
+        return obj.event_bookmarks.count()
 
     def get_is_liked(self, obj):
         user = self.context['request'].user
@@ -63,6 +64,7 @@ class EventSerializer(serializers.ModelSerializer):
                 return models.Like.objects.filter(event=obj, author=user_profile).exists()
             except AttributeError:
                 raise serializers.ValidationError("User profile is missing.")
+            
         return False
 
     def get_is_bookmarked(self, obj):
@@ -73,6 +75,7 @@ class EventSerializer(serializers.ModelSerializer):
                 return models.Bookmark.objects.filter(event=obj, author=user_profile).exists()
             except AttributeError:
                 raise serializers.ValidationError("User profile is missing.")
+            
         return False
     
     def get_is_following_creator(self, obj):

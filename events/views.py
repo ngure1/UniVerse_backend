@@ -177,7 +177,7 @@ class UserBookmarksList(generics.ListAPIView, GetUserProfileAndEventMixin):
         if not user_id:
             raise NotFound("User ID not provided.")
         user_profile = self.get_user_profile_by_id(user_id)
-        bookmarked_posts = models.Event.objects.filter(bookmarks__author=user_profile).order_by('-created_at') # get all posts that have been bookmarked by this user
+        bookmarked_posts = models.Event.objects.filter(event_bookmarks__author=user_profile).order_by('-created_at') # get all posts that have been bookmarked by this user
         if not bookmarked_posts.exists():
             raise NotFound("This user does not have any bookmarked posts.")
         return bookmarked_posts
@@ -191,7 +191,7 @@ class CurrentUserBookmarksList(generics.ListAPIView, GetUserProfileAndEventMixin
 
     def get_queryset(self):
         user_profile = self.get_user_profile()
-        bookmarked_posts = models.Event.objects.filter(bookmarks__author=user_profile).order_by('-created_at') # get all posts that have been bookmarked by this user
+        bookmarked_posts = models.Event.objects.filter(event_bookmarks__author=user_profile).order_by('-created_at') # get all posts that have been bookmarked by this user
         return bookmarked_posts
 
     def list(self, request, *args, **kwargs):
