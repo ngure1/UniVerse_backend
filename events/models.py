@@ -42,8 +42,8 @@ class Event(models.Model):
             raise ValidationError(_("Event start date cannot be after event end date."))
 
 class Like(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="likes")
-    author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="event_likes")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_likes")
+    author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="author_likes")
     created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
 
     def __str__(self):
@@ -55,8 +55,8 @@ class Like(models.Model):
         verbose_name_plural = _("Likes")
 
 class Comment(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="comments")
-    author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="event_comments")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_comments")
+    author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="author_comments")
     text = models.CharField(_("Comment Text"), max_length=255)
     created_at = models.DateTimeField(_("Date created"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Date Updated"), auto_now=True)
@@ -70,8 +70,8 @@ class Comment(models.Model):
         verbose_name_plural = _("Comments")
 
 class Bookmark(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="bookmarks")
-    author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="event_bookmarks")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_bookmarks")
+    author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="author_bookmarks")
     created_at = models.DateTimeField(_("Date Created"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Date Updated"), auto_now=True)
 
