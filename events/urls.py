@@ -7,8 +7,8 @@ urlpatterns = [
     path("", views.ListCreateEvents.as_view(), name="event-list"),
     path("<int:pk>/",views.EventDetail.as_view(), name="event-detail"),
     
-    path("likes/",views.CreateLikes.as_view(), name="event-like"),
-    path("unlikes/",views.UnlikeEvent.as_view(), name="event-unlike"),
+    path("likes/<int:event_id>/",views.CreateLikes.as_view(), name="event-like"),
+    path("unlikes/<int:event_id>/",views.UnlikeEvent.as_view(), name="event-unlike"),
     path("likes/event/<int:event_id>/",views.EventLikesList.as_view(), name="event-likes-list"),
     
     path("comments/<int:event_id>/",views.CreateComments.as_view(), name="event-comment"),
