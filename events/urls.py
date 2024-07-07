@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     path("", views.ListCreateEvents.as_view(), name="event-list"),
     path("<int:pk>/",views.EventDetail.as_view(), name="event-detail"),
+    path("me/", views.CurrentUserEventsList.as_view(), name='my-posts-list'),
+
     
     path("likes/<int:event_id>/",views.CreateLikes.as_view(), name="event-like"),
     path("unlikes/<int:event_id>/",views.UnlikeEvent.as_view(), name="event-unlike"),
