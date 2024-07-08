@@ -356,7 +356,7 @@ class FollowingList(generics.ListAPIView):
 
 # get student profiles
 @method_decorator(cache_page(60*2), name='dispatch')
-class StudentListView(generics.ListAPIView):
+class StudentList(generics.ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
@@ -367,7 +367,7 @@ class StudentListView(generics.ListAPIView):
 
 # get alumni profiles
 @method_decorator(cache_page(60*2), name='dispatch')
-class AlumniListView(generics.ListAPIView):
+class AlumniList(generics.ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
@@ -378,7 +378,7 @@ class AlumniListView(generics.ListAPIView):
     
 # get lecturer profiles
 @method_decorator(cache_page(60*2), name='dispatch')
-class LecturerListView(generics.ListAPIView):
+class LecturerList(generics.ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
@@ -390,7 +390,7 @@ class LecturerListView(generics.ListAPIView):
     
 # get is_verified profiles (department stars)
 @method_decorator(cache_page(60*2), name='dispatch')
-class VerifiedListView(generics.ListAPIView):
+class VerifiedList(generics.ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
