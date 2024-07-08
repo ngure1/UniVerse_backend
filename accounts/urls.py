@@ -17,7 +17,12 @@ from .views import (CustomProviderAuthView,
 
                     AddressDetail,
                     EducationProfile,
-                    EducationDetail
+                    EducationDetail,
+                    
+                    StudentList,
+                    AlumniList,
+                    LecturerList,
+                    VerifiedList,
                     )
 
 urlpatterns = [
@@ -50,6 +55,10 @@ urlpatterns = [
     path('user/profiles/<int:pk>/', UserProfileDetail.as_view(), name="userprofile-detail"),  # View the profile of a normal user
     path('user/addresses/<int:pk>/', UserAddressDetail.as_view(), name='address-create'),  # View the addresses of a normal user
     path('user/educations/<int:pk>/', UserEducationDetail.as_view(), name='user-education-detail'),  # View the education details of a normal user
-
+    
+    path('profile/student/', StudentList.as_view(), name="student-list"),
+    path('profile/alumni/', AlumniList.as_view(), name="alumni-list"),
+    path('profile/lecturer/', LecturerList.as_view(), name="lecturer-list"),
+    path('profile/verified/', VerifiedList.as_view(), name="verified-list"),
 
 ]
