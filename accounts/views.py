@@ -371,29 +371,32 @@ class AlumniListView(generics.ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
-    
+
     def get_queryset(self):
         return UserProfile.objects.filter(is_alumni=True).exclude(user=self.request.user)
+
     
 # get lecturer profiles
 @method_decorator(cache_page(60*2), name='dispatch')
-class LecturersListView(generics.ListAPIView):
+class LecturerListView(generics.ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
-    
+
     def get_queryset(self):
         return UserProfile.objects.filter(is_lecturer=True).exclude(user=self.request.user)
+
     
     
 # get is_verified profiles (department stars)
 @method_decorator(cache_page(60*2), name='dispatch')
-class LecturersListView(generics.ListAPIView):
+class VerifiedListView(generics.ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
-    
+
     def get_queryset(self):
         return UserProfile.objects.filter(is_verified=True).exclude(user=self.request.user)
+
     
 
