@@ -343,7 +343,7 @@ class FollowerList(generics.ListAPIView):
         user_profile = self.request.user.user_profile
         return Follower.objects.filter(followed=user_profile)
 
-@method_decorator(cache_page(60*2), name='dispatch')  
+@method_decorator(cache_page(60*2), name='dispatch')
 class FollowingList(generics.ListAPIView):
     serializer_class = FollowerSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -352,3 +352,51 @@ class FollowingList(generics.ListAPIView):
     def get_queryset(self):
         user_profile = self.request.user.user_profile
         return Follower.objects.filter(follower=user_profile)
+
+
+# get student profiles
+@method_decorator(cache_page(60*2), name='dispatch')
+class StudentList(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(is_student=True).exclude(user=self.request.user)
+    
+
+# get alumni profiles
+@method_decorator(cache_page(60*2), name='dispatch')
+class AlumniList(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(is_alumni=True).exclude(user=self.request.user)
+
+    
+# get lecturer profiles
+@method_decorator(cache_page(60*2), name='dispatch')
+class LecturerList(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(is_lecturer=True).exclude(user=self.request.user)
+
+    
+    
+# get is_verified profiles (department stars)
+@method_decorator(cache_page(60*2), name='dispatch')
+class VerifiedList(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(is_verified=True).exclude(user=self.request.user)
+
+    
+
