@@ -204,7 +204,7 @@ class AddressDetail(generics.RetrieveUpdateAPIView):
         try:
             return self.update(request, *args, **kwargs)
         except NotFound as e:
-            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)   
 
 
 class EducationProfile(generics.ListCreateAPIView):
