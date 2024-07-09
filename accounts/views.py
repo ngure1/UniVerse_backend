@@ -24,6 +24,7 @@ import logging
 from posts.permissions import IsOwnerOrReadOnly
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import NotFound
+from django.db import transaction
 
 
 class CustomProviderAuthView(ProviderAuthView):
@@ -203,7 +204,7 @@ class AddressDetail(generics.RetrieveUpdateAPIView):
         try:
             return self.update(request, *args, **kwargs)
         except NotFound as e:
-            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)   
 
 
 class EducationProfile(generics.ListCreateAPIView):
@@ -319,15 +320,16 @@ class FollowToggleView(views.APIView):
         
         followed = get_object_or_404(UserProfile, id=followed_id)
 
-        follow_relation, created = Follower.objects.get_or_create(follower=follower, followed=followed)
-        
-        if not created:
-            follow_relation.delete()
-            logger.info(f"User {follower.user.email} unfollowed {followed.user.email}")
-            return Response({'message': "Unfollowed successfully."}, status=status.HTTP_200_OK)
+        with transaction.atomic():
+            follow_relation, created = Follower.objects.get_or_create(follower=follower, followed=followed)
+            
+            if not created:
+                follow_relation.delete()
+                logger.info(f"User {follower.user.email} unfollowed {followed.user.email}")
+                return Response({'message': "Unfollowed successfully."}, status=status.HTTP_200_OK)
 
-        logger.info(f"User {follower.user.email} followed {followed.user.email}")
-        return Response({'message': "Followed successfully."}, status=status.HTTP_201_CREATED)
+            logger.info(f"User {follower.user.email} followed {followed.user.email}")
+            return Response({'message': "Followed successfully."}, status=status.HTTP_201_CREATED)
 
 """ 
     The method decorators Caches the view for 2 minutes
