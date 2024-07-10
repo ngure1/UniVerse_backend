@@ -15,6 +15,7 @@ class Job(models.Model):
     ]
     
     author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="jobs", verbose_name=_("Job Owner"))
+    company = models.CharField(_("Job_Company"),max_length=255,blank=True,null=True)
     job_title=models.CharField(_("Job Title"), max_length=255)
     job_description = models.TextField(_("Description"))
     job_skills=models.TextField(_("Skills"), blank=True, null=True)
