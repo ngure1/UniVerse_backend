@@ -36,17 +36,53 @@ class JobDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserJobsList(generics.ListAPIView):
     serializer_class = serializers.JobSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id')
+        if not user_id:
+            raise NotFound("User ID not provided.")
         try:
             user_profile = UserProfile.objects.get(user__id=user_id)
-            jobs = models.Job.objects.filter(author=user_profile).order_by('-created_at')
-            if not jobs.exists():
-                raise NotFound("This user does not have any job postings.")
-            return jobs
         except UserProfile.DoesNotExist:
-            raise NotFound("User profile does not exist")
+            raise NotFound("User profile does not exist.")
+        
+        jobs = models.Job.objects.filter(author=user_profile).order_by('-created_at')
+        if not jobs.exists():
+            raise NotFound("This user does not have any job postings.")
+        return jobs
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class CurrentUserJobsList(generics.ListAPIView, GetUserProfileAndJobMixin):
+    serializer_class = serializers.JobSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        user_profile = self.get_user_profile()
+        return models.Job.objects.filter(author=user_profile).order_by('-created_at')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            return Response({"detail": "You has no job postings."}, status=status.HTTP_204_NO_CONTENT)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
        
 class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
