@@ -54,9 +54,9 @@ class Job(models.Model):
             raise ValueError(_("New deadline must be later than the current deadline."))
         
 
-class Bookmark(models.model):
+class Bookmark(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="job_bookmarks")
-    author = models.ForeignKey("accounts.UserProfile",on_delete=models.CASCADE, related_name="author bookmarks")
+    author = models.ForeignKey("accounts.UserProfile",on_delete=models.CASCADE, related_name="job_author_bookmarks")
     created_at =models.DateTimeField(_("Date Created"),auto_now_add=True)
     updated_at =  models.DateTimeField(_("Date Updated "),auto_now=True)
     
@@ -65,5 +65,5 @@ class Bookmark(models.model):
     
     class Meta:
         ordering = ['-created_at']
-        verbose_name = -("Bookmark")
+        verbose_name = ("Bookmark")
         verbose_name_plural = _("Bookmarks")
