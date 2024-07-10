@@ -8,7 +8,7 @@ class MyUserSerializer(UserCreateSerializer):
         model = MyUser
         fields = ['id', 'email', 'first_name', 'last_name']
         extra_kwargs = {
-            'password': {'write_only': True}  
+            'password': {'write_only': True}
         }
         
     #AddressModel Serializer
@@ -36,7 +36,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = [
             'id', 'user', 'profile_picture', 'is_student','address',
-            'is_alumni', 'is_lecturer', 'isAdmin', 'is_verified','phone_number', 'bio', 'linked_in_url', 'x_in_url',
+            'is_alumni', 'is_lecturer', 'isAdmin', 'is_verified', 'is_company', 'job_role', 'course', 'organization','phone_number', 'bio', 'linked_in_url', 'x_in_url',
             'followers_count', 'following_count', 'created_at', 'updated_at','url'
         ]
         read_only_fields = ('created_at', 'updated_at', 'followers_count', 'following_count')
@@ -107,5 +107,5 @@ class UserProfileSimpleSerializer(serializers.ModelSerializer):
     url=serializers.HyperlinkedIdentityField(view_name='userprofile-detail',lookup_field='pk')
     class Meta:
         model = UserProfile
-        fields = ['id', 'url', 'user', 'profile_picture', 'is_verified']
+        fields = ['id', 'url', 'user', 'profile_picture', 'is_verified', "is_student", "is_alumni", "is_lecturer", "is_company", 'job_role', 'course', 'organization',]
         read_only_fields = ['profile_picture', "is_verified"]
