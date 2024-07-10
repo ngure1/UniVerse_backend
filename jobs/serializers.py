@@ -27,4 +27,19 @@ class JobSerializer(serializers.ModelSerializer):
             "updated_at",
         )
         read_only_fields = ('created_at', 'updated_at')
+        
+class BookmarkSerializer(serializers.ModelSerializer):
+   job=JobSerializer(read_only=True)
+   author = UserProfileSimpleSerializer(read_only=True)
+  
+   class Meta:
+       model = models.Bookmark
+       fields = (
+           "id",
+           "author",
+           "job",
+           "created_at",
+           "updated_at"
+       )
+       read_only_fields=('creatd_at','updated_at')
    
