@@ -75,6 +75,52 @@ class UnbookmarkJob(generics.GenericAPIView, GetUserProfileAndJobMixin):
         except models.Bookmark.DoesNotExist:
             return Response({"detail": "Bookmark does not exist."}, status=status.HTTP_400_BAD_REQUEST)
 
+class UserJobBookmarksList(generics.ListAPIView):
+    serializer_class = serializers.JobSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_id')
+        if not user_id:
+            raise NotFound("User ID not provided.")
+        try:
+            user_profile = UserProfile.objects.get(user__id=user_id)
+        except UserProfile.DoesNotExist:
+            raise NotFound("User profile does not exist.")
+
+        bookmarked_jobs = models.Job.objects.filter(job_bookmarks__author=user_profile).order_by('-created_at')
+        if not bookmarked_jobs.exists():
+            raise NotFound("This user does not have any bookmarked jobs.")
+        return bookmarked_jobs
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+class CurrentUserJobBookmarksList(generics.ListAPIView):
+    serializer_class = serializers.JobSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    def get_queryset(self):
+        user_profile = self.request.user.profile
+        bookmarked_jobs = models.Job.objects.filter(job_bookmarks__author=user_profile).order_by('-created_at')
+        return bookmarked_jobs
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 class JobSearchView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
