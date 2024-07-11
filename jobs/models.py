@@ -42,7 +42,7 @@ class Job(models.Model):
 
 
     def __str__(self):
-        return self.title
+        return self.job_title
 
     def is_application_open(self):
         return timezone.now() < self.application_deadline
