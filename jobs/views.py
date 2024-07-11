@@ -2,7 +2,6 @@ from . import models
 from . import serializers
 from .mixins import *
 from accounts.models import UserProfile
-from posts.mixins import GetUserProfileAndPostMixin
 from accounts.pagination import CustomPagination
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -14,7 +13,7 @@ from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 
-class ListCreateJob(generics.ListCreateAPIView, GetUserProfileAndPostMixin):
+class ListCreateJob(generics.ListCreateAPIView, GetUserProfileAndJobMixin):
     queryset=models.Job.objects.all().order_by('-created_at')
     serializer_class=serializers.JobSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
@@ -85,7 +84,7 @@ class CurrentUserJobsList(generics.ListAPIView, GetUserProfileAndJobMixin):
 
 
        
-class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
+class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndJobMixin):
    queryset = models.Bookmark.objects.all().order_by('-created_at')
    serializer_class = serializers.BookmarkSerializer
    permission_classes = [IsAuthenticatedOrReadOnly]
