@@ -41,5 +41,5 @@ class BookmarkSerializer(serializers.ModelSerializer):
            "created_at",
            "updated_at"
        )
-       read_only_fields=('creatd_at','updated_at')
+       read_only_fields=('created_at','updated_at')
    
