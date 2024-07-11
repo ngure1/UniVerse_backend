@@ -13,6 +13,7 @@ class JobSerializer(serializers.ModelSerializer):
             "id",
             "url",
             "author",
+            "company",
             "job_title",
             "job_description",
             "job_skills",
