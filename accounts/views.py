@@ -364,6 +364,9 @@ class StudentList(generics.ListAPIView):
     pagination_class = CustomPagination
 
     def get_queryset(self):
+        user=self.request.user
+        if not user.is_authenticated:
+            return NotAuthenticated("User not authenticated")
         return UserProfile.objects.filter(is_student=True).exclude(user=self.request.user)
     
 
@@ -375,6 +378,9 @@ class AlumniList(generics.ListAPIView):
     pagination_class = CustomPagination
 
     def get_queryset(self):
+        user=self.request.user
+        if not user.is_authenticated:
+            return NotAuthenticated("User not authenticated")
         return UserProfile.objects.filter(is_alumni=True).exclude(user=self.request.user)
 
     
@@ -386,6 +392,9 @@ class LecturerList(generics.ListAPIView):
     pagination_class = CustomPagination
 
     def get_queryset(self):
+        user=self.request.user
+        if not user.is_authenticated:
+            return NotAuthenticated("User not authenticated")
         return UserProfile.objects.filter(is_lecturer=True).exclude(user=self.request.user)
 
     
@@ -398,6 +407,9 @@ class VerifiedList(generics.ListAPIView):
     pagination_class = CustomPagination
 
     def get_queryset(self):
+        user=self.request.user
+        if not user.is_authenticated:
+            return NotAuthenticated("User not authenticated")
         return UserProfile.objects.filter(is_verified=True).exclude(user=self.request.user)
 
     
