@@ -5,13 +5,10 @@ from django.core.validators import FileExtensionValidator
 
 
 class Job(models.Model):
-    ONLINE = 'online'
-    PHYSICAL = 'physical'
-    BOTH = 'both'
     JOB_TYPE_CHOICES = [
-        (ONLINE, 'Online'),
-        (PHYSICAL, 'Physical'),
-        (BOTH, 'Both'),
+        ('online', 'online'),
+        ('physical', 'physical'),
+        ('both', 'both'),
     ]
     
     author = models.ForeignKey("accounts.UserProfile", on_delete=models.CASCADE, related_name="jobs", verbose_name=_("Job Owner"))
@@ -24,7 +21,7 @@ class Job(models.Model):
         _("Job Type"),
         max_length=10,
         choices=JOB_TYPE_CHOICES,
-        default=PHYSICAL,
+        default='physical',
         help_text=_("Select the type of job (Online, Physical, or Both).")
         )
     address=models.CharField(_("Address"), max_length=255, blank=True, null=True)
@@ -42,7 +39,7 @@ class Job(models.Model):
 
 
     def __str__(self):
-        return self.title
+        return self.job_title
 
     def is_application_open(self):
         return timezone.now() < self.application_deadline

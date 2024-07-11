@@ -2,7 +2,6 @@ from . import models
 from . import serializers
 from .mixins import *
 from accounts.models import UserProfile
-from posts.mixins import GetUserProfileAndPostMixin
 from accounts.pagination import CustomPagination
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -14,7 +13,7 @@ from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 
-class ListCreateJob(generics.ListCreateAPIView, GetUserProfileAndPostMixin):
+class ListCreateJob(generics.ListCreateAPIView, GetUserProfileAndJobMixin):
     queryset=models.Job.objects.all().order_by('-created_at')
     serializer_class=serializers.JobSerializer
     permission_classes=[IsAuthenticatedOrReadOnly]
@@ -85,7 +84,7 @@ class CurrentUserJobsList(generics.ListAPIView, GetUserProfileAndJobMixin):
 
 
        
-class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndPostMixin):
+class CreateBookmarks(generics.CreateAPIView, GetUserProfileAndJobMixin):
    queryset = models.Bookmark.objects.all().order_by('-created_at')
    serializer_class = serializers.BookmarkSerializer
    permission_classes = [IsAuthenticatedOrReadOnly]
@@ -145,7 +144,7 @@ class CurrentUserJobBookmarksList(generics.ListAPIView):
     pagination_class = CustomPagination
 
     def get_queryset(self):
-        user_profile = self.request.user.profile
+        user_profile = self.request.user.user_profile
         bookmarked_jobs = models.Job.objects.filter(job_bookmarks__author=user_profile).order_by('-created_at')
         return bookmarked_jobs
 
@@ -157,6 +156,7 @@ class CurrentUserJobBookmarksList(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class JobSearchView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
