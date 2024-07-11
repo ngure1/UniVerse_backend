@@ -144,7 +144,7 @@ class CurrentUserJobBookmarksList(generics.ListAPIView):
     pagination_class = CustomPagination
 
     def get_queryset(self):
-        user_profile = self.request.user.profile
+        user_profile = self.request.user.user_profile
         bookmarked_jobs = models.Job.objects.filter(job_bookmarks__author=user_profile).order_by('-created_at')
         return bookmarked_jobs
 
@@ -156,6 +156,7 @@ class CurrentUserJobBookmarksList(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class JobSearchView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
