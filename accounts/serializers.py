@@ -107,5 +107,18 @@ class UserProfileSimpleSerializer(serializers.ModelSerializer):
     url=serializers.HyperlinkedIdentityField(view_name='userprofile-detail',lookup_field='pk')
     class Meta:
         model = UserProfile
-        fields = ['id', 'url', 'user', 'profile_picture', 'is_verified', "is_student", "is_alumni", "is_lecturer", "is_company", 'job_role', 'course', 'organization',]
+        fields = [
+            'id',
+            'url',
+            'user',
+            'profile_picture',
+            'is_verified',
+            "is_student",
+            "is_alumni",
+            "is_lecturer",
+            "is_company",
+            'job_role',
+            'course',
+            'organization',
+            ]
         read_only_fields = ['profile_picture', "is_verified"]
