@@ -17,7 +17,7 @@ urlpatterns = [
    path('bookmarks/me/', views.CurrentUserJobBookmarksList.as_view(), name='my-job-bookmarks-list'), # Current Logged In user
   
    # for specific user
-   path('jobs/user/<int:user_id>/', views.UserJobsList.as_view(), name='user-jobs-list'), # Lists all Jobs for Specific
+   path('user/<int:user_id>/', views.UserJobsList.as_view(), name='user-jobs-list'), # Lists all Jobs for Specific
    path('bookmarks/user/<int:user_id>/', views.UserJobBookmarksList.as_view(), name='user-bookmarks-list'),
   
    # Search View
