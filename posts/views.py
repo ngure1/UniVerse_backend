@@ -64,7 +64,30 @@ class CurrentUserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+#List all posts by an Admin
+class AdminPostLsts(generics.ListAPIView, GetUserProfileAndPostMixin):
+    serializer_class = serializers.PostSerializer 
+    permission_classes = [IsOwnerOrReadOnly]
+    pagination_classes = CustomPagination
     
+    def get_queryset(self):
+        user_profile = self.get_user_profile()
+        
+        return models.Post.objects.filter(author__isAdmin=True).order_by('-created_at')
+    
+    def list(self, request , *args, **kwargs):
+        queryset = self.get_queryset()
+        
+        if not queryset.exists():
+            return Response({"detail": "No News Or Announcements from the Admin."}, status=status.HTTP_204_NO_CONTENT)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
     
     
 # get all posts by a specific user  -id needed

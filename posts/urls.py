@@ -21,4 +21,7 @@ urlpatterns = [
     path('bookmarks/me/', views.CurrentUserBookmarksList.as_view(), name='my-bookmarks-list'),
 
     path("search/", views.SearchPosts.as_view() , name='post-search'),
+        #for news and announcements
+    path('news-announcements/', views.AdminPostLsts.as_view(), name='admin-news-list'),
+
 ]
