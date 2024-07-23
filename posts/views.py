@@ -69,7 +69,7 @@ class CurrentUserPostsList(generics.ListAPIView, GetUserProfileAndPostMixin):
 class AdminPostLsts(generics.ListAPIView, GetUserProfileAndPostMixin):
     serializer_class = serializers.PostSerializer 
     permission_classes = [IsOwnerOrReadOnly]
-    pagination_classes = CustomPagination
+    pagination_class = CustomPagination
     
     def get_queryset(self):
         user_profile = self.get_user_profile()
