@@ -22,5 +22,7 @@ urlpatterns = [
     path('bookmarks/user/<int:event_id>/', views.UserBookmarksList.as_view(), name='user-bookmarks-list'),
     path('bookmarks/me/', views.CurrentUserBookmarksList.as_view(), name='my-bookmarks-list'),
     
+    path("users/<int:user_id>/", views.SpecificUserList.as_view(), name=""), # List all event posts by a specific user.
+    
     path("search/",views.EventSearchView.as_view()),
 ]
