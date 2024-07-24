@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
    path("", views.ListCreateJob.as_view(), name="job-list-create"),
    path("list",views.ListCreateJob.as_view()),
-   path("detail/<int:pk>/", views.JobDetail.as_view(), name="job-detail"),
+   path("<int:pk>/", views.JobDetail.as_view(), name="job-detail"),
   
   
    # Bookmarking
