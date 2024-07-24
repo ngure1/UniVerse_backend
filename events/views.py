@@ -112,6 +112,7 @@ class DeleteComment(generics.GenericAPIView, GetUserProfileAndEventMixin):
         except models.Comment.DoesNotExist:
             return Response({"detail": "Comment does not exist or you are not the author of the comment."}, status=status.HTTP_400_BAD_REQUEST)
         
+        #lists all comments
 class EventCommentsList(generics.ListAPIView, GetUserProfileAndEventMixin):
     serializer_class = serializers.CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -203,6 +204,35 @@ class CurrentUserBookmarksList(generics.ListAPIView, GetUserProfileAndEventMixin
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+
+            #List all the events of a specified user
+  
+class SpecificUserList(generics.ListAPIView, GetUserProfileAndEventMixin):
+    serializer_class = serializers.EventSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination 
+    
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_id')
+        user_profile = self.get_user_profile_by_id(user_id)
+        events = models.Event.objects.filter(author=user_profile).order_by('-created_at')
+        
+        if not user_id:
+            raise NotFound({"Detail":"User ID not provided"})
+        return events
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            return Response({"detail": "This user has no events."}, status=status.HTTP_204_NO_CONTENT)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+        
+        
 class EventSearchView(generics.GenericAPIView):
     serializer_class = serializers.EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
