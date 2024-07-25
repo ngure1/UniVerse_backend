@@ -217,7 +217,10 @@ class EducationProfile(generics.ListCreateAPIView):
         return Education.objects.filter(owner=self.request.user.user_profile)
     
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.user_profile)
+        user = self.request.user
+        if not user.is_authenticated:
+            raise NotAuthenticated("User is not authenticated.")
+        serializer.save(owner=user.user_profile)
         
 class EducationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=Education.objects.all()
