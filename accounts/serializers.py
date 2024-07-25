@@ -30,6 +30,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
     url = serializers.HyperlinkedIdentityField(view_name='userprofile-detail',lookup_field='pk')
+    is_following_profile = serializers.SerializerMethodField()
+    
 
 
     class Meta:
@@ -37,7 +39,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'profile_picture', 'is_student','address',
             'is_alumni', 'is_lecturer', 'isAdmin', 'is_verified', 'is_company', 'job_role', 'course', 'organization','phone_number', 'bio', 'linked_in_url', 'x_in_url',
-            'followers_count', 'following_count', 'created_at', 'updated_at','url'
+            'followers_count', 'following_count', 'created_at', 'updated_at','url','is_following_profile',
         ]
         read_only_fields = ('created_at', 'updated_at', 'followers_count', 'following_count')
     
@@ -49,6 +51,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_following_count(self, obj):
         return obj.following.count()
 
+    def get_is_following_profile(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            try:
+                user_profile = user.user_profile
+                return Follower.objects.filter(follower=user_profile, followed=obj).exists()
+            except AttributeError:
+                raise serializers.ValidationError("User profile is missing.")
+        return False
 
 
 # EducationModel Serializer
