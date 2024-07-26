@@ -68,7 +68,7 @@ class EducationSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='education-detail',lookup_field='pk')
     class Meta:
         model = Education
-        fields = ('owner', 'institution_name', 'field_of_study', 'start_date', 'end_date', 'created_at', 'updated_at', 'url')
+        fields = ('id','owner', 'institution_name', 'field_of_study', 'start_date', 'end_date', 'created_at', 'updated_at', 'url')
         read_only_fields = ("updated_at", "created_at")
 
 
